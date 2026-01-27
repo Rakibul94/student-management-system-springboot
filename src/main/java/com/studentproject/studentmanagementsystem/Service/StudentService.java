@@ -12,9 +12,6 @@ public interface StudentService {
 
     public Student getStudentById(int id);
 
-    public boolean deleteEmp(int id);
-
-
-
+    public boolean deleteStudent(int id);
 
 }

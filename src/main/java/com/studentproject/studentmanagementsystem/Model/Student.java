@@ -1,6 +1,7 @@
 package com.studentproject.studentmanagementsystem.Model;
 
 import jakarta.persistence.*;
+
 @Entity
 @Table(name = "students")
 public class Student {
@@ -14,7 +15,8 @@ public class Student {
     private String email;
     private String program;
 
-    public Student() {} // Required by JPA
+    public Student() {
+    } // Required by JPA
 
     public Student(String name, double cgpa, String email, String program) {
         this.name = name;
@@ -24,9 +26,41 @@ public class Student {
     }
 
     // Getters
-    public int getId() { return id; }
-    public String getName() { return name; }
-    public double getCgpa() { return cgpa; }
-    public String getEmail() { return email; }
-    public String getProgram() { return program; }
+    public int getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public double getCgpa() {
+        return cgpa;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getProgram() {
+        return program;
+    }
+
+    //
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setCgpa(double cgpa) {
+        this.cgpa = cgpa;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setProgram(String program) {
+        this.program = program;
+    }
+
 }
