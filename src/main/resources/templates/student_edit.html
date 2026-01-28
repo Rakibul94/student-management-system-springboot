@@ -15,29 +15,33 @@
                 <div class="card">
                     <div class="card-header text-centre">
                         <p class="fs-4">Edit Student</p>
-                        <th:block th:if="${session.msg}">
-                              <p class="text-centre text-success fs-4">[[${session.msg}]]</p>
+                        <th:block th:if="${session.message}">
+                              <p class="text-centre text-success fs-4">[[${session.message}]]</p>
                               <th:block th:text="${@studentServiceImpl.removeSessionMessage()}"></th:block>
                         </th:block>
                     </div>
                     <div class="card-body">
                         <form action ="/updatestudents" method="post">
-                            <input type="hidden" name="id" th:value="${s.id}">
+                            <input type="hidden" name="id" th:value="${student.id}">
                             <div class="mb-3">
-                                <label for="FormControlInput1" class="form-label">Full Name</label>
-                                <input type="text" class="form-control" name="name" id="FormControlInput1" th:value="@{s.name}">
+                                <label for="FormControlInput1" class="form-label">Student Id</label>
+                                <input type="number" class="form-control" name="studentId" id="FormControlInput1" th:value="${student.studentId}" required>
                             </div>
                             <div class="mb-3">
-                                <label for="FormControlInput2" class="form-label">Email Address</label>
-                                <input type="text" class="form-control" name="email" id="FormControlInput2" th:value="@{s.email}">
+                                <label for="FormControlInput2" class="form-label">Full Name</label>
+                                <input type="text" class="form-control" name="name" id="FormControlInput2" th:value="${student.name}">
                             </div>
                             <div class="mb-3">
-                                <label for="FormControlInput3" class="form-label">CGPA</label>
-                                <input type="number" class="form-control" name="cgpa" id="FormControlInput3" th:value="@{s.cgpa}">
+                                <label for="FormControlInput3" class="form-label">Email Address</label>
+                                <input type="text" class="form-control" name="email" id="FormControlInput3" th:value="${student.email}">
                             </div>
                             <div class="mb-3">
-                                <label for="FormControlInput4" class="form-label">Program</label>
-                                <input type="text" class="form-control" name="program" id="FormControlInput4" th:value="@{s.program}">
+                                <label for="FormControlInput4" class="form-label">CGPA</label>
+                                <input type="number" class="form-control" name="cgpa" id="FormControlInput4" step="0.01" min="0" max="4" required th:value="${student.cgpa}">
+                            </div>
+                            <div class="mb-3">
+                                <label for="FormControlInput5" class="form-label">Program</label>
+                                <input type="text" class="form-control" name="program" id="FormControlInput5" th:value="${student.program}">
                             </div>
 
                             <button type="submit" class="btn btn-primary">Update</button>
@@ -48,3 +52,5 @@
         </div>
     </div>
 </section>
+</body>
+</html>

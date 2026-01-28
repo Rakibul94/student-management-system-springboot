@@ -8,8 +8,9 @@ public class Student {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-
+    private Integer id;
+    @Column(name = "student_id", unique = true, nullable = false)
+    private int studentId;
     private String name;
     private double cgpa;
     private String email;
@@ -18,7 +19,9 @@ public class Student {
     public Student() {
     } // Required by JPA
 
-    public Student(String name, double cgpa, String email, String program) {
+    public Student(Integer id, int studentId, String name, double cgpa, String email, String program) {
+        this.id = id;
+        this.studentId = studentId;
         this.name = name;
         this.cgpa = cgpa;
         this.email = email;
@@ -26,8 +29,12 @@ public class Student {
     }
 
     // Getters
-    public int getId() {
+    public Integer getId() {
         return id;
+    }
+
+    public int getStudentId() {
+        return studentId;
     }
 
     public String getName() {
@@ -47,6 +54,14 @@ public class Student {
     }
 
     //
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public void setStudentId(int studentId) {
+        this.studentId = studentId;
+    }
+
     public void setName(String name) {
         this.name = name;
     }

@@ -12,30 +12,61 @@ import java.util.List;
 
 @Service
 public class StudentServiceImpl implements StudentService {
-    @Autowired
-    private StudentRepository studentrepos;
+//    @Autowired
+//    private StudentRepository studentRepository;
+
+    private final StudentRepository studentRepository;
+
+    public StudentServiceImpl(StudentRepository studentRepository) {
+        this.studentRepository = studentRepository;
+    }
 
     @Override
-    public Student addStudent(Student s) {
-        Student newstudent = studentrepos.save(s);
-        return newstudent;
+    public Student addStudent(Student student) {
+        return studentRepository.save(student);
+    }
+
+    @Override
+    public Student updateStudent(Student student) {
+        if (student.getId() == null) {
+            return null;
+        }
+
+        Student existing = studentRepository.findById(student.getId()).orElse(null);
+
+        //Student existing = studentrepos.findById(id).get();
+
+        if (existing == null) {
+            return null;
+        }
+
+        // copy updated values
+        existing.setStudentId(student.getStudentId());
+        existing.setName(student.getName());
+        existing.setEmail(student.getEmail());
+        existing.setCgpa(student.getCgpa());
+        existing.setProgram(student.getProgram());
+
+        return studentRepository.save(existing); // UPDATE guaranteed
     }
 
     @Override
     public List<Student> getAllStudents() {
-        return studentrepos.findAll();
+        return studentRepository.findAll();
     }
 
     @Override
     public Student getStudentById(int id) {
-        return studentrepos.findById(id).get();
+        return studentRepository.findById(id).get();
     }
+
+
 
     @Override
     public boolean deleteStudent(int id) {
-        Student s = studentrepos.findById(id).get();
-        if (s != null) {
-            studentrepos.delete(s);
+        Student student = studentRepository.findById(id).get();
+        if (student != null) {
+            studentRepository.delete(student);
             return true;
         }
         return false;
@@ -46,6 +77,6 @@ public class StudentServiceImpl implements StudentService {
         HttpSession session = ((ServletRequestAttributes) (RequestContextHolder.getRequestAttributes())).getRequest()
                 .getSession();
 
-        session.removeAttribute("msg");
+        session.removeAttribute("message");
     }
 }

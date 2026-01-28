@@ -16,8 +16,8 @@
             <div class="col-md-10 offset-md-1">
                <div class="card">
                   <div class="card-header text-center fs-4">Students</div>
-                   <th:block th:if="${session.msg}">
-                              <p class="text-center text-success fs-4">[[${session.msg}]]</p>
+                   <th:block th:if="${session.message}">
+                              <p class="text-center text-success fs-4">[[${session.message}]]</p>
                               <th:block th:text="${@studentServiceImpl.removeSessionMessage()}"></th:block>
                     </th:block>
                </div>
@@ -26,6 +26,7 @@
 <thead>
     <tr>
       <th scope="col">Id</th>
+        <th scope="col">Student Id</th>
       <th scope="col">Name</th>
       <th scope="col">Email</th>
       <th scope="col">Cgpa</th>
@@ -34,15 +35,16 @@
     </tr>
   </thead>
   <tbody>
-    <tr th:each="s,c:${studentList}">
-      <th scope="row">[[${c.count}]]</th>
-      <td>[[${s.name}]]</td>
-      <td>[[${s.email}]]</td>
-      <td>[[${s.cgpa}]]</td>
-      <td>[[${s.program}]]</td>
+    <tr th:each="student,iterStat:${studentList}">
+      <th scope="row">[[${iterStat.count}]]</th>
+        <td>[[${student.studentId}]]</td>
+      <td>[[${student.name}]]</td>
+      <td>[[${student.email}]]</td>
+      <td>[[${student.cgpa}]]</td>
+      <td>[[${student.program}]]</td>
       <td>
-        <a th:href="@{'/editstudents/' + ${s.id}}" class="btn btn-sm btn-primary">Edit</a>
-        <a th:href="@{'deletestudent/' + ${s.id}}" class="btn btn-sm btn-danger">Delete</a>
+        <a th:href="@{'editstudents/' + ${student.id}}" class="btn btn-sm btn-primary">Edit</a>
+        <a th:href="@{'deletestudent/' + ${student.id}}" class="btn btn-sm btn-danger">Delete</a>
     </td>
     </tr>
 

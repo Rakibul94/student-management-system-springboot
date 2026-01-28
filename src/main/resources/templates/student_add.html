@@ -15,28 +15,32 @@
                 <div class="card">
                     <div class="card-header text-centre">
                         <p class="fs-4">Add Student</p>
-                        <th:block th:if="${session.msg}">
-                              <p class="text-centre text-success fs-4">[[${session.msg}]]</p>
+                        <th:block th:if="${session.message}">
+                              <p class="text-centre text-success fs-4">[[${session.message}]]</p>
                               <th:block th:text="${@studentServiceImpl.removeSessionMessage()}"></th:block>
                         </th:block>
                     </div>
                     <div class="card-body">
                         <form action ="/addstudents" method="post">
                             <div class="mb-3">
-                                <label for="FormControlInput1" class="form-label">Full Name</label>
-                                <input type="text" class="form-control" name="name" id="FormControlInput1">
+                                <label for="FormControlInput1" class="form-label">Student Id</label>
+                                <input type="number" class="form-control" name="studentId" id="FormControlInput1">
                             </div>
                             <div class="mb-3">
-                                <label for="FormControlInput2" class="form-label">Email Address</label>
-                                <input type="text" class="form-control" name="email" id="FormControlInput2">
+                                <label for="FormControlInput2" class="form-label">Full Name</label>
+                                <input type="text" class="form-control" name="name" id="FormControlInput2">
                             </div>
                             <div class="mb-3">
-                                <label for="FormControlInput3" class="form-label">CGPA</label>
-                                <input type="number" class="form-control" name="cgpa" id="FormControlInput3"  step="0.01" min="0" max="4" required>
+                                <label for="FormControlInput3" class="form-label">Email Address</label>
+                                <input type="text" class="form-control" name="email" id="FormControlInput3">
                             </div>
                             <div class="mb-3">
-                                <label for="FormControlInput4" class="form-label">Program</label>
-                                <input type="text" class="form-control" name="program" id="FormControlInput4">
+                                <label for="FormControlInput4" class="form-label">CGPA</label>
+                                <input type="number" class="form-control" name="cgpa" id="FormControlInput4"  step="0.01" min="0" max="4" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="FormControlInput5" class="form-label">Program</label>
+                                <input type="text" class="form-control" name="program" id="FormControlInput5">
                             </div>
 
                             <button type="submit" class="btn btn-primary">Submit</button>
