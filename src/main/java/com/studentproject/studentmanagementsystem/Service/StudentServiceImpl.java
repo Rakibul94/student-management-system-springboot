@@ -57,14 +57,21 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public Student getStudentById(Long id) {
-        return studentRepository.findById(id).get();
+        if (id == null) {
+            return null;
+        }
+
+        return studentRepository.findById(id).orElse(null);
     }
 
 
 
     @Override
     public boolean deleteStudent(Long id) {
-        Student student = studentRepository.findById(id).get();
+        if (id == null) {
+            return false;
+        }
+        Student student = studentRepository.findById(id).orElse(null);
         if (student != null) {
             studentRepository.delete(student);
             return true;

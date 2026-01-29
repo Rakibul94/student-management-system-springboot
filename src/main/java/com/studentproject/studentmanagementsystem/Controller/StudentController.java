@@ -36,8 +36,13 @@ public class StudentController {
     }
 
     @GetMapping("/editstudents/{id}")
-    public String EditStudent(@PathVariable Long id, Model model) {
+    public String EditStudent(@PathVariable Long id, Model model,HttpSession session) {
         Student student = studentService.getStudentById(id);
+        if (student == null) {
+            session.setAttribute("message", "Student not found");
+            return "redirect:/";
+        }
+
         model.addAttribute("student", student);
         return "student_edit";
     }
@@ -49,7 +54,7 @@ public class StudentController {
         Student newstudent = studentService.addStudent(student);
 
         if (newstudent != null) {
-            session.setAttribute("message", "Student Added Successfully");
+            session.setAttribute("message", "Student Add Successful");
         } else {
             session.setAttribute("message", "Something went wrong");
         }
