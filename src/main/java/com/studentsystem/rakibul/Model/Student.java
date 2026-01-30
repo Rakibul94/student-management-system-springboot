@@ -20,4 +20,8 @@ public class Student {
     private double cgpa;
     private String email;
     private String program;
+
+    @ManyToOne
+    @JoinColumn(name = "department_id")
+    private Department department;
 }
