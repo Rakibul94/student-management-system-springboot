@@ -1,15 +1,14 @@
-package com.studentproject.studentmanagementsystem.Service;
-
-import com.studentproject.studentmanagementsystem.Model.Student;
+package com.studentsystem.rakibul.Service;
 
 import java.util.List;
+
+import com.studentsystem.rakibul.Model.Student;
 
 public interface StudentService {
 
     public Student addStudent(Student s);
 
     public Student updateStudent(Student s);
-
 
     public List<Student> getAllStudents();
 

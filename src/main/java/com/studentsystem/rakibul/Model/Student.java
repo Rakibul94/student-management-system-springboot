@@ -1,4 +1,4 @@
-package com.studentproject.studentmanagementsystem.Model;
+package com.studentsystem.rakibul.Model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -7,17 +7,14 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "students")
-@Data                   // Generates getters, setters, toString, equals, hashCode
-@NoArgsConstructor      // Required by JPA
-@AllArgsConstructor     // Generates all-args constructor
+@Data // Generates getters, setters, toString, equals, hashCode
+@NoArgsConstructor // Required by JPA
+@AllArgsConstructor // Generates all-args constructor
 public class Student {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Column(name = "student_id", unique = true, nullable = false)
-    private int studentId;
 
     private String name;
     private double cgpa;

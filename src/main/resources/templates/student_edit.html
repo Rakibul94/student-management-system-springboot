@@ -23,10 +23,7 @@
                     <div class="card-body">
                         <form action ="/updatestudents" method="post">
                             <input type="hidden" name="id" th:value="${student.id}">
-                            <div class="mb-3">
-                                <label for="FormControlInput1" class="form-label">Student Id</label>
-                                <input type="number" class="form-control" name="studentId" id="FormControlInput1" th:value="${student.studentId}" required>
-                            </div>
+                           
                             <div class="mb-3">
                                 <label for="FormControlInput2" class="form-label">Full Name</label>
                                 <input type="text" class="form-control" name="name" id="FormControlInput2" th:value="${student.name}">

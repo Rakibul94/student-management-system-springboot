@@ -1,9 +1,6 @@
-package com.studentproject.studentmanagementsystem.Controller;
+package com.studentsystem.rakibul.Controller;
 
 import java.util.List;
-
-import com.studentproject.studentmanagementsystem.Model.Student;
-import com.studentproject.studentmanagementsystem.Service.StudentService;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -13,6 +10,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+
+import com.studentsystem.rakibul.Model.Student;
+import com.studentsystem.rakibul.Service.StudentService;
 
 @Controller
 public class StudentController {
@@ -36,7 +36,7 @@ public class StudentController {
     }
 
     @GetMapping("/editstudents/{id}")
-    public String EditStudent(@PathVariable Long id, Model model,HttpSession session) {
+    public String EditStudent(@PathVariable Long id, Model model, HttpSession session) {
         Student student = studentService.getStudentById(id);
         if (student == null) {
             session.setAttribute("message", "Student not found");
@@ -86,6 +86,5 @@ public class StudentController {
 
         return "redirect:/";
     }
-
 
 }

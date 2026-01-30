@@ -26,7 +26,6 @@
 <thead>
     <tr>
       <th scope="col">Id</th>
-        <th scope="col">Student Id</th>
       <th scope="col">Name</th>
       <th scope="col">Email</th>
       <th scope="col">Cgpa</th>
@@ -37,7 +36,6 @@
   <tbody>
     <tr th:each="student,iterStat:${studentList}">
       <th scope="row">[[${iterStat.count}]]</th>
-        <td>[[${student.studentId}]]</td>
       <td>[[${student.name}]]</td>
       <td>[[${student.email}]]</td>
       <td>[[${student.cgpa}]]</td>

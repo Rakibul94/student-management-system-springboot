@@ -1,19 +1,21 @@
-package com.studentproject.studentmanagementsystem.Service;
+package com.studentsystem.rakibul.Service;
 
-import com.studentproject.studentmanagementsystem.Model.Student;
-import com.studentproject.studentmanagementsystem.Repository.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+
+import com.studentsystem.rakibul.Model.Student;
+import com.studentsystem.rakibul.Repository.StudentRepository;
+
 import jakarta.servlet.http.HttpSession;
 
 import java.util.List;
 
 @Service
 public class StudentServiceImpl implements StudentService {
-//    @Autowired
-//    private StudentRepository studentRepository;
+    // @Autowired
+    // private StudentRepository studentRepository;
 
     private final StudentRepository studentRepository;
 
@@ -34,14 +36,14 @@ public class StudentServiceImpl implements StudentService {
 
         Student existing = studentRepository.findById(student.getId()).orElse(null);
 
-        //Student existing = studentrepos.findById(id).get();
+        // Student existing = studentrepos.findById(id).get();
 
         if (existing == null) {
             return null;
         }
 
         // copy updated values
-        existing.setStudentId(student.getStudentId());
+
         existing.setName(student.getName());
         existing.setEmail(student.getEmail());
         existing.setCgpa(student.getCgpa());
@@ -63,8 +65,6 @@ public class StudentServiceImpl implements StudentService {
 
         return studentRepository.findById(id).orElse(null);
     }
-
-
 
     @Override
     public boolean deleteStudent(Long id) {
