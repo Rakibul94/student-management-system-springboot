@@ -26,5 +26,5 @@ public class Admin {
 
     private boolean enabled = true;
 
-    // getters & setters
+
 }

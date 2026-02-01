@@ -2,6 +2,7 @@ package com.studentsystem.rakibul.SecurityConfig;
 
 import com.studentsystem.rakibul.Model.Admin;
 import com.studentsystem.rakibul.Repository.AdminRepository;
+import org.jspecify.annotations.NonNull;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -19,7 +20,7 @@ public class AdminDataLoader implements CommandLineRunner {
     }
 
     @Override
-    public void run(String... args) {
+    public void run(String @NonNull ... args) {
 
         if (adminRepository.count() == 0) {
             Admin admin = new Admin();
