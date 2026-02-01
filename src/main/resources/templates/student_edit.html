@@ -18,6 +18,7 @@
                         <th:block th:if="${session.message}">
                               <p class="text-centre text-success fs-4">[[${session.message}]]</p>
                               <th:block th:text="${@studentServiceImpl.removeSessionMessage()}"></th:block>
+
                         </th:block>
                     </div>
                     <div class="card-body">

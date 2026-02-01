@@ -1,4 +1,4 @@
-package com.studentsystem.rakibul.Facade;
+package com.studentsystem.rakibul.ServiceFacade;
 
 import org.springframework.stereotype.Service;
 
@@ -8,42 +8,28 @@ import com.studentsystem.rakibul.Service.DepartmentService;
 import com.studentsystem.rakibul.Service.StudentService;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
-public class StudentFacade {
+public class StudentServiceFacadeImpl implements StudentServiceFacade{
     private final StudentService studentService;
     private final DepartmentService departmentService;
 
-    public StudentFacade(StudentService studentService,
-                         DepartmentService departmentService) {
+    public StudentServiceFacadeImpl(StudentService studentService,
+                                    DepartmentService departmentService) {
         this.studentService = studentService;
         this.departmentService = departmentService;
     }
 
-//    // Use case: create student with department
-//    public Student createStudent(Student student, Long departmentId) {
-//
-//        Department department = departmentService.getDepartmentById(departmentId);
-//
-//        if (department == null) {
-//            return null;
-//        }
-//
-//        student.setDepartment(department);
-//        return studentService.addStudent(student);
-//    }
-//
-//    // Use case: update student with department
-//    public Student updateStudent(Student student, Long departmentId) {
-//
-//        Department department = departmentService.getDepartmentById(departmentId);
-//
-//        if (department == null) {
-//            return null;
-//        }
-//
-//        student.setDepartment(department);
-//        return studentService.updateStudent(student);
-//    }
+
+
+    public List<Student> getAllStudents() {
+        return studentService.getAllStudents();
+    }
+
+    public Student getStudentById(Long id) {
+        return studentService.getStudentById(id);
+    }
 
     public Student createStudent(Student student, String departmentName) {
 
@@ -95,8 +81,20 @@ public class StudentFacade {
         return studentService.updateStudent(existingStudent);
     }
 
+    @Transactional
+    public boolean deleteStudent(Long studentId) {
+        if (studentId == null) {
+            return false;
+        }
 
+        Student student = studentService.getStudentById(studentId);
+        if (student == null) {
+            return false;
+        }
 
+        studentService.deleteStudent(studentId);
+        return true;
+    }
 
 
 }

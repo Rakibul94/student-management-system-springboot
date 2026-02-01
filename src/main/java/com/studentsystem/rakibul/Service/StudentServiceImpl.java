@@ -14,8 +14,7 @@ import java.util.List;
 
 @Service
 public class StudentServiceImpl implements StudentService {
-    // @Autowired
-    // private StudentRepository studentRepository;
+
 
     private final StudentRepository studentRepository;
 
@@ -30,26 +29,13 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public Student updateStudent(Student student) {
-        if (student.getId() == null) {
+
+
+        if (student == null || student.getId() == null) {
             return null;
         }
 
-        Student existing = studentRepository.findById(student.getId()).orElse(null);
-
-        // Student existing = studentrepos.findById(id).get();
-
-        if (existing == null) {
-            return null;
-        }
-
-        // copy updated values
-
-        existing.setName(student.getName());
-        existing.setEmail(student.getEmail());
-        existing.setCgpa(student.getCgpa());
-        existing.setProgram(student.getProgram());
-
-        return studentRepository.save(existing); // UPDATE guaranteed
+        return studentRepository.save(student); // UPDATE guaranteed
     }
 
     @Override
@@ -81,9 +67,22 @@ public class StudentServiceImpl implements StudentService {
     }
 
     public void removeSessionMessage() {
-        HttpSession session = ((ServletRequestAttributes) (RequestContextHolder.getRequestAttributes())).getRequest()
-                .getSession();
+        ServletRequestAttributes attributes =
+                (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+
+        if (attributes == null) {
+            return; // no request context
+        }
+
+        HttpSession session = attributes.getRequest().getSession(false);
+        if (session == null) {
+            return; // no session exists
+        }
 
         session.removeAttribute("message");
+
+
     }
+
+
 }

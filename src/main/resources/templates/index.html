@@ -29,7 +29,7 @@
       <th scope="col">Id</th>
       <th scope="col">Name</th>
       <th scope="col">Email</th>
-      <th scope="col">Cgpa</th>
+      <th scope="col">CGPA</th>
       <th scope="col">Program</th>
         <th scope="col">Department</th>
       <th scope="col"></th>
@@ -44,7 +44,7 @@
       <td>[[${student.program}]]</td>
         <td>[[${student.department.name}]]</td>
       <td>
-        <a th:href="@{'editstudents/' + ${student.id}}" class="btn btn-sm btn-primary">Edit</a>
+        <a th:href="@{'/editstudents/' + ${student.id}}" class="btn btn-sm btn-primary">Edit</a>
         <a th:href="@{'deletestudent/' + ${student.id}}" class="btn btn-sm btn-danger">Delete</a>
     </td>
     </tr>

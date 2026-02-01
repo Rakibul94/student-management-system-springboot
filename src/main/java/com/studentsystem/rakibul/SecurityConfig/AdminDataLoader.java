@@ -7,6 +7,10 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
+
+//A default admin is created here so that it can be used to access without admin form registration
+//This default admin is acting as a superuser
+
 @Component
 public class AdminDataLoader implements CommandLineRunner {
 
