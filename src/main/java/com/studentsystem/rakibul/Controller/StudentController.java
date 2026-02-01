@@ -8,10 +8,7 @@ import jakarta.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import com.studentsystem.rakibul.Model.Student;
 import com.studentsystem.rakibul.Service.StudentService;
@@ -46,55 +43,108 @@ public class StudentController {
         return "login";
     }
 
+//    @GetMapping("/loadaddstudents")
+//    public String loadAddStudent() {
+//        return "student_add";
+//    }
+
     @GetMapping("/loadaddstudents")
-    public String loadAddStudent() {
+    public String loadAddStudent(Model model) {
+        model.addAttribute("departmentList", departmentService.getAllDepartments());
         return "student_add";
     }
 
+
+//    @GetMapping("/editstudents/{id}")
+//    public String EditStudent(@PathVariable Long id, Model model, HttpSession session) {
+//        Student student = studentService.getStudentById(id);
+//        if (student == null) {
+//            session.setAttribute("message", "Student not found");
+//            return "redirect:/";
+//        }
+//
+//        model.addAttribute("student", student);
+//        return "student_edit";
+//    }
+
     @GetMapping("/editstudents/{id}")
     public String EditStudent(@PathVariable Long id, Model model, HttpSession session) {
-        Student student = studentService.getStudentById(id);
+
+        Student student = studentService.getStudentById(id); // or studentService if kept
+
         if (student == null) {
             session.setAttribute("message", "Student not found");
             return "redirect:/";
         }
 
         model.addAttribute("student", student);
+        model.addAttribute("departmentList", departmentService.getAllDepartments());
         return "student_edit";
     }
 
+//    @PostMapping("/addstudents")
+//    public String AddStudent(@ModelAttribute Student student, HttpSession session) {
+//        // System.out.println(s);
+//
+//        Student newstudent = studentService.addStudent(student);
+//
+//        if (newstudent != null) {
+//            session.setAttribute("message", "Student Add Successful");
+//        } else {
+//            session.setAttribute("message", "Something went wrong");
+//        }
+//        return "redirect:/loadaddstudents";
+//    }
+
     @PostMapping("/addstudents")
-    public String AddStudent(@ModelAttribute Student student, HttpSession session) {
-        // System.out.println(s);
+    public String AddStudent(@ModelAttribute Student student,
+                             @RequestParam("departmentName") String departmentName,
+                             HttpSession session) {
 
-        Student newstudent = studentService.addStudent(student);
+        Student saved = studentFacade.createStudent(student, departmentName);
 
-        if (newstudent != null) {
+        if (saved != null) {
             session.setAttribute("message", "Student Add Successful");
         } else {
-            session.setAttribute("message", "Something went wrong");
+            session.setAttribute("message", "Department name is required");
         }
         return "redirect:/loadaddstudents";
     }
 
+//    @PostMapping("/updatestudents")
+//    public String UpdateStudent(@ModelAttribute Student student, HttpSession session) {
+//        // System.out.println(s);
+//
+//        Student updatestudent = studentService.updateStudent(student);
+//
+//        if (updatestudent != null) {
+//            session.setAttribute("message", "Update Successful");
+//        } else {
+//            session.setAttribute("message", "Something went wrong");
+//        }
+//        return "redirect:/";
+//    }
+
     @PostMapping("/updatestudents")
-    public String UpdateStudent(@ModelAttribute Student student, HttpSession session) {
-        // System.out.println(s);
+    public String UpdateStudent(@ModelAttribute Student student,
+                                @RequestParam("departmentName") String departmentName,
+                                HttpSession session) {
 
-        Student updatestudent = studentService.updateStudent(student);
+        Student updatedStudent = studentFacade.updateStudent(student, departmentName);
 
-        if (updatestudent != null) {
+        if (updatedStudent != null) {
             session.setAttribute("message", "Update Successful");
         } else {
-            session.setAttribute("message", "Something went wrong");
+            session.setAttribute("message", "Update Failed");
         }
         return "redirect:/";
     }
 
+
     @GetMapping("/deletestudent/{id}")
     public String deleteStudent(@PathVariable Long id, HttpSession session) {
-        boolean f = studentService.deleteStudent(id);
-        if (f) {
+        boolean deletedStudent = studentService.deleteStudent(id);
+        if (deletedStudent) {
             session.setAttribute("message", "Delete Successful");
         } else {
             session.setAttribute("message", "Something went wrong");

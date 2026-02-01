@@ -27,4 +27,14 @@ public class DepartmentServiceImpl implements DepartmentService {
     public List<Department> getAllDepartments() {
         return departmentRepository.findAll();
     }
+
+    @Override
+    public Department findByName(String name) {
+        return departmentRepository.findByNameIgnoreCase(name).orElse(null);
+    }
+
+    @Override
+    public Department save(Department department) {
+        return departmentRepository.save(department);
+    }
 }

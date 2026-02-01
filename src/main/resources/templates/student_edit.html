@@ -40,6 +40,10 @@
                                 <label for="FormControlInput5" class="form-label">Program</label>
                                 <input type="text" class="form-control" name="program" id="FormControlInput5" th:value="${student.program}">
                             </div>
+                            <div class="mb-3">
+                                <label for="FormControlInput6" class="form-label">Department</label>
+                                <input type="text" class="form-control" name="departmentName" id="FormControlInput6" th:value="${student.department.name}">
+                            </div>
 
                             <button type="submit" class="btn btn-primary">Update</button>
                         </form>
