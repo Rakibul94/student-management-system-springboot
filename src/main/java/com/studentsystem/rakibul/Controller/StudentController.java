@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import com.studentsystem.rakibul.Model.Student;
 
 @Controller
+@RequestMapping("/students")
 public class StudentController {
 
     private final StudentServiceFacade studentServiceFacade;
@@ -24,25 +25,23 @@ public class StudentController {
         this.departmentServiceFacade = departmentServiceFacade;
     }
 
-    @GetMapping("/")
+
+    @GetMapping({ "", "/" })
     public String index(Model model) {
         List<Student> list = studentServiceFacade.getAllStudents();
         model.addAttribute("studentList", list);
         return "index";
     }
 
-    @GetMapping("/login")
-    public String loginPage() {
-        return "login";
-    }
 
-    @GetMapping("/loadaddstudents")
+    @GetMapping("/new")
     public String showAddStudentForm(Model model) {
         model.addAttribute("departmentList", departmentServiceFacade.getAllDepartments());
         return "student_add";
     }
 
-    @GetMapping("/editstudents/{id}")
+
+    @GetMapping("/{id}/edit")
     public String showEditStudentForm(@PathVariable Long id, Model model, HttpSession session) {
 
         Student student = studentServiceFacade.getStudentById(id); // or studentService if kept
@@ -59,7 +58,8 @@ public class StudentController {
 
 
 
-    @PostMapping("/addstudents")
+
+    @PostMapping
     public String addStudent(@ModelAttribute Student student,
                              @RequestParam("departmentName") String departmentName,
                              HttpSession session) {
@@ -71,11 +71,13 @@ public class StudentController {
         } else {
             session.setAttribute("message", "Student Add Failed");
         }
-        return "redirect:/loadaddstudents";
+
+        return "redirect:/students/new";
     }
 
 
-    @PostMapping("/updatestudents")
+
+    @PostMapping("/{id}")
     public String updateStudent(@ModelAttribute Student student,
                                 @RequestParam("departmentName") String departmentName,
                                 HttpSession session) {
@@ -87,11 +89,13 @@ public class StudentController {
         } else {
             session.setAttribute("message", "Update Failed");
         }
-        return "redirect:/";
+        //return "redirect:/";
+        return "redirect:/students";
     }
 
 
-    @GetMapping("/deletestudent/{id}")
+
+    @GetMapping("/{id}/delete")
     public String deleteStudent(@PathVariable Long id, HttpSession session) {
         boolean deletedStudent = studentServiceFacade.deleteStudent(id);
         if (deletedStudent) {
@@ -100,7 +104,8 @@ public class StudentController {
             session.setAttribute("message", "Delete Failed");
         }
 
-        return "redirect:/";
+
+        return "redirect:/students";
     }
 
 
