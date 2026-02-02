@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{ base :: layout(~{::title} , ~{::section}) }">
+<head>
+  <meta charset="UTF-8">
+  <title>Department List</title>
+</head>
+<body>
+<section>
+  <div class="container p-5">
+    <div class="row">
+      <div class="col-md-10 offset-md-1">
+        <div class="card">
+          <div class="card-header text-center fs-4">Departments</div>
+          <th:block th:if="${session.message}">
+            <p class="text-center text-success fs-4">[[${session.message}]]</p>
+            <th:block th:text="${@departmentServiceImpl.removeSessionMessage()}"></th:block>
+          </th:block>
+          <div class="card-body">
+            <table class="table table-bordered">
+              <thead>
+              <tr>
+                <th>#</th>
+                <th>Department Name</th>
+                <th>Actions</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr th:each="dept, iterStat : ${departmentList}">
+                <th>[[${iterStat.count}]]</th>
+                <td>[[${dept.name}]]</td>
+                <td>
+                  <a th:href="@{/admin/departments/{id}/edit(id=${dept.id})}" class="btn btn-sm btn-primary">Edit</a>
+                  <a th:href="@{/admin/departments/{id}/delete(id=${dept.id})}" class="btn btn-sm btn-danger">Delete</a>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+</body>
+</html>

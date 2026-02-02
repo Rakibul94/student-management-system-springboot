@@ -9,7 +9,7 @@
 </head>
 <body>
 <section>
-    <div class="container">
+    <div class="container p-5">
         <div class="row">
             <div class="col-md-6 offset-md-3">
                 <div class="card">
@@ -22,7 +22,7 @@
                         </th:block>
                     </div>
                     <div class="card-body">
-                            <form th:action="@{/students}" method="post">
+                            <form th:action="@{/admin}" method="post">
                         
                             <div class="mb-3">
                                 <label for="FormControlInput2" class="form-label">Full Name</label>
@@ -40,12 +40,20 @@
                                 <label for="FormControlInput5" class="form-label">Program</label>
                                 <input type="text" class="form-control" name="program" id="FormControlInput5">
                             </div>
-                            <div class="mb-3">
-                                <label for="FormControlInput6" class="form-label">Department</label>
-                                <input type="text" class="form-control" name="departmentName" id="FormControlInput6">
-                            </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Department</label>
+                                    <select class="form-select" name="departmentName" required>
+                                        <option value="">-- Select Department --</option>
 
-                            <button type="submit" class="btn btn-primary">Submit</button>
+                                        <option th:each="dept : ${departmentList}"
+                                                th:value="${dept.name}"
+                                                th:text="${dept.name}">
+                                        </option>
+                                    </select>
+                                </div>
+
+
+                            <button type="submit" class="btn btn-primary">Add Student</button>
                         </form>
                     </div>
                 </div>

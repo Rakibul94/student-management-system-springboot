@@ -2,6 +2,7 @@ package com.studentsystem.rakibul.Controller;
 
 import java.util.List;
 
+import com.studentsystem.rakibul.Model.Department;
 import com.studentsystem.rakibul.ServiceFacade.DepartmentServiceFacade;
 import com.studentsystem.rakibul.ServiceFacade.StudentServiceFacade;
 import jakarta.servlet.http.HttpSession;
@@ -13,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import com.studentsystem.rakibul.Model.Student;
 
 @Controller
-@RequestMapping("/students")
+@RequestMapping("/admin")
 public class StudentController {
 
     private final StudentServiceFacade studentServiceFacade;
@@ -25,6 +26,29 @@ public class StudentController {
         this.departmentServiceFacade = departmentServiceFacade;
     }
 
+    @GetMapping("/departments/new")
+    public String addDepartment(Model model) {
+        model.addAttribute("departmentList", departmentServiceFacade.getAllDepartments());
+        return "department_add";
+    }
+
+    @GetMapping("/departments")
+    public String departmentList(Model model) {
+        model.addAttribute("departmentList", departmentServiceFacade.getAllDepartments());
+        return "department_list";
+    }
+
+    @PostMapping("/departments")
+    public String addDepartment(@ModelAttribute Department department, HttpSession session) {
+        if (department.getName() != null && !department.getName().isBlank()) {
+            departmentServiceFacade.findOrCreateByName(department.getName());
+            session.setAttribute("message", "Department added successfully");
+        } else {
+            session.setAttribute("message", "Department name cannot be empty");
+        }
+        return "redirect:/admin/departments";
+    }
+
 
     @GetMapping({ "", "/" })
     public String index(Model model) {
@@ -34,21 +58,21 @@ public class StudentController {
     }
 
 
-    @GetMapping("/new")
+    @GetMapping("/students/new")
     public String showAddStudentForm(Model model) {
         model.addAttribute("departmentList", departmentServiceFacade.getAllDepartments());
         return "student_add";
     }
 
 
-    @GetMapping("/{id}/edit")
+    @GetMapping("/students/{id}/edit")
     public String showEditStudentForm(@PathVariable Long id, Model model, HttpSession session) {
 
         Student student = studentServiceFacade.getStudentById(id); // or studentService if kept
 
         if (student == null) {
             session.setAttribute("message", "Student not found");
-            return "redirect:/";
+            return "redirect:/admin"; //Issue here need to be fixed
         }
 
         model.addAttribute("student", student);
@@ -72,12 +96,12 @@ public class StudentController {
             session.setAttribute("message", "Student Add Failed");
         }
 
-        return "redirect:/students/new";
+        return "redirect:/admin";
     }
 
 
 
-    @PostMapping("/{id}")
+    @PostMapping("/students/{id}")
     public String updateStudent(@ModelAttribute Student student,
                                 @RequestParam("departmentName") String departmentName,
                                 HttpSession session) {
@@ -90,12 +114,12 @@ public class StudentController {
             session.setAttribute("message", "Update Failed");
         }
         //return "redirect:/";
-        return "redirect:/students";
+        return "redirect:/admin";
     }
 
 
 
-    @GetMapping("/{id}/delete")
+    @GetMapping("/students/{id}/delete")
     public String deleteStudent(@PathVariable Long id, HttpSession session) {
         boolean deletedStudent = studentServiceFacade.deleteStudent(id);
         if (deletedStudent) {
@@ -105,7 +129,7 @@ public class StudentController {
         }
 
 
-        return "redirect:/students";
+        return "redirect:/admin";
     }
 
 

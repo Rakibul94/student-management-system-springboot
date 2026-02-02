@@ -23,10 +23,10 @@
                     </th:block>
                </div>
                <div class="card-body">
-                     <table class="table">
+                     <table class="table table-bordered">
 <thead>
     <tr>
-      <th scope="col">Id</th>
+      <th scope="col">#</th>
       <th scope="col">Name</th>
       <th scope="col">Email</th>
       <th scope="col">CGPA</th>
@@ -44,9 +44,9 @@
       <td>[[${student.program}]]</td>
         <td>[[${student.department.name}]]</td>
       <td>
-          <a th:href="@{/students/{id}/edit(id=${student.id})}"
+          <a th:href="@{/admin/students/{id}/edit(id=${student.id})}"
              class="btn btn-sm btn-primary">Edit</a>
-          <a th:href="@{/students/{id}/delete(id=${student.id})}"
+          <a th:href="@{/admin/students/{id}/delete(id=${student.id})}"
              class="btn btn-sm btn-danger">Delete</a>
     </td>
     </tr>

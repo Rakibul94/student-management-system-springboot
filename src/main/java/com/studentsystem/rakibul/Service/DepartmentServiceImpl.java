@@ -2,7 +2,10 @@ package com.studentsystem.rakibul.Service;
 
 import com.studentsystem.rakibul.Model.Department;
 import com.studentsystem.rakibul.Repository.DepartmentRepository;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Service;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import java.util.List;
 
@@ -36,5 +39,23 @@ public class DepartmentServiceImpl implements DepartmentService {
     @Override
     public Department save(Department department) {
         return departmentRepository.save(department);
+    }
+
+    public void removeSessionMessage() {
+        ServletRequestAttributes attributes =
+                (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+
+        if (attributes == null) {
+            return; // no request context
+        }
+
+        HttpSession session = attributes.getRequest().getSession(false);
+        if (session == null) {
+            return; // no session exists
+        }
+
+        session.removeAttribute("message");
+
+
     }
 }

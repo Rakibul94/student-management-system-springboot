@@ -22,7 +22,7 @@
                         </th:block>
                     </div>
                     <div class="card-body">
-                        <form th:action="@{/students/{id}(id=${student.id})}" method="post">
+                        <form th:action="@{/admin/students/{id}(id=${student.id})}" method="post">
                             <input type="hidden" name="id" th:value="${student.id}">
                            
                             <div class="mb-3">
@@ -42,9 +42,18 @@
                                 <input type="text" class="form-control" name="program" id="FormControlInput5" th:value="${student.program}">
                             </div>
                             <div class="mb-3">
-                                <label for="FormControlInput6" class="form-label">Department</label>
-                                <input type="text" class="form-control" name="departmentName" id="FormControlInput6" th:value="${student.department.name}">
+                                <label class="form-label">Department</label>
+                                <select class="form-select" name="departmentName" required>
+
+                                    <option th:each="dept : ${departmentList}"
+                                            th:value="${dept.name}"
+                                            th:text="${dept.name}"
+                                            th:selected="${student.department != null and dept.id == student.department.id}">
+                                    </option>
+
+                                </select>
                             </div>
+
 
                             <button type="submit" class="btn btn-primary">Update</button>
                         </form>
