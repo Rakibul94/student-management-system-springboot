@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      th:replace="~{ base :: layout(~{::title}, ~{::section}) }">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Signup</title>
+</head>
+<body>
+
+<section class="d-flex justify-content-center align-items-center" style="min-height: 80vh;">
+    <div class="card p-4 shadow" style="width: 380px;">
+        <h2 class="text-center mb-3">Admin Signup</h2>
+
+        <!-- Error message -->
+        <div th:if="${error}">
+            <p class="text-danger text-center" th:text="${error}"></p>
+        </div>
+
+        <form th:action="@{/signup}" method="post" autocomplete="off" onsubmit="return validatePassword()">
+
+            <!-- Username -->
+            <div class="mb-3">
+                <input type="text"
+                       class="form-control"
+                       name="username"
+                       placeholder="Username"
+                       autocomplete="off"
+                       required>
+            </div>
+
+            <!-- Email -->
+            <div class="mb-3">
+                <input type="email"
+                       class="form-control"
+                       name="email"
+                       placeholder="Email"
+                       required>
+            </div>
+
+            <!-- Password -->
+            <div class="mb-3">
+                <input type="password"
+                       id="password"
+                       class="form-control"
+                       autocomplete="new-password"
+                       name="password"
+                       placeholder="Password"
+                       required>
+            </div>
+
+            <!-- Confirm Password -->
+            <div class="mb-3">
+                <input type="password"
+                       id="confirmPassword"
+                       class="form-control"
+                       placeholder="Confirm Password"
+                       required>
+                <small id="errorMsg" class="text-danger"></small>
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100">
+                Signup
+            </button>
+        </form>
+
+        <div class="text-center mt-3">
+            <a th:href="@{/login}">Already have an account? Login</a>
+        </div>
+    </div>
+</section>
+
+<script>
+    function validatePassword() {
+        const password = document.getElementById("password").value;
+        const confirmPassword = document.getElementById("confirmPassword").value;
+        const errorMsg = document.getElementById("errorMsg");
+
+        if (password !== confirmPassword) {
+            errorMsg.textContent = "Passwords do not match!";
+            return false;
+        }
+        errorMsg.textContent = "";
+        return true;
+    }
+</script>
+
+</body>
+</html>

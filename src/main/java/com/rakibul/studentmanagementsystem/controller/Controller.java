@@ -25,32 +25,12 @@ public class Controller {
         this.departmentServiceFacade = departmentServiceFacade;
     }
 
-    @GetMapping("/departments/new")
-    public String showAddDepartmentForm(Model model) {
-        model.addAttribute("departmentList", departmentServiceFacade.getAllDepartments());
-        return "department_add";
-    }
 
-    @GetMapping("/departments")
-    public String departmentList(Model model) {
-        model.addAttribute("departmentList", departmentServiceFacade.getAllDepartments());
-        return "department_list";
-    }
-
-    @PostMapping("/departments")
-    public String addDepartment(@ModelAttribute Department department, HttpSession session) {
-        if (department.getName() != null && !department.getName().isBlank()) {
-            departmentServiceFacade.findOrCreateByName(department.getName());
-            session.setAttribute("message", "Department added successfully");
-        } else {
-            session.setAttribute("message", "Department name cannot be empty");
-        }
-        return "redirect:/admin/departments";
-    }
+    //All Student related controller operations
 
     @GetMapping({ "", "/" })
-    public String index(Model model) {
-        return "index";
+    public String home(Model model) {
+        return "home";
     }
 
 
@@ -78,12 +58,85 @@ public class Controller {
 
         if (student == null) {
             session.setAttribute("message", "Student not found");
-            return "redirect:/admin"; //Issue here need to be fixed
+            return "redirect:/admin/students"; //Issue here need to be fixed
         }
 
         model.addAttribute("student", student);
         model.addAttribute("departmentList", departmentServiceFacade.getAllDepartments());
         return "student_edit";
+    }
+
+
+
+
+
+    @PostMapping("/students")
+    public String addStudent(@ModelAttribute Student student,
+                             @RequestParam("departmentName") String departmentName,
+                             HttpSession session) {
+
+        Student saved = studentServiceFacade.createStudent(student, departmentName);
+
+        if (saved != null) {
+            session.setAttribute("message", "Student Add Successful");
+        } else {
+            session.setAttribute("message", "Student Add Failed");
+        }
+
+        return "redirect:/admin/students";
+    }
+
+
+
+    @PostMapping("/students/{id}")
+    public String updateStudent(@ModelAttribute Student student,
+                                @RequestParam("departmentName") String departmentName,
+                                HttpSession session) {
+
+        Student updatedStudent = studentServiceFacade.updateStudent(student, departmentName);
+
+        if (updatedStudent != null) {
+            session.setAttribute("message", "Update Successful");
+        } else {
+            session.setAttribute("message", "Update Failed");
+        }
+        //return "redirect:/";
+        return "redirect:/admin/students";
+    }
+
+
+
+
+
+    @GetMapping("/students/{id}/delete")
+    public String deleteStudent(@PathVariable Long id, HttpSession session) {
+        boolean deletedStudent = studentServiceFacade.deleteStudent(id);
+        if (deletedStudent) {
+            session.setAttribute("message", "Delete Successful");
+        } else {
+            session.setAttribute("message", "Delete Failed");
+        }
+
+
+        return "redirect:/admin/students";
+    }
+
+    //All Department related controller operations
+
+    @PostMapping("/departments/{id}")
+    public String updateDepartment(@ModelAttribute Department department,
+                                   @PathVariable Long id,
+                                   HttpSession session) {
+
+        Department updatedDepartment = departmentServiceFacade.updateDepartment(department,id);
+
+        if (updatedDepartment != null) {
+            session.setAttribute("message", "Update Successful");
+        } else {
+            session.setAttribute("message", "Update Failed");
+        }
+        //return "redirect:/";
+        return "redirect:/admin/departments";
     }
 
     @GetMapping("/departments/{id}/edit")
@@ -103,72 +156,29 @@ public class Controller {
     }
 
 
-
-
-    @PostMapping
-    public String addStudent(@ModelAttribute Student student,
-                             @RequestParam("departmentName") String departmentName,
-                             HttpSession session) {
-
-        Student saved = studentServiceFacade.createStudent(student, departmentName);
-
-        if (saved != null) {
-            session.setAttribute("message", "Student Add Successful");
-        } else {
-            session.setAttribute("message", "Student Add Failed");
-        }
-
-        return "redirect:/admin";
+    @GetMapping("/departments/new")
+    public String showAddDepartmentForm(Model model) {
+        model.addAttribute("departmentList", departmentServiceFacade.getAllDepartments());
+        return "department_add";
     }
 
-
-
-    @PostMapping("/students/{id}")
-    public String updateStudent(@ModelAttribute Student student,
-                                @RequestParam("departmentName") String departmentName,
-                                HttpSession session) {
-
-        Student updatedStudent = studentServiceFacade.updateStudent(student, departmentName);
-
-        if (updatedStudent != null) {
-            session.setAttribute("message", "Update Successful");
-        } else {
-            session.setAttribute("message", "Update Failed");
-        }
-        //return "redirect:/";
-        return "redirect:/admin";
+    @GetMapping("/departments")
+    public String departmentList(Model model) {
+        model.addAttribute("departmentList", departmentServiceFacade.getAllDepartments());
+        return "department_list";
     }
 
-    @PostMapping("/departments/{id}")
-    public String updateDepartment(@ModelAttribute Department department,
-                                   @PathVariable Long id,
-                                    HttpSession session) {
-
-        Department updatedDepartment = departmentServiceFacade.updateDepartment(department,id);
-
-        if (updatedDepartment != null) {
-            session.setAttribute("message", "Update Successful");
+    @PostMapping("/departments")
+    public String addDepartment(@ModelAttribute Department department, HttpSession session) {
+        if (department.getName() != null && !department.getName().isBlank()) {
+            departmentServiceFacade.findOrCreateByName(department.getName());
+            session.setAttribute("message", "Department added successfully");
         } else {
-            session.setAttribute("message", "Update Failed");
+            session.setAttribute("message", "Department name cannot be empty");
         }
-        //return "redirect:/";
         return "redirect:/admin/departments";
     }
 
-
-
-    @GetMapping("/students/{id}/delete")
-    public String deleteStudent(@PathVariable Long id, HttpSession session) {
-        boolean deletedStudent = studentServiceFacade.deleteStudent(id);
-        if (deletedStudent) {
-            session.setAttribute("message", "Delete Successful");
-        } else {
-            session.setAttribute("message", "Delete Failed");
-        }
-
-
-        return "redirect:/admin";
-    }
 
 
 

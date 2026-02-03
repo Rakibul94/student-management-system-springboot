@@ -6,11 +6,11 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "admins")
+@Table(name = "users")
 @Data // Generates getters, setters, toString, equals, hashCode
 @NoArgsConstructor // Required by JPA
 @AllArgsConstructor // Generates all-args constructor
-public class Admin {
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,9 +22,8 @@ public class Admin {
     @Column(nullable = false)
     private String password;
 
-    private String role = "ADMIN";
-
-    private boolean enabled = true;
+    @Column(nullable = false)
+    private String role; // ROLE_ADMIN, ROLE_USER, ROLE_TEACHER
 
 
 }
