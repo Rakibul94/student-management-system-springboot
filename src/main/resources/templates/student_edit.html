@@ -22,7 +22,7 @@
                         </th:block>
                     </div>
                     <div class="card-body">
-                        <form th:action="@{/admin/students/{id}(id=${student.id})}" method="post">
+                        <form th:action="@{/students/{id}(id=${student.id})}" method="post">
                             <input type="hidden" name="id" th:value="${student.id}">
                            
                             <div class="mb-3">

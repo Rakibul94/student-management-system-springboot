@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import com.rakibul.studentmanagementsystem.model.Student;
 
 @org.springframework.stereotype.Controller
-@RequestMapping("/admin")
+@RequestMapping("/")
 public class Controller {
 
     private final StudentServiceFacade studentServiceFacade;
@@ -58,7 +58,7 @@ public class Controller {
 
         if (student == null) {
             session.setAttribute("message", "Student not found");
-            return "redirect:/admin/students"; //Issue here need to be fixed
+            return "redirect:/students"; //Issue here need to be fixed
         }
 
         model.addAttribute("student", student);
@@ -83,7 +83,7 @@ public class Controller {
             session.setAttribute("message", "Student Add Failed");
         }
 
-        return "redirect:/admin/students";
+        return "redirect:/students";
     }
 
 
@@ -101,7 +101,7 @@ public class Controller {
             session.setAttribute("message", "Update Failed");
         }
         //return "redirect:/";
-        return "redirect:/admin/students";
+        return "redirect:/students";
     }
 
 
@@ -118,7 +118,7 @@ public class Controller {
         }
 
 
-        return "redirect:/admin/students";
+        return "redirect:/students";
     }
 
     //All Department related controller operations
@@ -136,7 +136,7 @@ public class Controller {
             session.setAttribute("message", "Update Failed");
         }
         //return "redirect:/";
-        return "redirect:/admin/departments";
+        return "redirect:/departments";
     }
 
     @GetMapping("/departments/{id}/edit")
@@ -146,7 +146,7 @@ public class Controller {
 
         if (department == null) {
             session.setAttribute("message", "Department not found");
-            return "redirect:/admin/departments"; //Issue here need to be fixed
+            return "redirect:/departments"; //Issue here need to be fixed
         }
 
         model.addAttribute("department", department);
@@ -176,7 +176,7 @@ public class Controller {
         } else {
             session.setAttribute("message", "Department name cannot be empty");
         }
-        return "redirect:/admin/departments";
+        return "redirect:/departments";
     }
 
 
@@ -194,7 +194,7 @@ public class Controller {
         }
 
 
-        return "redirect:/admin/departments";
+        return "redirect:/departments";
     }
 
 
