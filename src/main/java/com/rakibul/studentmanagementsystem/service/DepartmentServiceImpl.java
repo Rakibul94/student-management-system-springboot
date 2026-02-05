@@ -66,21 +66,6 @@ public class DepartmentServiceImpl implements DepartmentService {
 
     }
 
-    public void removeSessionMessage() {
-        ServletRequestAttributes attributes =
-                (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
-
-        if (attributes == null) {
-            return; // no request context
-        }
-
-        HttpSession session = attributes.getRequest().getSession(false);
-        if (session == null) {
-            return; // no session exists
-        }
-
-        session.removeAttribute("message");
 
 
-    }
 }
