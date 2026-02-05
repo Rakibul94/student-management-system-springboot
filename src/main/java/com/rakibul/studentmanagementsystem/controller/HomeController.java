@@ -14,14 +14,15 @@ import com.rakibul.studentmanagementsystem.model.Student;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @org.springframework.stereotype.Controller
+
 @RequestMapping("/")
-public class Controller {
+public class HomeController {
 
     private final StudentServiceFacade studentServiceFacade;
     private final DepartmentServiceFacade departmentServiceFacade;
 
 
-    public Controller(StudentServiceFacade studentServiceFacade, DepartmentServiceFacade departmentServiceFacade) {
+    public HomeController(StudentServiceFacade studentServiceFacade, DepartmentServiceFacade departmentServiceFacade) {
         this.studentServiceFacade = studentServiceFacade;
         this.departmentServiceFacade = departmentServiceFacade;
     }
@@ -107,7 +108,7 @@ public class Controller {
 
             redirectAttributes.addFlashAttribute("message", "Update failed");
         }
-        //return "redirect:/";
+
         return "redirect:/students";
     }
 
@@ -147,7 +148,7 @@ public class Controller {
 
             redirectAttributes.addFlashAttribute("message", "Update Failed");
         }
-        //return "redirect:/";
+
         return "redirect:/departments";
     }
 
