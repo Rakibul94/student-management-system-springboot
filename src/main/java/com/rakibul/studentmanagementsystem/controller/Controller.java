@@ -72,10 +72,10 @@ public class Controller {
 
     @PostMapping("/students")
     public String addStudent(@ModelAttribute Student student,
-                             @RequestParam("departmentName") String departmentName,
+                             @RequestParam("departmentId") Long departmentId,
                              HttpSession session) {
 
-        Student saved = studentServiceFacade.createStudent(student, departmentName);
+        Student saved = studentServiceFacade.createStudent(student, departmentId);
 
         if (saved != null) {
             session.setAttribute("message", "Student Add Successful");
@@ -90,10 +90,10 @@ public class Controller {
 
     @PostMapping("/students/{id}")
     public String updateStudent(@ModelAttribute Student student,
-                                @RequestParam("departmentName") String departmentName,
+                                @RequestParam("departmentId") Long departmentId,
                                 HttpSession session) {
 
-        Student updatedStudent = studentServiceFacade.updateStudent(student, departmentName);
+        Student updatedStudent = studentServiceFacade.updateStudent(student, departmentId);
 
         if (updatedStudent != null) {
             session.setAttribute("message", "Update Successful");

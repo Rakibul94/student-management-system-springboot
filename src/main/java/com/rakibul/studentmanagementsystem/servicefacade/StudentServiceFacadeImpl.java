@@ -31,47 +31,29 @@ public class StudentServiceFacadeImpl implements StudentServiceFacade{
         return studentService.getStudentById(id);
     }
 
-    public Student createStudent(Student student, String departmentName) {
 
-        if (departmentName == null || departmentName.isBlank()) {
-            return null;
-        }
 
-        Department department =
-                departmentService.findByName(departmentName);
-
-        // create department if it doesn't exist
-        if (department == null) {
-            department = new Department();
-            department.setName(departmentName);
-            department = departmentService.save(department);
-        }
-
-        student.setDepartment(department);
-        return studentService.addStudent(student);
-    }
     @Transactional
-    public Student updateStudent(Student student, String departmentName) {
+    public Student updateStudent(Student student, Long departmentId) {
 
-        if (departmentName == null || departmentName.trim().isEmpty()) {
+        if (departmentId == null) {
             return null;
         }
 
-        // fetch existing student
-        Student existingStudent = studentService.getStudentById(student.getId());
+        Student existingStudent =
+                studentService.getStudentById(student.getId());
+
         if (existingStudent == null) {
             return null;
         }
 
-        // find or create department
-        Department department = departmentService.findByName(departmentName);
+        Department department =
+                departmentService.getDepartmentById(departmentId);
+
         if (department == null) {
-            department = new Department();
-            department.setName(departmentName);
-            department = departmentService.save(department);
+            return null;
         }
 
-        // update fields
         existingStudent.setName(student.getName());
         existingStudent.setEmail(student.getEmail());
         existingStudent.setCgpa(student.getCgpa());
@@ -80,6 +62,25 @@ public class StudentServiceFacadeImpl implements StudentServiceFacade{
 
         return studentService.updateStudent(existingStudent);
     }
+
+    public Student createStudent(Student student, Long departmentId) {
+
+        if (departmentId == null) {
+            return null;
+        }
+
+
+        // create department if it doesn't exist
+        Department department = departmentService.getDepartmentById(departmentId);
+        if (department == null) {
+            return null; // invalid selection
+        }
+
+        student.setDepartment(department);
+        return studentService.addStudent(student);
+
+    }
+
 
     @Transactional
     public boolean deleteStudent(Long studentId) {
