@@ -31,7 +31,18 @@
                 <td>[[${dept.name}]]</td>
                 <td>
                   <a th:href="@{/departments/{id}/edit(id=${dept.id})}" class="btn btn-sm btn-primary">Edit</a>
-                  <a th:href="@{/departments/{id}/delete(id=${dept.id})}" class="btn btn-sm btn-danger">Delete</a>
+                    <form th:action="@{/departments/{id}/delete(id=${dept.id})}"
+                          method="post"
+                          style="display:inline">
+
+                        <input type="hidden" name="_method" value="DELETE"/>
+
+                        <button type="submit"
+                                class="btn btn-sm btn-danger">
+                            Delete
+                        </button>
+                    </form>
+<!--                  <a th:href="@{/departments/{id}/delete(id=${dept.id})}" class="btn btn-sm btn-danger">Delete</a>-->
                 </td>
               </tr>
               </tbody>

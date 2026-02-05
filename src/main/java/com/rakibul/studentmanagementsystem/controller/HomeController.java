@@ -94,7 +94,8 @@ public class HomeController {
 
 
 
-    @PostMapping("/students/{id}")
+
+    @PutMapping("/students/{id}")
     public String updateStudent(@ModelAttribute Student student,
                                 @RequestParam("departmentId") Long departmentId,
                                 HttpSession session,RedirectAttributes redirectAttributes) {
@@ -116,7 +117,8 @@ public class HomeController {
 
 
 
-    @GetMapping("/students/{id}/delete")
+
+    @DeleteMapping("/students/{id}/delete")
     public String deleteStudent(@PathVariable Long id, HttpSession session,RedirectAttributes redirectAttributes) {
         boolean deletedStudent = studentServiceFacade.deleteStudent(id);
         if (deletedStudent) {
@@ -133,7 +135,8 @@ public class HomeController {
 
     //All Department related controller operations
 
-    @PostMapping("/departments/{id}")
+
+    @PutMapping("/departments/{id}")
     public String updateDepartment(@ModelAttribute Department department,
                                    @PathVariable Long id,
                                    HttpSession session,
@@ -200,9 +203,7 @@ public class HomeController {
 
 
 
-
-
-    @GetMapping("/departments/{id}/delete")
+    @DeleteMapping("/departments/{id}/delete")
     public String deleteDepartment(@PathVariable Long id, HttpSession session
             ,RedirectAttributes redirectAttributes) {
         boolean deletedDepartment = departmentServiceFacade.deleteDepartment(id);
@@ -214,8 +215,8 @@ public class HomeController {
             redirectAttributes.addFlashAttribute("message", "Delete Failed");
         }
 
-
         return "redirect:/departments";
+
     }
 
 
