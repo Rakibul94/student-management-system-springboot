@@ -15,9 +15,9 @@
                 <div class="card">
                     <div class="card-header text-centre">
                         <p class="fs-4">Edit Student</p>
-                        <th:block th:if="${session.message}">
-                              <p class="text-centre text-success fs-4">[[${session.message}]]</p>
-                              <th:block th:text="${@studentServiceImpl.removeSessionMessage()}"></th:block>
+                        <th:block th:if="${message}">
+                              <p class="text-centre text-success fs-4">[[${message}]]</p>
+<!--                             <th:block th:text="${@studentServiceImpl.removeSessionMessage()}"></th:block>-->
 
                         </th:block>
                     </div>
@@ -43,10 +43,10 @@
                             </div>
                             <div class="mb-3">
                                 <label class="form-label">Department</label>
-                                <select class="form-select" name="departmentName" required>
+                                <select class="form-select" name="departmentId" required>
 
                                     <option th:each="dept : ${departmentList}"
-                                            th:value="${dept.name}"
+                                            th:value="${dept.id}"
                                             th:text="${dept.name}"
                                             th:selected="${student.department != null and dept.id == student.department.id}">
                                     </option>

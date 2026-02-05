@@ -1,11 +1,7 @@
 package com.rakibul.studentmanagementsystem.service;
-
 import com.rakibul.studentmanagementsystem.model.Department;
 import com.rakibul.studentmanagementsystem.repository.DepartmentRepository;
-import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Service;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 
 import java.util.List;
 
@@ -33,11 +29,18 @@ public class DepartmentServiceImpl implements DepartmentService {
 
     @Override
     public Department findByName(String name) {
+        if (name == null || name.isBlank()) {
+            return null;
+        }
+
         return departmentRepository.findByNameIgnoreCase(name).orElse(null);
     }
 
     @Override
     public Department save(Department department) {
+        if (department == null) {
+            return null;
+        }
         return departmentRepository.save(department);
     }
 
@@ -59,28 +62,13 @@ public class DepartmentServiceImpl implements DepartmentService {
         }
         Department department = departmentRepository.findById(id).orElse(null);
         if (department != null) {
-            departmentRepository.delete(department);
+            departmentRepository.deleteById(id);
             return true;
         }
         return false;
 
     }
 
-    public void removeSessionMessage() {
-        ServletRequestAttributes attributes =
-                (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
-
-        if (attributes == null) {
-            return; // no request context
-        }
-
-        HttpSession session = attributes.getRequest().getSession(false);
-        if (session == null) {
-            return; // no session exists
-        }
-
-        session.removeAttribute("message");
 
 
-    }
 }

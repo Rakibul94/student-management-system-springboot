@@ -10,9 +10,9 @@ public interface StudentServiceFacade {
 
     Student getStudentById(Long id);
 
-    Student createStudent(Student student, String departmentName);
+    Student createStudent(Student student, Long departmentId);
 
-    Student updateStudent(Student student, String departmentName);
+    Student updateStudent(Student student, Long departmentId);
 
     boolean deleteStudent(Long studentId);
 

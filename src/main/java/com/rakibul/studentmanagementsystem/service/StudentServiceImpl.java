@@ -1,13 +1,8 @@
 package com.rakibul.studentmanagementsystem.service;
 
 import org.springframework.stereotype.Service;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
-
 import com.rakibul.studentmanagementsystem.model.Student;
 import com.rakibul.studentmanagementsystem.repository.StudentRepository;
-
-import jakarta.servlet.http.HttpSession;
 
 import java.util.List;
 
@@ -23,6 +18,9 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public Student addStudent(Student student) {
+        if (student == null) {
+            return null;
+        }
         return studentRepository.save(student);
     }
 
@@ -58,30 +56,14 @@ public class StudentServiceImpl implements StudentService {
         }
         Student student = studentRepository.findById(id).orElse(null);
         if (student != null) {
-            studentRepository.delete(student);
+            studentRepository.deleteById(id);
             return true;
         }
         return false;
 
     }
 
-    public void removeSessionMessage() {
-        ServletRequestAttributes attributes =
-                (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
 
-        if (attributes == null) {
-            return; // no request context
-        }
-
-        HttpSession session = attributes.getRequest().getSession(false);
-        if (session == null) {
-            return; // no session exists
-        }
-
-        session.removeAttribute("message");
-
-
-    }
 
 
 }

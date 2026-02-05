@@ -11,16 +11,18 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import com.rakibul.studentmanagementsystem.model.Student;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @org.springframework.stereotype.Controller
+
 @RequestMapping("/")
-public class Controller {
+public class HomeController {
 
     private final StudentServiceFacade studentServiceFacade;
     private final DepartmentServiceFacade departmentServiceFacade;
 
 
-    public Controller(StudentServiceFacade studentServiceFacade, DepartmentServiceFacade departmentServiceFacade) {
+    public HomeController(StudentServiceFacade studentServiceFacade, DepartmentServiceFacade departmentServiceFacade) {
         this.studentServiceFacade = studentServiceFacade;
         this.departmentServiceFacade = departmentServiceFacade;
     }
@@ -52,12 +54,14 @@ public class Controller {
 
 
     @GetMapping("/students/{id}/edit")
-    public String showEditStudentForm(@PathVariable Long id, Model model, HttpSession session) {
+    public String showEditStudentForm(@PathVariable Long id, Model model, HttpSession session
+            , RedirectAttributes redirectAttributes) {
 
         Student student = studentServiceFacade.getStudentById(id); // or studentService if kept
 
         if (student == null) {
-            session.setAttribute("message", "Student not found");
+
+            redirectAttributes.addFlashAttribute("message", "Student not found");
             return "redirect:/students"; //Issue here need to be fixed
         }
 
@@ -72,15 +76,17 @@ public class Controller {
 
     @PostMapping("/students")
     public String addStudent(@ModelAttribute Student student,
-                             @RequestParam("departmentName") String departmentName,
-                             HttpSession session) {
+                             @RequestParam("departmentId") Long departmentId,
+                             HttpSession session, RedirectAttributes redirectAttributes) {
 
-        Student saved = studentServiceFacade.createStudent(student, departmentName);
+        Student saved = studentServiceFacade.createStudent(student, departmentId);
 
         if (saved != null) {
-            session.setAttribute("message", "Student Add Successful");
+
+            redirectAttributes.addFlashAttribute("message", "Student added successfully");
         } else {
-            session.setAttribute("message", "Student Add Failed");
+
+            redirectAttributes.addFlashAttribute("message", "Student add failed");
         }
 
         return "redirect:/students";
@@ -90,17 +96,19 @@ public class Controller {
 
     @PostMapping("/students/{id}")
     public String updateStudent(@ModelAttribute Student student,
-                                @RequestParam("departmentName") String departmentName,
-                                HttpSession session) {
+                                @RequestParam("departmentId") Long departmentId,
+                                HttpSession session,RedirectAttributes redirectAttributes) {
 
-        Student updatedStudent = studentServiceFacade.updateStudent(student, departmentName);
+        Student updatedStudent = studentServiceFacade.updateStudent(student, departmentId);
 
         if (updatedStudent != null) {
-            session.setAttribute("message", "Update Successful");
+
+            redirectAttributes.addFlashAttribute("message", "Student updated successfully");
         } else {
-            session.setAttribute("message", "Update Failed");
+
+            redirectAttributes.addFlashAttribute("message", "Update failed");
         }
-        //return "redirect:/";
+
         return "redirect:/students";
     }
 
@@ -109,12 +117,14 @@ public class Controller {
 
 
     @GetMapping("/students/{id}/delete")
-    public String deleteStudent(@PathVariable Long id, HttpSession session) {
+    public String deleteStudent(@PathVariable Long id, HttpSession session,RedirectAttributes redirectAttributes) {
         boolean deletedStudent = studentServiceFacade.deleteStudent(id);
         if (deletedStudent) {
-            session.setAttribute("message", "Delete Successful");
+
+            redirectAttributes.addFlashAttribute("message", "Delete Successful");
         } else {
-            session.setAttribute("message", "Delete Failed");
+
+            redirectAttributes.addFlashAttribute("message", "Delete Failed");
         }
 
 
@@ -126,26 +136,31 @@ public class Controller {
     @PostMapping("/departments/{id}")
     public String updateDepartment(@ModelAttribute Department department,
                                    @PathVariable Long id,
-                                   HttpSession session) {
+                                   HttpSession session,
+                                   RedirectAttributes redirectAttributes) {
 
         Department updatedDepartment = departmentServiceFacade.updateDepartment(department,id);
 
         if (updatedDepartment != null) {
-            session.setAttribute("message", "Update Successful");
+
+            redirectAttributes.addFlashAttribute("message", "Update Successful");
         } else {
-            session.setAttribute("message", "Update Failed");
+
+            redirectAttributes.addFlashAttribute("message", "Update Failed");
         }
-        //return "redirect:/";
+
         return "redirect:/departments";
     }
 
     @GetMapping("/departments/{id}/edit")
-    public String showEditDepartmentForm(@PathVariable Long id, Model model, HttpSession session) {
+    public String showEditDepartmentForm(@PathVariable Long id, Model model, HttpSession session
+                                         ,RedirectAttributes redirectAttributes) {
 
         Department department = departmentServiceFacade.getDepartmentById(id); // or studentService if kept
 
         if (department == null) {
-            session.setAttribute("message", "Department not found");
+            //session.setAttribute("message", "Department not found");
+            redirectAttributes.addFlashAttribute("message", "Department not found");
             return "redirect:/departments"; //Issue here need to be fixed
         }
 
@@ -169,12 +184,15 @@ public class Controller {
     }
 
     @PostMapping("/departments")
-    public String addDepartment(@ModelAttribute Department department, HttpSession session) {
+    public String addDepartment(@ModelAttribute Department department, HttpSession session
+                                ,RedirectAttributes redirectAttributes) {
         if (department.getName() != null && !department.getName().isBlank()) {
             departmentServiceFacade.findOrCreateByName(department.getName());
-            session.setAttribute("message", "Department added successfully");
+
+            redirectAttributes.addFlashAttribute("message", "Department added successfully");
         } else {
-            session.setAttribute("message", "Department name cannot be empty");
+
+            redirectAttributes.addFlashAttribute("message", "Department name cannot be empty");
         }
         return "redirect:/departments";
     }
@@ -185,12 +203,15 @@ public class Controller {
 
 
     @GetMapping("/departments/{id}/delete")
-    public String deleteDepartment(@PathVariable Long id, HttpSession session) {
+    public String deleteDepartment(@PathVariable Long id, HttpSession session
+            ,RedirectAttributes redirectAttributes) {
         boolean deletedDepartment = departmentServiceFacade.deleteDepartment(id);
         if (deletedDepartment) {
-            session.setAttribute("message", "Delete Successful");
+
+            redirectAttributes.addFlashAttribute("message", "Delete Successful");
         } else {
-            session.setAttribute("message", "Delete Failed");
+
+            redirectAttributes.addFlashAttribute("message", "Delete Failed");
         }
 
 
