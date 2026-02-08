@@ -1,8 +1,8 @@
-package com.rakibul.studentmanagementsystem.service;
+package com.studentmanagementsystem.service;
 
 import java.util.List;
 
-import com.rakibul.studentmanagementsystem.model.Student;
+import com.studentmanagementsystem.model.Student;
 
 public interface StudentService {
 

@@ -1,8 +1,8 @@
-package com.rakibul.studentmanagementsystem.service;
+package com.studentmanagementsystem.service;
 
 import org.springframework.stereotype.Service;
-import com.rakibul.studentmanagementsystem.model.Student;
-import com.rakibul.studentmanagementsystem.repository.StudentRepository;
+import com.studentmanagementsystem.model.Student;
+import com.studentmanagementsystem.repository.StudentRepository;
 
 import java.util.List;
 

@@ -1,29 +1,29 @@
-package com.rakibul.studentmanagementsystem.model;
-
+package com.studentmanagementsystem.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Entity
-@Table(name = "departments")
+@Table(name = "users")
 @Data // Generates getters, setters, toString, equals, hashCode
 @NoArgsConstructor // Required by JPA
 @AllArgsConstructor // Generates all-args constructor
-public class Department {
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String name;
+    @Column(unique = true, nullable = false)
+    private String username;
 
-    @OneToMany(mappedBy = "department", cascade = CascadeType.ALL)
-    private List<Student> studentList;
+    @Column(nullable = false)
+    private String password;
 
+    @Column(nullable = false)
+    private String role; // ROLE_ADMIN, ROLE_USER, ROLE_TEACHER
 
 
 }

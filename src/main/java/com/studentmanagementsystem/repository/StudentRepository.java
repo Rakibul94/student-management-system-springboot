@@ -1,8 +1,8 @@
-package com.rakibul.studentmanagementsystem.repository;
+package com.studentmanagementsystem.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.rakibul.studentmanagementsystem.model.Student;
+import com.studentmanagementsystem.model.Student;
 
 public interface StudentRepository extends JpaRepository<Student, Long> {
 }

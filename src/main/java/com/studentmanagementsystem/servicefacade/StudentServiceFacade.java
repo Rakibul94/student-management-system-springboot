@@ -1,6 +1,6 @@
-package com.rakibul.studentmanagementsystem.servicefacade;
+package com.studentmanagementsystem.servicefacade;
 
-import com.rakibul.studentmanagementsystem.model.Student;
+import com.studentmanagementsystem.model.Student;
 
 import java.util.List;
 

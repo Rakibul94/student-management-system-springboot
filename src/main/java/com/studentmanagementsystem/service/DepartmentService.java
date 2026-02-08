@@ -1,6 +1,6 @@
-package com.rakibul.studentmanagementsystem.service;
+package com.studentmanagementsystem.service;
 
-import com.rakibul.studentmanagementsystem.model.Department;
+import com.studentmanagementsystem.model.Department;
 
 import java.util.List;
 

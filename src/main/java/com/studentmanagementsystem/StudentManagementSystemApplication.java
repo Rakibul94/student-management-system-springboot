@@ -1,4 +1,4 @@
-package com.rakibul.studentmanagementsystem;
+package com.studentmanagementsystem;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

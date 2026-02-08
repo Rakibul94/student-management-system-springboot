@@ -1,8 +1,8 @@
-package com.rakibul.studentmanagementsystem.controller;
+package com.studentmanagementsystem.controller;
 
 
-import com.rakibul.studentmanagementsystem.model.User;
-import com.rakibul.studentmanagementsystem.repository.UserRepository;
+import com.studentmanagementsystem.model.User;
+import com.studentmanagementsystem.repository.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

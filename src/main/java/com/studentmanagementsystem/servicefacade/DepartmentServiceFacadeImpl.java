@@ -1,7 +1,7 @@
-package com.rakibul.studentmanagementsystem.servicefacade;
+package com.studentmanagementsystem.servicefacade;
 
-import com.rakibul.studentmanagementsystem.model.Department;
-import com.rakibul.studentmanagementsystem.service.DepartmentService;
+import com.studentmanagementsystem.model.Department;
+import com.studentmanagementsystem.service.DepartmentService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

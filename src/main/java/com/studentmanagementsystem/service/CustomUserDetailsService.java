@@ -1,8 +1,7 @@
-package com.rakibul.studentmanagementsystem.service;
+package com.studentmanagementsystem.service;
 
-import com.rakibul.studentmanagementsystem.model.User;
-import com.rakibul.studentmanagementsystem.repository.UserRepository;
-import org.jspecify.annotations.NonNull;
+import com.studentmanagementsystem.model.User;
+import com.studentmanagementsystem.repository.UserRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

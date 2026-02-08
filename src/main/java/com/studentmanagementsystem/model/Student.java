@@ -1,4 +1,4 @@
-package com.rakibul.studentmanagementsystem.model;
+package com.studentmanagementsystem.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

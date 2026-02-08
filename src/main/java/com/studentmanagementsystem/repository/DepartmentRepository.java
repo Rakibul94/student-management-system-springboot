@@ -1,8 +1,8 @@
-package com.rakibul.studentmanagementsystem.repository;
+package com.studentmanagementsystem.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.rakibul.studentmanagementsystem.model.Department;
+import com.studentmanagementsystem.model.Department;
 
 import java.util.Optional;
 

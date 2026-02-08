@@ -1,11 +1,11 @@
-package com.rakibul.studentmanagementsystem.servicefacade;
+package com.studentmanagementsystem.servicefacade;
 
 import org.springframework.stereotype.Service;
 
-import com.rakibul.studentmanagementsystem.model.Department;
-import com.rakibul.studentmanagementsystem.model.Student;
-import com.rakibul.studentmanagementsystem.service.DepartmentService;
-import com.rakibul.studentmanagementsystem.service.StudentService;
+import com.studentmanagementsystem.model.Department;
+import com.studentmanagementsystem.model.Student;
+import com.studentmanagementsystem.service.DepartmentService;
+import com.studentmanagementsystem.service.StudentService;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
