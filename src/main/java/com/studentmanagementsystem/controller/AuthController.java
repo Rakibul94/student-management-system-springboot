@@ -1,9 +1,8 @@
 package com.studentmanagementsystem.controller;
 
 
-import com.studentmanagementsystem.model.User;
-import com.studentmanagementsystem.repository.UserRepository;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import com.studentmanagementsystem.data.UserDTO;
+import com.studentmanagementsystem.servicefacade.UserFacade;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,32 +12,26 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class AuthController {
 
-    private final UserRepository userRepository;
-    private final PasswordEncoder passwordEncoder;
 
-    public AuthController(UserRepository userRepository,
-                          PasswordEncoder passwordEncoder) {
-        this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
+    private final UserFacade userFacade;
+
+    public AuthController(UserFacade userFacade) {
+        this.userFacade = userFacade;
     }
 
 
     @GetMapping("/signup")
     public String signupPage(Model model) {
-
+        model.addAttribute("userDTO", new UserDTO());
         return "signup";
     }
 
     @PostMapping("/signup")
     public String signup(@RequestParam String username,
-                         @RequestParam String password) {
+                         @RequestParam String password,
+                         UserDTO userDTO) {
 
-        User user = new User();
-        user.setUsername(username);
-        user.setPassword(passwordEncoder.encode(password));
-        user.setRole("ROLE_ADMIN"); // admin for now
-
-        userRepository.save(user);
+        userFacade.signup(userDTO);
         return "redirect:/login";
     }
 

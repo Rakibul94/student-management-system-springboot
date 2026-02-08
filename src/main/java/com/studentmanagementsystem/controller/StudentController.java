@@ -1,5 +1,6 @@
 package com.studentmanagementsystem.controller;
 
+import com.studentmanagementsystem.data.StudentDTO;
 import com.studentmanagementsystem.model.Student;
 import com.studentmanagementsystem.servicefacade.DepartmentServiceFacade;
 import com.studentmanagementsystem.servicefacade.StudentServiceFacade;
@@ -25,7 +26,8 @@ public class StudentController {
 
     @GetMapping
     public String studentList(Model model) {
-        List<Student> list = studentServiceFacade.getAllStudents();
+        //List<Student> list = studentServiceFacade.getAllStudents();
+        List<StudentDTO> list = studentServiceFacade.getAllStudents();
         model.addAttribute("studentList", list);
         return "student_list";
     }
@@ -42,15 +44,16 @@ public class StudentController {
     public String showEditStudentForm(@PathVariable Long id, Model model, HttpSession session
             , RedirectAttributes redirectAttributes) {
 
-        Student student = studentServiceFacade.getStudentById(id); // or studentService if kept
+        //Student student = studentServiceFacade.getStudentById(id); // or studentService if kept
+        StudentDTO editedStudent = studentServiceFacade.getStudentById(id);
 
-        if (student == null) {
+        if (editedStudent == null) {
 
             redirectAttributes.addFlashAttribute("message", "Student not found");
             return "redirect:/students"; //Issue here need to be fixed
         }
 
-        model.addAttribute("student", student);
+        model.addAttribute("student", editedStudent);
         model.addAttribute("departmentList", departmentServiceFacade.getAllDepartments());
         return "student_edit";
     }
@@ -61,12 +64,15 @@ public class StudentController {
 
     @PostMapping
     public String addStudent(@ModelAttribute Student student,
+                             @ModelAttribute StudentDTO dto,
                              @RequestParam("departmentId") Long departmentId,
                              HttpSession session, RedirectAttributes redirectAttributes) {
 
-        Student saved = studentServiceFacade.createStudent(student, departmentId);
+        //Student saved = studentServiceFacade.createStudent(student, departmentId);
 
-        if (saved != null) {
+        StudentDTO savedStudent = studentServiceFacade.createStudent(dto);
+
+        if (savedStudent != null) {
 
             redirectAttributes.addFlashAttribute("message", "Student added successfully");
         } else {
@@ -82,10 +88,12 @@ public class StudentController {
 
     @PutMapping("/{id}")
     public String updateStudent(@ModelAttribute Student student,
+                                @ModelAttribute("student") StudentDTO dto,
                                 @RequestParam("departmentId") Long departmentId,
                                 HttpSession session,RedirectAttributes redirectAttributes) {
 
-        Student updatedStudent = studentServiceFacade.updateStudent(student, departmentId);
+        //Student updatedStudent = studentServiceFacade.updateStudent(student, departmentId);
+        StudentDTO updatedStudent = studentServiceFacade.updateStudent(dto);
 
         if (updatedStudent != null) {
 
@@ -104,7 +112,9 @@ public class StudentController {
 
 
     @DeleteMapping("/{id}/delete")
-    public String deleteStudent(@PathVariable Long id, HttpSession session,RedirectAttributes redirectAttributes) {
+    public String deleteStudent(@PathVariable Long id,
+                                HttpSession session,
+                                RedirectAttributes redirectAttributes) {
         boolean deletedStudent = studentServiceFacade.deleteStudent(id);
         if (deletedStudent) {
 

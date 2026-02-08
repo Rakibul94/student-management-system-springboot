@@ -7,6 +7,7 @@ import com.studentmanagementsystem.model.Student;
 import com.studentmanagementsystem.service.DepartmentService;
 import com.studentmanagementsystem.service.StudentService;
 import org.springframework.transaction.annotation.Transactional;
+import com.studentmanagementsystem.data.StudentDTO;
 
 import java.util.List;
 
@@ -22,80 +23,160 @@ public class StudentServiceFacadeImpl implements StudentServiceFacade{
     }
 
 
+//
+//    public List<Student> getAllStudents() {
+//        return studentService.getAllStudents();
+//    }
+//
+//    public Student getStudentById(Long id) {
+//        return studentService.getStudentById(id);
+//    }
+//
+//
+//
+//    @Transactional
+//    public Student updateStudent(Student student, Long departmentId) {
+//
+//        if (departmentId == null) {
+//            return null;
+//        }
+//
+//        Student existingStudent =
+//                studentService.getStudentById(student.getId());
+//
+//        if (existingStudent == null) {
+//            return null;
+//        }
+//
+//        Department department =
+//                departmentService.getDepartmentById(departmentId);
+//
+//        if (department == null) {
+//            return null;
+//        }
+//
+//        existingStudent.setName(student.getName());
+//        existingStudent.setEmail(student.getEmail());
+//        existingStudent.setCgpa(student.getCgpa());
+//        existingStudent.setProgram(student.getProgram());
+//        existingStudent.setDepartment(department);
+//
+//        return studentService.updateStudent(existingStudent);
+//    }
+//
+//    public Student createStudent(Student student, Long departmentId) {
+//
+//        if (departmentId == null) {
+//            return null;
+//        }
+//
+//
+//        // create department if it doesn't exist
+//        Department department = departmentService.getDepartmentById(departmentId);
+//        if (department == null) {
+//            return null; // invalid selection
+//        }
+//
+//        student.setDepartment(department);
+//        return studentService.addStudent(student);
+//
+//    }
+//
+//
+//    @Transactional
+//    public boolean deleteStudent(Long studentId) {
+//        if (studentId == null) {
+//            return false;
+//        }
+//
+//        Student student = studentService.getStudentById(studentId);
+//        if (student == null) {
+//            return false;
+//        }
+//
+//        studentService.deleteStudent(studentId);
+//        return true;
+//    }
 
-    public List<Student> getAllStudents() {
-        return studentService.getAllStudents();
+    @Override
+    public List<StudentDTO> getAllStudents() {
+        return studentService.getAllStudents()
+                .stream()
+                .map(this::toDTO)
+                .toList();
     }
 
-    public Student getStudentById(Long id) {
-        return studentService.getStudentById(id);
+    @Override
+    public StudentDTO getStudentById(Long id) {
+        Student student = studentService.getStudentById(id);
+        return student == null ? null : toDTO(student);
     }
 
+    @Override
+    public StudentDTO createStudent(StudentDTO dto) {
+        Department department =
+                departmentService.getDepartmentById(dto.getDepartmentId());
 
+        if (department == null) return null;
 
-    @Transactional
-    public Student updateStudent(Student student, Long departmentId) {
+        Student student = toEntity(dto, department);
+        Student saved = studentService.addStudent(student);
 
-        if (departmentId == null) {
-            return null;
-        }
+        return toDTO(saved);
+    }
 
-        Student existingStudent =
-                studentService.getStudentById(student.getId());
-
-        if (existingStudent == null) {
-            return null;
-        }
+    @Override
+    public StudentDTO updateStudent(StudentDTO dto) {
+        Student existing = studentService.getStudentById(dto.getId());
+        if (existing == null) return null;
 
         Department department =
-                departmentService.getDepartmentById(departmentId);
+                departmentService.getDepartmentById(dto.getDepartmentId());
 
-        if (department == null) {
-            return null;
-        }
+        if (department == null) return null;
 
-        existingStudent.setName(student.getName());
-        existingStudent.setEmail(student.getEmail());
-        existingStudent.setCgpa(student.getCgpa());
-        existingStudent.setProgram(student.getProgram());
-        existingStudent.setDepartment(department);
+        existing.setName(dto.getName());
+        existing.setEmail(dto.getEmail());
+        existing.setCgpa(dto.getCgpa());
+        existing.setProgram(dto.getProgram());
+        existing.setDepartment(department);
 
-        return studentService.updateStudent(existingStudent);
+        return toDTO(studentService.updateStudent(existing));
     }
 
-    public Student createStudent(Student student, Long departmentId) {
+    @Override
+    public boolean deleteStudent(Long id) {
+        return studentService.deleteStudent(id);
+    }
 
-        if (departmentId == null) {
-            return null;
+    /* ---------- MAPPERS ---------- */
+
+    private StudentDTO toDTO(Student student) {
+        StudentDTO dto = new StudentDTO();
+        dto.setId(student.getId());
+        dto.setName(student.getName());
+        dto.setEmail(student.getEmail());
+        dto.setCgpa(student.getCgpa());
+        dto.setProgram(student.getProgram());
+
+        if (student.getDepartment() != null) {
+            dto.setDepartmentId(student.getDepartment().getId());
+            dto.setDepartmentName(student.getDepartment().getName());
         }
+        return dto;
+    }
 
-
-        // create department if it doesn't exist
-        Department department = departmentService.getDepartmentById(departmentId);
-        if (department == null) {
-            return null; // invalid selection
-        }
-
+    private Student toEntity(StudentDTO dto, Department department) {
+        Student student = new Student();
+        student.setName(dto.getName());
+        student.setEmail(dto.getEmail());
+        student.setCgpa(dto.getCgpa());
+        student.setProgram(dto.getProgram());
         student.setDepartment(department);
-        return studentService.addStudent(student);
-
+        return student;
     }
 
 
-    @Transactional
-    public boolean deleteStudent(Long studentId) {
-        if (studentId == null) {
-            return false;
-        }
-
-        Student student = studentService.getStudentById(studentId);
-        if (student == null) {
-            return false;
-        }
-
-        studentService.deleteStudent(studentId);
-        return true;
-    }
 
 
 }

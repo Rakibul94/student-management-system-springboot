@@ -17,7 +17,7 @@
             <p class="text-danger text-center" th:text="${error}"></p>
         </div>
 
-        <form th:action="@{/signup}" method="post" autocomplete="off" onsubmit="return validatePassword()">
+        <form th:action="@{/signup}" th:object="${userDTO}" method="post" autocomplete="off" onsubmit="return validatePassword()">
 
             <!-- Username -->
             <div class="mb-3">

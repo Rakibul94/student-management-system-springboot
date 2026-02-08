@@ -1,5 +1,6 @@
 package com.studentmanagementsystem.controller;
 
+import com.studentmanagementsystem.data.DepartmentDTO;
 import com.studentmanagementsystem.model.Department;
 import com.studentmanagementsystem.servicefacade.DepartmentServiceFacade;
 import jakarta.servlet.http.HttpSession;
@@ -20,11 +21,13 @@ public class DepartmentController {
 
     @PutMapping("/{id}")
     public String updateDepartment(@ModelAttribute Department department,
+                                   @ModelAttribute("department") DepartmentDTO dto,
                                    @PathVariable Long id,
                                    HttpSession session,
                                    RedirectAttributes redirectAttributes) {
 
-        Department updatedDepartment = departmentServiceFacade.updateDepartment(department,id);
+        //Department updatedDepartment = departmentServiceFacade.updateDepartment(department,id);
+        DepartmentDTO updatedDepartment = departmentServiceFacade.updateDepartment(dto);
 
         if (updatedDepartment != null) {
 
@@ -38,10 +41,13 @@ public class DepartmentController {
     }
 
     @GetMapping("/{id}/edit")
-    public String showEditDepartmentForm(@PathVariable Long id, Model model, HttpSession session
-            , RedirectAttributes redirectAttributes) {
+    public String showEditDepartmentForm(@PathVariable Long id,
+                                         Model model,
+                                         HttpSession session,
+                                         RedirectAttributes redirectAttributes) {
 
-        Department department = departmentServiceFacade.getDepartmentById(id); // or studentService if kept
+        //Department department = departmentServiceFacade.getDepartmentById(id); // or studentService if kept
+        DepartmentDTO department = departmentServiceFacade.getDepartmentById(id);
 
         if (department == null) {
             //session.setAttribute("message", "Department not found");
@@ -69,16 +75,27 @@ public class DepartmentController {
     }
 
     @PostMapping
-    public String addDepartment(@ModelAttribute Department department, HttpSession session
+    public String addDepartment(@ModelAttribute Department department,
+                                DepartmentDTO dto,
+                                HttpSession session
             ,RedirectAttributes redirectAttributes) {
-        if (department.getName() != null && !department.getName().isBlank()) {
-            departmentServiceFacade.findOrCreateByName(department.getName());
 
-            redirectAttributes.addFlashAttribute("message", "Department added successfully");
-        } else {
+//        if (department.getName() != null && !department.getName().isBlank()) {
+//            departmentServiceFacade.findOrCreateByName(department.getName());
+//
+//            redirectAttributes.addFlashAttribute("message", "Department added successfully");
+//        } else {
+//
+//            redirectAttributes.addFlashAttribute("message", "Department name cannot be empty");
+//        }
+//        return "redirect:/departments";
 
-            redirectAttributes.addFlashAttribute("message", "Department name cannot be empty");
-        }
+        DepartmentDTO saved = departmentServiceFacade.createDepartment(dto.getName());
+        redirectAttributes.addFlashAttribute(
+                "message",
+                saved != null ? "Department added successfully" : "Department add failed"
+        );
+
         return "redirect:/departments";
     }
 

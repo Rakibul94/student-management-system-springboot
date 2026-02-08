@@ -1,4 +1,4 @@
-package com.studentmanagementsystem.securityconfig;
+package com.studentmanagementsystem.config;
 
 import com.studentmanagementsystem.service.CustomUserDetailsService;
 import org.springframework.context.annotation.Bean;
@@ -6,8 +6,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
@@ -50,10 +48,4 @@ public class SecurityConfig {
         return http.build();
     }
 
-    @Bean
-    //This Encoder hashes password instead of keeping password in plain-text
-    //Spring security compares raw password and hashed password during login
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
 }

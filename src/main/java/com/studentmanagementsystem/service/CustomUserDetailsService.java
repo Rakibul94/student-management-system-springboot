@@ -6,14 +6,18 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import com.studentmanagementsystem.data.UserDTO;
 
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
 
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public CustomUserDetailsService(UserRepository userRepository) {
+    public CustomUserDetailsService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -23,6 +27,10 @@ public class CustomUserDetailsService implements UserDetailsService {
         if (username == null || username.isBlank()) {
             throw new UsernameNotFoundException("Username is empty");
         }
+
+
+
+
 
 
 
@@ -37,5 +45,15 @@ public class CustomUserDetailsService implements UserDetailsService {
                 .password(user.getPassword())
                 .authorities(user.getRole())
                 .build();
+    }
+
+
+    public void signup(UserDTO dto) {
+        User user = new User();
+        user.setUsername(dto.getUsername());
+        user.setPassword(passwordEncoder.encode(dto.getPassword()));
+        user.setRole("ROLE_ADMIN"); // admin for now
+
+        userRepository.save(user);
     }
 }
