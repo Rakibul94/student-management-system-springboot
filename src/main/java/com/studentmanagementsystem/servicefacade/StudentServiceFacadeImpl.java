@@ -6,8 +6,7 @@ import com.studentmanagementsystem.model.Department;
 import com.studentmanagementsystem.model.Student;
 import com.studentmanagementsystem.service.DepartmentService;
 import com.studentmanagementsystem.service.StudentService;
-import org.springframework.transaction.annotation.Transactional;
-import com.studentmanagementsystem.data.StudentDTO;
+import com.studentmanagementsystem.data.StudentData;
 
 import java.util.List;
 
@@ -23,83 +22,8 @@ public class StudentServiceFacadeImpl implements StudentServiceFacade{
     }
 
 
-//
-//    public List<Student> getAllStudents() {
-//        return studentService.getAllStudents();
-//    }
-//
-//    public Student getStudentById(Long id) {
-//        return studentService.getStudentById(id);
-//    }
-//
-//
-//
-//    @Transactional
-//    public Student updateStudent(Student student, Long departmentId) {
-//
-//        if (departmentId == null) {
-//            return null;
-//        }
-//
-//        Student existingStudent =
-//                studentService.getStudentById(student.getId());
-//
-//        if (existingStudent == null) {
-//            return null;
-//        }
-//
-//        Department department =
-//                departmentService.getDepartmentById(departmentId);
-//
-//        if (department == null) {
-//            return null;
-//        }
-//
-//        existingStudent.setName(student.getName());
-//        existingStudent.setEmail(student.getEmail());
-//        existingStudent.setCgpa(student.getCgpa());
-//        existingStudent.setProgram(student.getProgram());
-//        existingStudent.setDepartment(department);
-//
-//        return studentService.updateStudent(existingStudent);
-//    }
-//
-//    public Student createStudent(Student student, Long departmentId) {
-//
-//        if (departmentId == null) {
-//            return null;
-//        }
-//
-//
-//        // create department if it doesn't exist
-//        Department department = departmentService.getDepartmentById(departmentId);
-//        if (department == null) {
-//            return null; // invalid selection
-//        }
-//
-//        student.setDepartment(department);
-//        return studentService.addStudent(student);
-//
-//    }
-//
-//
-//    @Transactional
-//    public boolean deleteStudent(Long studentId) {
-//        if (studentId == null) {
-//            return false;
-//        }
-//
-//        Student student = studentService.getStudentById(studentId);
-//        if (student == null) {
-//            return false;
-//        }
-//
-//        studentService.deleteStudent(studentId);
-//        return true;
-//    }
-
     @Override
-    public List<StudentDTO> getAllStudents() {
+    public List<StudentData> getAllStudents() {
         return studentService.getAllStudents()
                 .stream()
                 .map(this::toDTO)
@@ -107,38 +31,38 @@ public class StudentServiceFacadeImpl implements StudentServiceFacade{
     }
 
     @Override
-    public StudentDTO getStudentById(Long id) {
+    public StudentData getStudentById(Long id) {
         Student student = studentService.getStudentById(id);
         return student == null ? null : toDTO(student);
     }
 
     @Override
-    public StudentDTO createStudent(StudentDTO dto) {
+    public StudentData createStudent(StudentData studentData) {
         Department department =
-                departmentService.getDepartmentById(dto.getDepartmentId());
+                departmentService.getDepartmentById(studentData.getDepartmentId());
 
         if (department == null) return null;
 
-        Student student = toEntity(dto, department);
+        Student student = toEntity(studentData, department);
         Student saved = studentService.addStudent(student);
 
         return toDTO(saved);
     }
 
     @Override
-    public StudentDTO updateStudent(StudentDTO dto) {
-        Student existing = studentService.getStudentById(dto.getId());
+    public StudentData updateStudent(StudentData studentData) {
+        Student existing = studentService.getStudentById(studentData.getId());
         if (existing == null) return null;
 
         Department department =
-                departmentService.getDepartmentById(dto.getDepartmentId());
+                departmentService.getDepartmentById(studentData.getDepartmentId());
 
         if (department == null) return null;
 
-        existing.setName(dto.getName());
-        existing.setEmail(dto.getEmail());
-        existing.setCgpa(dto.getCgpa());
-        existing.setProgram(dto.getProgram());
+        existing.setName(studentData.getName());
+        existing.setEmail(studentData.getEmail());
+        existing.setCgpa(studentData.getCgpa());
+        existing.setProgram(studentData.getProgram());
         existing.setDepartment(department);
 
         return toDTO(studentService.updateStudent(existing));
@@ -151,27 +75,27 @@ public class StudentServiceFacadeImpl implements StudentServiceFacade{
 
     /* ---------- MAPPERS ---------- */
 
-    private StudentDTO toDTO(Student student) {
-        StudentDTO dto = new StudentDTO();
-        dto.setId(student.getId());
-        dto.setName(student.getName());
-        dto.setEmail(student.getEmail());
-        dto.setCgpa(student.getCgpa());
-        dto.setProgram(student.getProgram());
+    private StudentData toDTO(Student student) {
+        StudentData studentData = new StudentData();
+        studentData.setId(student.getId());
+        studentData.setName(student.getName());
+        studentData.setEmail(student.getEmail());
+        studentData.setCgpa(student.getCgpa());
+        studentData.setProgram(student.getProgram());
 
         if (student.getDepartment() != null) {
-            dto.setDepartmentId(student.getDepartment().getId());
-            dto.setDepartmentName(student.getDepartment().getName());
+            studentData.setDepartmentId(student.getDepartment().getId());
+            studentData.setDepartmentName(student.getDepartment().getName());
         }
-        return dto;
+        return studentData;
     }
 
-    private Student toEntity(StudentDTO dto, Department department) {
+    private Student toEntity(StudentData studentData, Department department) {
         Student student = new Student();
-        student.setName(dto.getName());
-        student.setEmail(dto.getEmail());
-        student.setCgpa(dto.getCgpa());
-        student.setProgram(dto.getProgram());
+        student.setName(studentData.getName());
+        student.setEmail(studentData.getEmail());
+        student.setCgpa(studentData.getCgpa());
+        student.setProgram(studentData.getProgram());
         student.setDepartment(department);
         return student;
     }

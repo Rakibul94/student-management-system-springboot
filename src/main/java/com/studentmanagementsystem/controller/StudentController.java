@@ -1,10 +1,9 @@
 package com.studentmanagementsystem.controller;
 
-import com.studentmanagementsystem.data.StudentDTO;
+import com.studentmanagementsystem.data.StudentData;
 import com.studentmanagementsystem.model.Student;
 import com.studentmanagementsystem.servicefacade.DepartmentServiceFacade;
 import com.studentmanagementsystem.servicefacade.StudentServiceFacade;
-import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -26,8 +25,7 @@ public class StudentController {
 
     @GetMapping
     public String studentList(Model model) {
-        //List<Student> list = studentServiceFacade.getAllStudents();
-        List<StudentDTO> list = studentServiceFacade.getAllStudents();
+        List<StudentData> list = studentServiceFacade.getAllStudents();
         model.addAttribute("studentList", list);
         return "student_list";
     }
@@ -41,16 +39,16 @@ public class StudentController {
 
 
     @GetMapping("/{id}/edit")
-    public String showEditStudentForm(@PathVariable Long id, Model model, HttpSession session
-            , RedirectAttributes redirectAttributes) {
+    public String showEditStudentForm(@PathVariable Long id,
+                                      Model model,
+                                      RedirectAttributes redirectAttributes) {
 
-        //Student student = studentServiceFacade.getStudentById(id); // or studentService if kept
-        StudentDTO editedStudent = studentServiceFacade.getStudentById(id);
+        StudentData editedStudent = studentServiceFacade.getStudentById(id);
 
         if (editedStudent == null) {
 
             redirectAttributes.addFlashAttribute("message", "Student not found");
-            return "redirect:/students"; //Issue here need to be fixed
+            return "redirect:/students";
         }
 
         model.addAttribute("student", editedStudent);
@@ -61,16 +59,13 @@ public class StudentController {
 
 
 
-
     @PostMapping
-    public String addStudent(@ModelAttribute Student student,
-                             @ModelAttribute StudentDTO dto,
+    public String addStudent(@ModelAttribute StudentData studentData,
                              @RequestParam("departmentId") Long departmentId,
-                             HttpSession session, RedirectAttributes redirectAttributes) {
+                             RedirectAttributes redirectAttributes) {
 
-        //Student saved = studentServiceFacade.createStudent(student, departmentId);
 
-        StudentDTO savedStudent = studentServiceFacade.createStudent(dto);
+        StudentData savedStudent = studentServiceFacade.createStudent(studentData);
 
         if (savedStudent != null) {
 
@@ -87,13 +82,11 @@ public class StudentController {
 
 
     @PutMapping("/{id}")
-    public String updateStudent(@ModelAttribute Student student,
-                                @ModelAttribute("student") StudentDTO dto,
+    public String updateStudent(@ModelAttribute("student") StudentData studentData,
                                 @RequestParam("departmentId") Long departmentId,
-                                HttpSession session,RedirectAttributes redirectAttributes) {
+                                RedirectAttributes redirectAttributes) {
 
-        //Student updatedStudent = studentServiceFacade.updateStudent(student, departmentId);
-        StudentDTO updatedStudent = studentServiceFacade.updateStudent(dto);
+        StudentData updatedStudent = studentServiceFacade.updateStudent(studentData);
 
         if (updatedStudent != null) {
 
@@ -109,11 +102,8 @@ public class StudentController {
 
 
 
-
-
     @DeleteMapping("/{id}/delete")
     public String deleteStudent(@PathVariable Long id,
-                                HttpSession session,
                                 RedirectAttributes redirectAttributes) {
         boolean deletedStudent = studentServiceFacade.deleteStudent(id);
         if (deletedStudent) {

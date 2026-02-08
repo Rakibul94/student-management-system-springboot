@@ -1,26 +1,15 @@
 package com.studentmanagementsystem.servicefacade;
 
-import com.studentmanagementsystem.data.DepartmentDTO;
-import com.studentmanagementsystem.model.Department;
+import com.studentmanagementsystem.data.DepartmentData;
 
 import java.util.List;
 
 public interface DepartmentServiceFacade {
 
-//    List<Department> getAllDepartments();
-//
-//    Department findOrCreateByName(String name);
-//
-//    Department getDepartmentById(Long id);
-//
-//    public Department updateDepartment(Department department , Long departmentId);
-//
-//    public boolean deleteDepartment(Long departmentId);
-
-    List<DepartmentDTO> getAllDepartments();
-    DepartmentDTO getDepartmentById(Long id);
-    DepartmentDTO createDepartment(String name);
-    DepartmentDTO updateDepartment(DepartmentDTO dto);
+    List<DepartmentData> getAllDepartments();
+    DepartmentData getDepartmentById(Long id);
+    DepartmentData createDepartment(String name);
+    DepartmentData updateDepartment(DepartmentData dto);
     boolean deleteDepartment(Long id);
 
 }

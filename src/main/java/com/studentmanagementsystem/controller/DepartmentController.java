@@ -1,9 +1,8 @@
 package com.studentmanagementsystem.controller;
 
-import com.studentmanagementsystem.data.DepartmentDTO;
+import com.studentmanagementsystem.data.DepartmentData;
 import com.studentmanagementsystem.model.Department;
 import com.studentmanagementsystem.servicefacade.DepartmentServiceFacade;
-import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -20,14 +19,11 @@ public class DepartmentController {
     }
 
     @PutMapping("/{id}")
-    public String updateDepartment(@ModelAttribute Department department,
-                                   @ModelAttribute("department") DepartmentDTO dto,
+    public String updateDepartment(@ModelAttribute("department") DepartmentData departmentData,
                                    @PathVariable Long id,
-                                   HttpSession session,
                                    RedirectAttributes redirectAttributes) {
 
-        //Department updatedDepartment = departmentServiceFacade.updateDepartment(department,id);
-        DepartmentDTO updatedDepartment = departmentServiceFacade.updateDepartment(dto);
+        DepartmentData updatedDepartment = departmentServiceFacade.updateDepartment(departmentData);
 
         if (updatedDepartment != null) {
 
@@ -43,16 +39,14 @@ public class DepartmentController {
     @GetMapping("/{id}/edit")
     public String showEditDepartmentForm(@PathVariable Long id,
                                          Model model,
-                                         HttpSession session,
                                          RedirectAttributes redirectAttributes) {
 
-        //Department department = departmentServiceFacade.getDepartmentById(id); // or studentService if kept
-        DepartmentDTO department = departmentServiceFacade.getDepartmentById(id);
+        DepartmentData department = departmentServiceFacade.getDepartmentById(id);
 
         if (department == null) {
-            //session.setAttribute("message", "Department not found");
+
             redirectAttributes.addFlashAttribute("message", "Department not found");
-            return "redirect:/departments"; //Issue here need to be fixed
+            return "redirect:/departments";
         }
 
         model.addAttribute("department", department);
@@ -76,34 +70,25 @@ public class DepartmentController {
 
     @PostMapping
     public String addDepartment(@ModelAttribute Department department,
-                                DepartmentDTO dto,
-                                HttpSession session
-            ,RedirectAttributes redirectAttributes) {
+                                RedirectAttributes redirectAttributes) {
 
-//        if (department.getName() != null && !department.getName().isBlank()) {
-//            departmentServiceFacade.findOrCreateByName(department.getName());
-//
-//            redirectAttributes.addFlashAttribute("message", "Department added successfully");
-//        } else {
-//
-//            redirectAttributes.addFlashAttribute("message", "Department name cannot be empty");
-//        }
-//        return "redirect:/departments";
+        if (department.getName() != null && !department.getName().isBlank()) {
+            departmentServiceFacade.createDepartment(department.getName());
 
-        DepartmentDTO saved = departmentServiceFacade.createDepartment(dto.getName());
-        redirectAttributes.addFlashAttribute(
-                "message",
-                saved != null ? "Department added successfully" : "Department add failed"
-        );
+            redirectAttributes.addFlashAttribute("message", "Department added successfully");
+        } else {
 
+            redirectAttributes.addFlashAttribute("message", "Department name cannot be empty");
+        }
         return "redirect:/departments";
+
     }
 
 
 
     @DeleteMapping("/{id}/delete")
-    public String deleteDepartment(@PathVariable Long id, HttpSession session
-            ,RedirectAttributes redirectAttributes) {
+    public String deleteDepartment(@PathVariable Long id,
+                                    RedirectAttributes redirectAttributes) {
         boolean deletedDepartment = departmentServiceFacade.deleteDepartment(id);
         if (deletedDepartment) {
 

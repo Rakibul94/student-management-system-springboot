@@ -14,7 +14,6 @@
           <div class="card-header text-center fs-4">Departments</div>
           <th:block th:if="${message}">
             <p class="text-center text-success fs-4">[[${message}]]</p>
-<!--            <th:block th:text="${@departmentServiceImpl.removeSessionMessage()}"></th:block>-->
           </th:block>
           <div class="card-body">
             <table class="table table-bordered">
@@ -42,7 +41,6 @@
                             Delete
                         </button>
                     </form>
-<!--                  <a th:href="@{/departments/{id}/delete(id=${dept.id})}" class="btn btn-sm btn-danger">Delete</a>-->
                 </td>
               </tr>
               </tbody>

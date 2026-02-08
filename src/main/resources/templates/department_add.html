@@ -15,7 +15,6 @@
                     <div class="card-header text-center fs-4">Add Department</div>
                     <th:block th:if="${message}">
                         <p class="text-center text-success fs-4">[[${message}]]</p>
-<!--                        <th:block th:text="${@departmentServiceImpl.removeSessionMessage()}"></th:block>-->
                     </th:block>
                     <div class="card-body">
                         <form th:action="@{/departments}" method="post">

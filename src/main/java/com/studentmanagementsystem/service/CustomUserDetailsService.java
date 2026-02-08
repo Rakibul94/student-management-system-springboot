@@ -7,7 +7,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import com.studentmanagementsystem.data.UserDTO;
+import com.studentmanagementsystem.data.UserData;
 
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
@@ -29,11 +29,6 @@ public class CustomUserDetailsService implements UserDetailsService {
         }
 
 
-
-
-
-
-
         //Fetch a user from DB
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() ->
@@ -48,10 +43,10 @@ public class CustomUserDetailsService implements UserDetailsService {
     }
 
 
-    public void signup(UserDTO dto) {
+    public void signup(UserData userData) {
         User user = new User();
-        user.setUsername(dto.getUsername());
-        user.setPassword(passwordEncoder.encode(dto.getPassword()));
+        user.setUsername(userData.getUsername());
+        user.setPassword(passwordEncoder.encode(userData.getPassword()));
         user.setRole("ROLE_ADMIN"); // admin for now
 
         userRepository.save(user);

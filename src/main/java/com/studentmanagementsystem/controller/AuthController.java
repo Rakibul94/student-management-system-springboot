@@ -1,8 +1,8 @@
 package com.studentmanagementsystem.controller;
 
 
-import com.studentmanagementsystem.data.UserDTO;
-import com.studentmanagementsystem.servicefacade.UserFacade;
+import com.studentmanagementsystem.data.UserData;
+import com.studentmanagementsystem.servicefacade.UserServiceFacade;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,25 +13,25 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class AuthController {
 
 
-    private final UserFacade userFacade;
+    private final UserServiceFacade userServiceFacade;
 
-    public AuthController(UserFacade userFacade) {
-        this.userFacade = userFacade;
+    public AuthController(UserServiceFacade userServiceFacade) {
+        this.userServiceFacade = userServiceFacade;
     }
 
 
     @GetMapping("/signup")
     public String signupPage(Model model) {
-        model.addAttribute("userDTO", new UserDTO());
+        model.addAttribute("userData", new UserData());
         return "signup";
     }
 
     @PostMapping("/signup")
     public String signup(@RequestParam String username,
                          @RequestParam String password,
-                         UserDTO userDTO) {
+                         UserData userData) {
 
-        userFacade.signup(userDTO);
+        userServiceFacade.signup(userData);
         return "redirect:/login";
     }
 

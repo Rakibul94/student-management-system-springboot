@@ -1,20 +1,20 @@
 package com.studentmanagementsystem.servicefacade;
 
-import com.studentmanagementsystem.data.UserDTO;
+import com.studentmanagementsystem.data.UserData;
 import com.studentmanagementsystem.service.CustomUserDetailsService;
 import org.springframework.stereotype.Service;
 
 @Service
-public class UserFacadeImpl implements UserFacade{
+public class UserServiceFacadeImpl implements UserServiceFacade {
     private final CustomUserDetailsService userService;
 
-    public UserFacadeImpl(CustomUserDetailsService userService) {
+    public UserServiceFacadeImpl(CustomUserDetailsService userService) {
         this.userService = userService;
     }
 
     @Override
-    public void signup(UserDTO dto) {
+    public void signup(UserData userData) {
         // You can add extra logic here, e.g., logging, auditing, events
-        userService.signup(dto);
+        userService.signup(userData);
     }
 }

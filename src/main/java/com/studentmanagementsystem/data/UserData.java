@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @Data // Generates getters, setters, toString, equals, hashCode
 @NoArgsConstructor // Required by JPA
 @AllArgsConstructor // Generates all-args constructor
-public class UserDTO {
+public class UserData {
     private String username;
     private String password;
 }

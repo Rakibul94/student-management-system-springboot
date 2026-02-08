@@ -17,7 +17,6 @@
                         <p class="fs-4">Edit Student</p>
                         <th:block th:if="${message}">
                               <p class="text-centre text-success fs-4">[[${message}]]</p>
-<!--                             <th:block th:text="${@studentServiceImpl.removeSessionMessage()}"></th:block>-->
 
                         </th:block>
                     </div>
@@ -48,7 +47,7 @@
                                     <option th:each="dept : ${departmentList}"
                                             th:value="${dept.id}"
                                             th:text="${dept.name}"
-                                            th:selected="${student.department != null and dept.id == student.department.id}">
+                                            th:selected="${student.departmentId != null and dept.id == student.departmentId}">
                                     </option>
 
                                 </select>

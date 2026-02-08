@@ -1,29 +1,19 @@
 package com.studentmanagementsystem.servicefacade;
 
-import com.studentmanagementsystem.data.StudentDTO;
-import com.studentmanagementsystem.model.Student;
+import com.studentmanagementsystem.data.StudentData;
 
 import java.util.List;
 
 public interface StudentServiceFacade {
 
-//    List<Student> getAllStudents();
-//
-//    Student getStudentById(Long id);
-//
-//    Student createStudent(Student student, Long departmentId);
-//
-//    Student updateStudent(Student student, Long departmentId);
-//
-//    boolean deleteStudent(Long studentId);
 
-    List<StudentDTO> getAllStudents();
+    List<StudentData> getAllStudents();
 
-    StudentDTO getStudentById(Long id);
+    StudentData getStudentById(Long id);
 
-    StudentDTO createStudent(StudentDTO dto);
+    StudentData createStudent(StudentData data);
 
-    StudentDTO updateStudent(StudentDTO dto);
+    StudentData updateStudent(StudentData data);
 
     boolean deleteStudent(Long id);
 
