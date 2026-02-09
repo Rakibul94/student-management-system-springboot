@@ -43,13 +43,13 @@ public class DepartmentServiceFacadeImpl implements DepartmentServiceFacade {
 
     @Override
     public DepartmentData updateDepartment(DepartmentData departmentData) {
-        Department existing =
+        Department existingDepartment =
                 departmentService.getDepartmentById(departmentData.getId());
 
-        if (existing == null) return null;
+        if (existingDepartment == null) return null;
 
-        existing.setName(departmentData.getName());
-        return toData(departmentService.updateDepartment(existing));
+        existingDepartment.setName(departmentData.getName());
+        return toData(departmentService.updateDepartment(existingDepartment));
     }
 
     @Override

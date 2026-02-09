@@ -44,28 +44,28 @@ public class StudentServiceFacadeImpl implements StudentServiceFacade{
         if (department == null) return null;
 
         Student student = toEntity(studentData, department);
-        Student saved = studentService.addStudent(student);
+        Student savedStudent = studentService.addStudent(student);
 
-        return toData(saved);
+        return toData(savedStudent);
     }
 
     @Override
     public StudentData updateStudent(StudentData studentData) {
-        Student existing = studentService.getStudentById(studentData.getId());
-        if (existing == null) return null;
+        Student existingStudent = studentService.getStudentById(studentData.getId());
+        if (existingStudent == null) return null;
 
         Department department =
                 departmentService.getDepartmentById(studentData.getDepartmentId());
 
         if (department == null) return null;
 
-        existing.setName(studentData.getName());
-        existing.setEmail(studentData.getEmail());
-        existing.setCgpa(studentData.getCgpa());
-        existing.setProgram(studentData.getProgram());
-        existing.setDepartment(department);
+        existingStudent.setName(studentData.getName());
+        existingStudent.setEmail(studentData.getEmail());
+        existingStudent.setCgpa(studentData.getCgpa());
+        existingStudent.setProgram(studentData.getProgram());
+        existingStudent.setDepartment(department);
 
-        return toData(studentService.updateStudent(existing));
+        return toData(studentService.updateStudent(existingStudent));
     }
 
     @Override

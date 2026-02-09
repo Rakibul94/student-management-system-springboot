@@ -23,7 +23,7 @@ public class User {
     private String password;
 
     @Column(nullable = false)
-    private String role; // ROLE_ADMIN, ROLE_USER, ROLE_TEACHER
+    private String role;
 
 
 }
