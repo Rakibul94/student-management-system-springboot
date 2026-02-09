@@ -1,14 +1,14 @@
 package com.studentmanagementsystem.servicefacade;
 
 import com.studentmanagementsystem.data.UserData;
-import com.studentmanagementsystem.service.CustomUserDetailsService;
+import com.studentmanagementsystem.service.UserService;
 import org.springframework.stereotype.Service;
 
 @Service
 public class UserServiceFacadeImpl implements UserServiceFacade {
-    private final CustomUserDetailsService userService;
+    private final UserService userService;
 
-    public UserServiceFacadeImpl(CustomUserDetailsService userService) {
+    public UserServiceFacadeImpl(UserService userService) {
         this.userService = userService;
     }
 

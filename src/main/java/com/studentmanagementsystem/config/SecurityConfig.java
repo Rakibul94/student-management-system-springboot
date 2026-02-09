@@ -11,14 +11,7 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 @EnableWebSecurity  //This enables Spring Web Security Support
 public class SecurityConfig {
-
-    private final CustomUserDetailsService userDetailsService;
-
-    public SecurityConfig(CustomUserDetailsService userDetailsService) {
-        this.userDetailsService = userDetailsService;
-    }
-
-
+    
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 

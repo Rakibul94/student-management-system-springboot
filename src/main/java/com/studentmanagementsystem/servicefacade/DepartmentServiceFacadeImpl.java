@@ -21,14 +21,14 @@ public class DepartmentServiceFacadeImpl implements DepartmentServiceFacade {
     public List<DepartmentData> getAllDepartments() {
         return departmentService.getAllDepartments()
                 .stream()
-                .map(this::toDTO)
+                .map(this::toData)
                 .toList();
     }
 
     @Override
     public DepartmentData getDepartmentById(Long id) {
         Department department = departmentService.getDepartmentById(id);
-        return department == null ? null : toDTO(department);
+        return department == null ? null : toData(department);
     }
 
     @Override
@@ -38,7 +38,7 @@ public class DepartmentServiceFacadeImpl implements DepartmentServiceFacade {
         Department department = new Department();
         department.setName(name);
 
-        return toDTO(departmentService.save(department));
+        return toData(departmentService.save(department));
     }
 
     @Override
@@ -49,7 +49,7 @@ public class DepartmentServiceFacadeImpl implements DepartmentServiceFacade {
         if (existing == null) return null;
 
         existing.setName(departmentData.getName());
-        return toDTO(departmentService.updateDepartment(existing));
+        return toData(departmentService.updateDepartment(existing));
     }
 
     @Override
@@ -57,7 +57,7 @@ public class DepartmentServiceFacadeImpl implements DepartmentServiceFacade {
         return departmentService.deleteDepartment(id);
     }
 
-    private DepartmentData toDTO(Department department) {
+    private DepartmentData toData(Department department) {
         DepartmentData departmentData = new DepartmentData();
         departmentData.setId(department.getId());
         departmentData.setName(department.getName());

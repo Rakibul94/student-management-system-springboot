@@ -26,14 +26,14 @@ public class StudentServiceFacadeImpl implements StudentServiceFacade{
     public List<StudentData> getAllStudents() {
         return studentService.getAllStudents()
                 .stream()
-                .map(this::toDTO)
+                .map(this::toData)
                 .toList();
     }
 
     @Override
     public StudentData getStudentById(Long id) {
         Student student = studentService.getStudentById(id);
-        return student == null ? null : toDTO(student);
+        return student == null ? null : toData(student);
     }
 
     @Override
@@ -46,7 +46,7 @@ public class StudentServiceFacadeImpl implements StudentServiceFacade{
         Student student = toEntity(studentData, department);
         Student saved = studentService.addStudent(student);
 
-        return toDTO(saved);
+        return toData(saved);
     }
 
     @Override
@@ -65,7 +65,7 @@ public class StudentServiceFacadeImpl implements StudentServiceFacade{
         existing.setProgram(studentData.getProgram());
         existing.setDepartment(department);
 
-        return toDTO(studentService.updateStudent(existing));
+        return toData(studentService.updateStudent(existing));
     }
 
     @Override
@@ -75,7 +75,7 @@ public class StudentServiceFacadeImpl implements StudentServiceFacade{
 
     /* ---------- MAPPERS ---------- */
 
-    private StudentData toDTO(Student student) {
+    private StudentData toData(Student student) {
         StudentData studentData = new StudentData();
         studentData.setId(student.getId());
         studentData.setName(student.getName());

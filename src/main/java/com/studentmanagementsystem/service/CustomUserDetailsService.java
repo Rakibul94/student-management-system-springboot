@@ -7,17 +7,14 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import com.studentmanagementsystem.data.UserData;
 
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
 
     private final UserRepository userRepository;
-    private final PasswordEncoder passwordEncoder;
 
     public CustomUserDetailsService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -43,12 +40,4 @@ public class CustomUserDetailsService implements UserDetailsService {
     }
 
 
-    public void signup(UserData userData) {
-        User user = new User();
-        user.setUsername(userData.getUsername());
-        user.setPassword(passwordEncoder.encode(userData.getPassword()));
-        user.setRole("ROLE_ADMIN"); // admin for now
-
-        userRepository.save(user);
-    }
 }
