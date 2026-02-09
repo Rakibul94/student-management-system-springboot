@@ -58,7 +58,6 @@ public class StudentController {
 
 
 
-
     @PostMapping
     public String addStudent(@ModelAttribute StudentData studentData,
                              @RequestParam("departmentId") Long departmentId,
@@ -79,8 +78,6 @@ public class StudentController {
     }
 
 
-
-
     @PutMapping("/{id}")
     public String updateStudent(@ModelAttribute("student") StudentData studentData,
                                 @RequestParam("departmentId") Long departmentId,
@@ -98,7 +95,6 @@ public class StudentController {
 
         return "redirect:/students";
     }
-
 
 
 

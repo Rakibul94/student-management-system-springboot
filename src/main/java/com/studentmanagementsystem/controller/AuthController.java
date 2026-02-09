@@ -3,8 +3,10 @@ package com.studentmanagementsystem.controller;
 
 import com.studentmanagementsystem.data.UserData;
 import com.studentmanagementsystem.servicefacade.UserServiceFacade;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,12 +38,21 @@ public class AuthController {
     }
 
     @PostMapping("/signup")
-    public String signup(@RequestParam String username,
-                         @RequestParam String password,
-                         UserData userData) {
+    public String signup(@Valid UserData userData,
+                         BindingResult bindingResult,
+                         Model model) {
 
+        // Check if validation errors exist
+        if (bindingResult.hasErrors()) {
+            // Return the signup page and show errors
+            model.addAttribute("userData", userData);
+            return "signup";
+        }
+
+        // Call the service/facade to create user
         userServiceFacade.signup(userData);
         return "redirect:/login";
+
     }
 
     @GetMapping("/login")

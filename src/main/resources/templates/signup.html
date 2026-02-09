@@ -27,6 +27,8 @@
                        placeholder="Username"
                        autocomplete="off"
                        required>
+                <div th:if="${#fields.hasErrors('username')}"
+                     th:errors="*{username}"></div>
             </div>
 
             <!-- Email -->
@@ -47,6 +49,8 @@
                        name="password"
                        placeholder="Password"
                        required>
+                <div th:if="${#fields.hasErrors('password')}"
+                     th:errors="*{password}"></div>
             </div>
 
             <!-- Confirm Password -->
