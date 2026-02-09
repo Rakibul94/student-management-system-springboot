@@ -32,8 +32,13 @@ public class StudentServiceFacadeImpl implements StudentServiceFacade{
 
     @Override
     public StudentData getStudentById(Long id) {
+//        Student student = studentService.getStudentById(id);
+//        return student == null ? null : toData(student);
+
+        if (id == null) return null;
+
         Student student = studentService.getStudentById(id);
-        return student == null ? null : toData(student);
+        return toData(student);
     }
 
     @Override

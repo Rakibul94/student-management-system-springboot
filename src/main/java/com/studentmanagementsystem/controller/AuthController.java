@@ -49,7 +49,6 @@ public class AuthController {
             return "signup";
         }
 
-        // Call the service/facade to create user
         userServiceFacade.signup(userData);
         return "redirect:/login";
 

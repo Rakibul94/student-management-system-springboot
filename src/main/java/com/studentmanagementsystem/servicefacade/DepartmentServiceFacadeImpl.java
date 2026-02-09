@@ -27,8 +27,10 @@ public class DepartmentServiceFacadeImpl implements DepartmentServiceFacade {
 
     @Override
     public DepartmentData getDepartmentById(Long id) {
+        if (id == null) return null;
+
         Department department = departmentService.getDepartmentById(id);
-        return department == null ? null : toData(department);
+        return toData(department);
     }
 
     @Override
@@ -56,6 +58,10 @@ public class DepartmentServiceFacadeImpl implements DepartmentServiceFacade {
     public boolean deleteDepartment(Long id) {
         return departmentService.deleteDepartment(id);
     }
+
+
+
+    /* ---------- MAPPER ---------- */
 
     private DepartmentData toData(Department department) {
         DepartmentData departmentData = new DepartmentData();
