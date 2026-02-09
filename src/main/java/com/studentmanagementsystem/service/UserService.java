@@ -5,6 +5,6 @@ import com.studentmanagementsystem.data.UserData;
 
 public interface UserService {
 
-    public void signup(UserData userData);
+    boolean signup(UserData userData);
 
 }

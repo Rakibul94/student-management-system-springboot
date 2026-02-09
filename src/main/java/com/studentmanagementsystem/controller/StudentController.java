@@ -1,7 +1,6 @@
 package com.studentmanagementsystem.controller;
 
 import com.studentmanagementsystem.data.StudentData;
-import com.studentmanagementsystem.model.Student;
 import com.studentmanagementsystem.servicefacade.DepartmentServiceFacade;
 import com.studentmanagementsystem.servicefacade.StudentServiceFacade;
 import org.springframework.stereotype.Controller;

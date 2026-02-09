@@ -13,8 +13,9 @@ public class UserServiceFacadeImpl implements UserServiceFacade {
     }
 
     @Override
-    public void signup(UserData userData) {
-        // You can add extra logic here, e.g., logging, auditing, events
-        userService.signup(userData);
+    public boolean signup(UserData userData) {
+
+        return userService.signup(userData);
+
     }
 }

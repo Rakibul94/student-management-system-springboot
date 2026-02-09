@@ -6,9 +6,9 @@ import com.studentmanagementsystem.model.Student;
 
 public interface StudentService {
 
-    public Student addStudent(Student s);
+    public Student addStudent(Student student);
 
-    public Student updateStudent(Student s);
+    public Student updateStudent(Student student);
 
     public List<Student> getAllStudents();
 

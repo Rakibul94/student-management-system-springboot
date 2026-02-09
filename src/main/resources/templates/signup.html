@@ -13,8 +13,8 @@
         <h2 class="text-center mb-3">Admin Signup</h2>
 
         <!-- Error message -->
-        <div th:if="${error}">
-            <p class="text-danger text-center" th:text="${error}"></p>
+        <div th:if="${errorMessage}">
+            <p class="text-danger text-center" th:text="${errorMessage}"></p>
         </div>
 
         <form th:action="@{/signup}" th:object="${userData}" method="post" autocomplete="off" onsubmit="return validatePassword()">

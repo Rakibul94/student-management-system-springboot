@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/")
@@ -40,23 +41,50 @@ public class AuthController {
     @PostMapping("/signup")
     public String signup(@Valid UserData userData,
                          BindingResult bindingResult,
+                         RedirectAttributes redirectAttributes,
                          Model model) {
 
         // Check if validation errors exist
+        //bindingResults ensures that from data to java object binding is successful
+        //If any valid rules are violated then bindingResult have errors stored show error
+        //message and no exceptions are thrown.
         if (bindingResult.hasErrors()) {
             // Return the signup page and show errors
             model.addAttribute("userData", userData);
             return "signup";
         }
 
-        userServiceFacade.signup(userData);
+        boolean success = userServiceFacade.signup(userData);
+
+        //Using Redirect attribute
+//        if (!success) {
+//            redirectAttributes.addFlashAttribute(
+//                    "errorMessage",
+//                    "Username already exists"
+//            );
+//            return "redirect:/signup";
+//        }
+
+        //Using Binding Result
+        if (!success) {
+            // This adds a **field error** to 'username' in BindingResult
+            bindingResult.rejectValue(
+                    "username",       // field name in UserData
+                    "error.userData", // error code
+                    "Username already exists" // Error message to show
+            );
+
+            model.addAttribute("userData", userData);
+            return "signup";
+        }
+
+
         return "redirect:/login";
 
     }
 
     @GetMapping("/login")
     public String loginPage(Model model) {
-
         return "login";
     }
 }
