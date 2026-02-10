@@ -1,5 +1,6 @@
 package com.studentmanagementsystem.servicefacade;
 
+import com.studentmanagementsystem.mapper.StudentMapper;
 import org.springframework.stereotype.Service;
 
 import com.studentmanagementsystem.model.Department;
@@ -14,11 +15,14 @@ import java.util.List;
 public class StudentServiceFacadeImpl implements StudentServiceFacade{
     private final StudentService studentService;
     private final DepartmentService departmentService;
+    private final StudentMapper studentMapper;
 
     public StudentServiceFacadeImpl(StudentService studentService,
-                                    DepartmentService departmentService) {
+                                    DepartmentService departmentService,
+                                    StudentMapper studentMapper) {
         this.studentService = studentService;
         this.departmentService = departmentService;
+        this.studentMapper = studentMapper;
     }
 
 
@@ -26,32 +30,32 @@ public class StudentServiceFacadeImpl implements StudentServiceFacade{
     public List<StudentData> getAllStudents() {
         return studentService.getAllStudents()
                 .stream()
-                .map(this::toData)
+                .map(studentMapper::toData)
                 .toList();
     }
 
     @Override
     public StudentData getStudentById(Long id) {
-//        Student student = studentService.getStudentById(id);
-//        return student == null ? null : toData(student);
-
         if (id == null) return null;
 
         Student student = studentService.getStudentById(id);
-        return toData(student);
+        return studentMapper.toData(student);
     }
 
     @Override
     public StudentData createStudent(StudentData studentData) {
+
         Department department =
                 departmentService.getDepartmentById(studentData.getDepartmentId());
 
         if (department == null) return null;
 
-        Student student = toEntity(studentData, department);
+        Student student = studentMapper.toEntity(studentData);
+        student.setDepartment(department);
+
         Student savedStudent = studentService.addStudent(student);
 
-        return toData(savedStudent);
+        return studentMapper.toData(savedStudent);
     }
 
     @Override
@@ -62,47 +66,14 @@ public class StudentServiceFacadeImpl implements StudentServiceFacade{
         Department department =
                 departmentService.getDepartmentById(studentData.getDepartmentId());
 
-        if (department == null) return null;
+        studentMapper.updateEntity(existingStudent, studentData, department);
 
-        existingStudent.setName(studentData.getName());
-        existingStudent.setEmail(studentData.getEmail());
-        existingStudent.setCgpa(studentData.getCgpa());
-        existingStudent.setProgram(studentData.getProgram());
-        existingStudent.setDepartment(department);
-
-        return toData(studentService.updateStudent(existingStudent));
+        return studentMapper.toData(studentService.updateStudent(existingStudent));
     }
 
     @Override
     public boolean deleteStudent(Long id) {
         return studentService.deleteStudent(id);
-    }
-
-    /* ---------- MAPPERS ---------- */
-
-    private StudentData toData(Student student) {
-        StudentData studentData = new StudentData();
-        studentData.setId(student.getId());
-        studentData.setName(student.getName());
-        studentData.setEmail(student.getEmail());
-        studentData.setCgpa(student.getCgpa());
-        studentData.setProgram(student.getProgram());
-
-        if (student.getDepartment() != null) {
-            studentData.setDepartmentId(student.getDepartment().getId());
-            studentData.setDepartmentName(student.getDepartment().getName());
-        }
-        return studentData;
-    }
-
-    private Student toEntity(StudentData studentData, Department department) {
-        Student student = new Student();
-        student.setName(studentData.getName());
-        student.setEmail(studentData.getEmail());
-        student.setCgpa(studentData.getCgpa());
-        student.setProgram(studentData.getProgram());
-        student.setDepartment(department);
-        return student;
     }
 
 

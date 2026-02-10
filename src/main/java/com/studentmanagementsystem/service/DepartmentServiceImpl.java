@@ -38,22 +38,13 @@ public class DepartmentServiceImpl implements DepartmentService {
 
     @Override
     public Department save(Department department) {
-        if (department == null) {
-            return null;
-        }
-        return departmentRepository.save(department);
-    }
-
-    @Override
-    public Department updateDepartment(Department department) {
-
-
         if (department == null || department.getId() == null) {
             return null;
         }
-
         return departmentRepository.save(department);
     }
+
+
 
     @Override
     public boolean deleteDepartment(Long id) {

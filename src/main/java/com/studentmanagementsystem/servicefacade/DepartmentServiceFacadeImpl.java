@@ -1,5 +1,6 @@
 package com.studentmanagementsystem.servicefacade;
 
+import com.studentmanagementsystem.mapper.DepartmentMapper;
 import com.studentmanagementsystem.model.Department;
 import com.studentmanagementsystem.service.DepartmentService;
 import org.springframework.stereotype.Service;
@@ -11,9 +12,12 @@ import java.util.List;
 public class DepartmentServiceFacadeImpl implements DepartmentServiceFacade {
 
     private final DepartmentService departmentService;
+    private final DepartmentMapper departmentMapper;
 
-    public DepartmentServiceFacadeImpl(DepartmentService departmentService) {
+    public DepartmentServiceFacadeImpl(DepartmentService departmentService,
+                                       DepartmentMapper departmentMapper) {
         this.departmentService = departmentService;
+        this.departmentMapper = departmentMapper;
     }
 
 
@@ -21,7 +25,7 @@ public class DepartmentServiceFacadeImpl implements DepartmentServiceFacade {
     public List<DepartmentData> getAllDepartments() {
         return departmentService.getAllDepartments()
                 .stream()
-                .map(this::toData)
+                .map(departmentMapper::toData)
                 .toList();
     }
 
@@ -30,7 +34,7 @@ public class DepartmentServiceFacadeImpl implements DepartmentServiceFacade {
         if (id == null) return null;
 
         Department department = departmentService.getDepartmentById(id);
-        return toData(department);
+        return departmentMapper.toData(department);
     }
 
     @Override
@@ -40,7 +44,7 @@ public class DepartmentServiceFacadeImpl implements DepartmentServiceFacade {
         Department department = new Department();
         department.setName(name);
 
-        return toData(departmentService.save(department));
+        return departmentMapper.toData(departmentService.save(department));
     }
 
     @Override
@@ -51,7 +55,7 @@ public class DepartmentServiceFacadeImpl implements DepartmentServiceFacade {
         if (existingDepartment == null) return null;
 
         existingDepartment.setName(departmentData.getName());
-        return toData(departmentService.updateDepartment(existingDepartment));
+        return departmentMapper.toData(departmentService.save(existingDepartment));
     }
 
     @Override
@@ -61,14 +65,6 @@ public class DepartmentServiceFacadeImpl implements DepartmentServiceFacade {
 
 
 
-    /* ---------- MAPPER ---------- */
-
-    private DepartmentData toData(Department department) {
-        DepartmentData departmentData = new DepartmentData();
-        departmentData.setId(department.getId());
-        departmentData.setName(department.getName());
-        return departmentData;
-    }
 
 
 }

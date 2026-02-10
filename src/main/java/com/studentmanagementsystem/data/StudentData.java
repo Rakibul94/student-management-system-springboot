@@ -12,7 +12,8 @@ public class StudentData {
     private String email;
     private String program;
 
-
+    //We want only want the required attributes of DepartmentData
+    //not expose the entire department entity for leakage
     private Long departmentId;
     private String departmentName;
 }

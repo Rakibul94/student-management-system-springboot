@@ -13,7 +13,5 @@ public interface DepartmentService {
 
     Department save(Department department);
 
-    public Department updateDepartment(Department department);
-
     public boolean deleteDepartment(Long id);
 }
