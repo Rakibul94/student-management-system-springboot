@@ -33,6 +33,8 @@ public class AuthController {
 
     @GetMapping("/signup")
     public String signupPage(Model model) {
+        //When signup page is loaded an empty UserData object is created
+        //Thymeleaf uses this to render the form with fields bound to this object
         model.addAttribute("userData", new UserData());
         return "signup";
     }
@@ -44,16 +46,16 @@ public class AuthController {
                          Model model) {
 
         // Check if validation errors exist
-        //bindingResults ensures that from data to java object binding is successful
-        //If any valid rules are violated then bindingResult have errors stored show error
-        //message and no exceptions are thrown.
+        //bindingResults ensures that form data to java object binding is successful
+        //If any valid rules are violated then bindingResult already has errors stored
+        //and hence error message is shown instead of throwing exception
         if (bindingResult.hasErrors()) {
             // Return the signup page and show errors
             model.addAttribute("userData", userData);
             return "signup";
         }
 
-        boolean success = userServiceFacade.signup(userData);
+        boolean signupSuccess = userServiceFacade.signup(userData);
 
         //Using Redirect attribute
 //        if (!success) {
@@ -65,7 +67,7 @@ public class AuthController {
 //        }
 
         //Using Binding Result
-        if (!success) {
+        if (!signupSuccess) {
             // This adds a **field error** to 'username' in BindingResult
             bindingResult.rejectValue(
                     "username",       // field name in UserData

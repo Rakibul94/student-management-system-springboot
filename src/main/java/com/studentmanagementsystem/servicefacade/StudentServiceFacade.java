@@ -15,6 +15,6 @@ public interface StudentServiceFacade {
 
     StudentData updateStudent(StudentData data);
 
-    void deleteStudent(Long id);
+    void deleteStudentById(Long id);
 
 }

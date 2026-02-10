@@ -127,7 +127,7 @@ public class StudentController {
     public String deleteStudent(@PathVariable Long id,
                                 RedirectAttributes redirectAttributes) {
         try {
-            studentServiceFacade.deleteStudent(id);
+            studentServiceFacade.deleteStudentById(id);
             redirectAttributes.addFlashAttribute("message", "Delete Successful");
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("message", "Delete Failed");

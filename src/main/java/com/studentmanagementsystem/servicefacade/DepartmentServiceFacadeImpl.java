@@ -6,6 +6,7 @@ import com.studentmanagementsystem.service.DepartmentService;
 import org.springframework.stereotype.Service;
 import com.studentmanagementsystem.data.DepartmentData;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -21,13 +22,28 @@ public class DepartmentServiceFacadeImpl implements DepartmentServiceFacade {
     }
 
 
+//    @Override
+//    public List<DepartmentData> getAllDepartments() {
+//        return departmentService.getAllDepartments()
+//                .stream()
+//                .map(departmentMapper::toData)
+//                .toList();
+//    }
+
     @Override
     public List<DepartmentData> getAllDepartments() {
-        return departmentService.getAllDepartments()
-                .stream()
-                .map(departmentMapper::toData)
-                .toList();
+        List<Department> departments = departmentService.getAllDepartments();
+        List<DepartmentData> departmentDataList = new ArrayList<>();
+
+        for (Department department : departments) {
+            departmentDataList.add(departmentMapper.toData(department));
+        }
+
+        return departmentDataList;
     }
+
+
+
 
     @Override
     public DepartmentData getDepartmentById(Long id) {

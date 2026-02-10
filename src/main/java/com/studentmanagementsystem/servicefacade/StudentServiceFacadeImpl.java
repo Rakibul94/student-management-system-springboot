@@ -9,6 +9,7 @@ import com.studentmanagementsystem.service.DepartmentService;
 import com.studentmanagementsystem.service.StudentService;
 import com.studentmanagementsystem.data.StudentData;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -26,12 +27,24 @@ public class StudentServiceFacadeImpl implements StudentServiceFacade{
     }
 
 
+//    @Override
+//    public List<StudentData> getAllStudents() {
+//        return studentService.getAllStudents()
+//                .stream()
+//                .map(studentMapper::toData)
+//                .toList();
+//    }
+
     @Override
     public List<StudentData> getAllStudents() {
-        return studentService.getAllStudents()
-                .stream()
-                .map(studentMapper::toData)
-                .toList();
+        List<Student> students = studentService.getAllStudents();
+        List<StudentData> studentDataList = new ArrayList<>();
+
+        for (Student student : students) {
+            studentDataList.add(studentMapper.toData(student));
+        }
+
+        return studentDataList;
     }
 
     @Override
@@ -66,8 +79,8 @@ public class StudentServiceFacadeImpl implements StudentServiceFacade{
     }
 
     @Override
-    public void deleteStudent(Long id) {
-         studentService.deleteStudent(id);
+    public void deleteStudentById(Long id) {
+         studentService.deleteStudentById(id);
     }
 
 

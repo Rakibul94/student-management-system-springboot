@@ -19,13 +19,13 @@ public class DepartmentMapper {
         return departmentData;
     }
 
-    /* ---------- DTO → Entity (partial) ---------- */
+    /* ---------- DTO → Entity---------- */
 
     public Department toEntity(DepartmentData departmentData) {
         if (departmentData == null) return null;
 
         Department department = new Department();
-        department.setId(departmentData.getId());
+        //No id is set as JPA generates id
         department.setName(departmentData.getName());
         return department;
     }

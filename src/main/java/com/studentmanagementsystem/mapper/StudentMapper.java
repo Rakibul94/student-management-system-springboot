@@ -28,16 +28,17 @@ public class StudentMapper {
         return studentData;
     }
 
-    /* ---------- DTO → Entity (partial) ---------- */
+    /* ---------- DTO → Entity ---------- */
 
     public Student toEntity(StudentData studentData) {
         if (studentData == null) return null;
-
+        //No id is set as JPA generates id
         Student student = new Student();
         student.setName(studentData.getName());
         student.setEmail(studentData.getEmail());
         student.setCgpa(studentData.getCgpa());
         student.setProgram(studentData.getProgram());
+        //Department is set in the facade layer
         return student;
     }
 
