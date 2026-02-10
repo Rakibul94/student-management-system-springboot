@@ -13,44 +13,44 @@ public class StudentMapper {
     public StudentData toData(Student student) {
         if (student == null) return null;
 
-        StudentData data = new StudentData();
-        data.setId(student.getId());
-        data.setName(student.getName());
-        data.setEmail(student.getEmail());
-        data.setCgpa(student.getCgpa());
-        data.setProgram(student.getProgram());
+        StudentData studentData = new StudentData();
+        studentData.setId(student.getId());
+        studentData.setName(student.getName());
+        studentData.setEmail(student.getEmail());
+        studentData.setCgpa(student.getCgpa());
+        studentData.setProgram(student.getProgram());
 
         if (student.getDepartment() != null) {
-            data.setDepartmentId(student.getDepartment().getId());
-            data.setDepartmentName(student.getDepartment().getName());
+            studentData.setDepartmentId(student.getDepartment().getId());
+            studentData.setDepartmentName(student.getDepartment().getName());
         }
 
-        return data;
+        return studentData;
     }
 
     /* ---------- DTO → Entity (partial) ---------- */
 
-    public Student toEntity(StudentData data) {
-        if (data == null) return null;
+    public Student toEntity(StudentData studentData) {
+        if (studentData == null) return null;
 
         Student student = new Student();
-        student.setName(data.getName());
-        student.setEmail(data.getEmail());
-        student.setCgpa(data.getCgpa());
-        student.setProgram(data.getProgram());
+        student.setName(studentData.getName());
+        student.setEmail(studentData.getEmail());
+        student.setCgpa(studentData.getCgpa());
+        student.setProgram(studentData.getProgram());
         return student;
     }
 
     /* ---------- Update existing entity ---------- */
 
     public void updateEntity(Student student,
-                             StudentData data,
+                             StudentData studentData,
                              Department department) {
 
-        student.setName(data.getName());
-        student.setEmail(data.getEmail());
-        student.setCgpa(data.getCgpa());
-        student.setProgram(data.getProgram());
+        student.setName(studentData.getName());
+        student.setEmail(studentData.getEmail());
+        student.setCgpa(studentData.getCgpa());
+        student.setProgram(studentData.getProgram());
         student.setDepartment(department);
     }
 }

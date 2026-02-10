@@ -13,20 +13,20 @@ public class DepartmentMapper {
     public DepartmentData toData(Department department) {
         if (department == null) return null;
 
-        DepartmentData data = new DepartmentData();
-        data.setId(department.getId());
-        data.setName(department.getName());
-        return data;
+        DepartmentData departmentData = new DepartmentData();
+        departmentData.setId(department.getId());
+        departmentData.setName(department.getName());
+        return departmentData;
     }
 
     /* ---------- DTO → Entity (partial) ---------- */
 
-    public Department toEntity(DepartmentData data) {
-        if (data == null) return null;
+    public Department toEntity(DepartmentData departmentData) {
+        if (departmentData == null) return null;
 
         Department department = new Department();
-        department.setId(data.getId());
-        department.setName(data.getName());
+        department.setId(departmentData.getId());
+        department.setName(departmentData.getName());
         return department;
     }
 }
