@@ -1,14 +1,18 @@
 package com.studentmanagementsystem.data;
 
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 
-@Data
+@Data // Generates getters, setters, toString, equals, hashCode
+@NoArgsConstructor // Required by JPA
+@AllArgsConstructor // Generates all-args constructor
 public class StudentData {
     private Long id;
     private String name;
-    private double cgpa;
+    private Double cgpa;
     private String email;
     private String program;
 

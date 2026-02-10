@@ -36,24 +36,19 @@ public class StudentServiceFacadeImpl implements StudentServiceFacade{
 
     @Override
     public StudentData getStudentById(Long id) {
-        if (id == null) return null;
-
         Student student = studentService.getStudentById(id);
         return studentMapper.toData(student);
     }
 
     @Override
     public StudentData createStudent(StudentData studentData) {
-
         Department department =
                 departmentService.getDepartmentById(studentData.getDepartmentId());
-
-        if (department == null) return null;
 
         Student student = studentMapper.toEntity(studentData);
         student.setDepartment(department);
 
-        Student savedStudent = studentService.addStudent(student);
+        Student savedStudent = studentService.saveStudent(student);
 
         return studentMapper.toData(savedStudent);
     }
@@ -61,19 +56,18 @@ public class StudentServiceFacadeImpl implements StudentServiceFacade{
     @Override
     public StudentData updateStudent(StudentData studentData) {
         Student existingStudent = studentService.getStudentById(studentData.getId());
-        if (existingStudent == null) return null;
 
         Department department =
                 departmentService.getDepartmentById(studentData.getDepartmentId());
 
         studentMapper.updateEntity(existingStudent, studentData, department);
 
-        return studentMapper.toData(studentService.updateStudent(existingStudent));
+        return studentMapper.toData(studentService.saveStudent(existingStudent));
     }
 
     @Override
-    public boolean deleteStudent(Long id) {
-        return studentService.deleteStudent(id);
+    public void deleteStudent(Long id) {
+         studentService.deleteStudent(id);
     }
 
 

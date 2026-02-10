@@ -16,9 +16,6 @@ public class DepartmentServiceImpl implements DepartmentService {
 
     @Override
     public Department getDepartmentById(Long id) {
-        if (id == null) {
-            return null;
-        }
         return departmentRepository.findById(id).orElse(null);
     }
 
@@ -29,34 +26,20 @@ public class DepartmentServiceImpl implements DepartmentService {
 
     @Override
     public Department findByName(String name) {
-        if (name == null || name.isBlank()) {
-            return null;
-        }
 
         return departmentRepository.findByNameIgnoreCase(name).orElse(null);
     }
 
     @Override
-    public Department save(Department department) {
-        if (department == null || department.getId() == null) {
-            return null;
-        }
+    public Department saveDepartment(Department department) {
         return departmentRepository.save(department);
     }
 
 
-
     @Override
-    public boolean deleteDepartment(Long id) {
-        if (id == null) {
-            return false;
-        }
-        Department department = departmentRepository.findById(id).orElse(null);
-        if (department != null) {
-            departmentRepository.deleteById(id);
-            return true;
-        }
-        return false;
+    public void deleteDepartment(Long id) {
+        departmentRepository.deleteById(id);
+
 
     }
 

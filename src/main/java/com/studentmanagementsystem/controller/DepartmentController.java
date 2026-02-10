@@ -1,7 +1,6 @@
 package com.studentmanagementsystem.controller;
 
 import com.studentmanagementsystem.data.DepartmentData;
-import com.studentmanagementsystem.model.Department;
 import com.studentmanagementsystem.servicefacade.DepartmentServiceFacade;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,9 +18,17 @@ public class DepartmentController {
     }
 
     @PutMapping("/{id}")
-    public String updateDepartment(@ModelAttribute("department") DepartmentData departmentData,
-                                   @PathVariable Long id,
+    public String updateDepartment(@PathVariable Long id,
+                                   @ModelAttribute("department") DepartmentData departmentData,
                                    RedirectAttributes redirectAttributes) {
+
+        if (departmentData == null ||
+                departmentData.getName() == null ||
+                departmentData.getName().isBlank()) {
+
+            redirectAttributes.addFlashAttribute("message", "Department name cannot be empty");
+            return "redirect:/departments/" + id + "/edit";
+        }
 
         DepartmentData updatedDepartment = departmentServiceFacade.updateDepartment(departmentData);
 
@@ -69,11 +76,19 @@ public class DepartmentController {
     }
 
     @PostMapping
-    public String addDepartment(@ModelAttribute Department department,
+    public String addDepartment(@ModelAttribute DepartmentData departmentData,
                                 RedirectAttributes redirectAttributes) {
 
-        if (department.getName() != null && !department.getName().isBlank()) {
-            departmentServiceFacade.createDepartment(department.getName());
+        if (departmentData == null ||
+                departmentData.getName() == null ||
+                departmentData.getName().isBlank()) {
+
+            redirectAttributes.addFlashAttribute("message", "Department name cannot be empty");
+            return "redirect:/departments/new";
+        }
+
+        if (departmentData.getName() != null && !departmentData.getName().isBlank()) {
+            departmentServiceFacade.createDepartment(departmentData.getName());
 
             redirectAttributes.addFlashAttribute("message", "Department added successfully");
         } else {
@@ -89,16 +104,16 @@ public class DepartmentController {
     @DeleteMapping("/{id}/delete")
     public String deleteDepartment(@PathVariable Long id,
                                     RedirectAttributes redirectAttributes) {
-        boolean deletedDepartment = departmentServiceFacade.deleteDepartment(id);
-        if (deletedDepartment) {
 
+        try {
+            departmentServiceFacade.deleteDepartment(id);
             redirectAttributes.addFlashAttribute("message", "Delete Successful");
-        } else {
-
+        } catch (Exception e) {
             redirectAttributes.addFlashAttribute("message", "Delete Failed");
         }
 
         return "redirect:/departments";
+
 
     }
 }

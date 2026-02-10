@@ -6,14 +6,12 @@ import com.studentmanagementsystem.model.Student;
 
 public interface StudentService {
 
-    public Student addStudent(Student student);
-
-    public Student updateStudent(Student student);
+    public Student saveStudent(Student student);
 
     public List<Student> getAllStudents();
 
     public Student getStudentById(Long id);
 
-    public boolean deleteStudent(Long id);
+    public void deleteStudent(Long id);
 
 }

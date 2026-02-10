@@ -17,7 +17,7 @@ public class Student {
     private Long id;
 
     private String name;
-    private double cgpa;
+    private Double cgpa;
     private String email;
     private String program;
 

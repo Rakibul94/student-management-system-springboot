@@ -17,23 +17,10 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public Student addStudent(Student student) {
-        if (student == null || student.getId() == null) {
-            return null;
-        }
+    public Student saveStudent(Student student) {
         return studentRepository.save(student);
     }
 
-    @Override
-    public Student updateStudent(Student student) {
-
-
-        if (student == null || student.getId() == null) {
-            return null;
-        }
-
-        return studentRepository.save(student);
-    }
 
     @Override
     public List<Student> getAllStudents() {
@@ -42,25 +29,25 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public Student getStudentById(Long id) {
-        if (id == null) {
-            return null;
-        }
-
         return studentRepository.findById(id).orElse(null);
     }
 
-    @Override
-    public boolean deleteStudent(Long id) {
-        if (id == null) {
-            return false;
-        }
-        Student student = studentRepository.findById(id).orElse(null);
-        if (student != null) {
-            studentRepository.deleteById(id);
-            return true;
-        }
-        return false;
+//    @Override
+//    public boolean deleteStudent(Long id) {
+//       Student student = studentRepository.findById(id).orElse(null);
+//        if (student != null) {
+//            studentRepository.deleteById(id);
+//            return true;
+//        }
+//        return false;
+//
+//    }
 
+    @Override
+    public void deleteStudent(Long id) {
+         studentRepository.deleteById(id);
     }
+
+
 
 }

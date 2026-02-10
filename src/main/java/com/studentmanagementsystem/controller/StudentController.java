@@ -59,8 +59,20 @@ public class StudentController {
 
     @PostMapping
     public String addStudent(@ModelAttribute StudentData studentData,
-                             @RequestParam("departmentId") Long departmentId,
                              RedirectAttributes redirectAttributes) {
+
+        if (studentData == null ||
+                studentData.getName() == null ||
+                studentData.getName().isBlank() ||
+                studentData.getEmail() == null ||
+                studentData.getCgpa()  == null ||
+                studentData.getCgpa() < 0.0 ||
+                studentData.getCgpa() > 4.0 ||
+                studentData.getProgram() == null) {
+
+            redirectAttributes.addFlashAttribute("message", "Invalid Student Input");
+            return "redirect:/students/new";
+        }
 
 
         StudentData savedStudent = studentServiceFacade.createStudent(studentData);
@@ -78,9 +90,23 @@ public class StudentController {
 
 
     @PutMapping("/{id}")
-    public String updateStudent(@ModelAttribute("student") StudentData studentData,
-                                @RequestParam("departmentId") Long departmentId,
+    public String updateStudent(@PathVariable Long id,
+                                @ModelAttribute("student") StudentData studentData,
                                 RedirectAttributes redirectAttributes) {
+
+        if (studentData == null ||
+                studentData.getName() == null ||
+                studentData.getName().isBlank() ||
+                studentData.getEmail() == null ||
+                studentData.getCgpa()  == null ||
+                studentData.getCgpa() < 0.0 ||
+                studentData.getCgpa() > 4.0 ||
+                studentData.getProgram() == null) {
+
+            redirectAttributes.addFlashAttribute("message", "Invalid Student Input");
+            return "redirect:/students/" + id + "/edit";
+        }
+
 
         StudentData updatedStudent = studentServiceFacade.updateStudent(studentData);
 
@@ -100,12 +126,10 @@ public class StudentController {
     @DeleteMapping("/{id}/delete")
     public String deleteStudent(@PathVariable Long id,
                                 RedirectAttributes redirectAttributes) {
-        boolean deletedStudent = studentServiceFacade.deleteStudent(id);
-        if (deletedStudent) {
-
+        try {
+            studentServiceFacade.deleteStudent(id);
             redirectAttributes.addFlashAttribute("message", "Delete Successful");
-        } else {
-
+        } catch (Exception e) {
             redirectAttributes.addFlashAttribute("message", "Delete Failed");
         }
 

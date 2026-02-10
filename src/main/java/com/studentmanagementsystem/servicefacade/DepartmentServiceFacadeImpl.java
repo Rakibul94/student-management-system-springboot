@@ -31,20 +31,17 @@ public class DepartmentServiceFacadeImpl implements DepartmentServiceFacade {
 
     @Override
     public DepartmentData getDepartmentById(Long id) {
-        if (id == null) return null;
-
         Department department = departmentService.getDepartmentById(id);
         return departmentMapper.toData(department);
     }
 
     @Override
     public DepartmentData createDepartment(String name) {
-        if (name == null || name.isBlank()) return null;
 
         Department department = new Department();
         department.setName(name);
 
-        return departmentMapper.toData(departmentService.save(department));
+        return departmentMapper.toData(departmentService.saveDepartment(department));
     }
 
     @Override
@@ -52,15 +49,14 @@ public class DepartmentServiceFacadeImpl implements DepartmentServiceFacade {
         Department existingDepartment =
                 departmentService.getDepartmentById(departmentData.getId());
 
-        if (existingDepartment == null) return null;
 
         existingDepartment.setName(departmentData.getName());
-        return departmentMapper.toData(departmentService.save(existingDepartment));
+        return departmentMapper.toData(departmentService.saveDepartment(existingDepartment));
     }
 
     @Override
-    public boolean deleteDepartment(Long id) {
-        return departmentService.deleteDepartment(id);
+    public void deleteDepartment(Long id) {
+        departmentService.deleteDepartment(id);
     }
 
 

@@ -11,7 +11,7 @@ public interface DepartmentService {
 
     Department findByName(String name);
 
-    Department save(Department department);
+    Department saveDepartment(Department department);
 
-    public boolean deleteDepartment(Long id);
+    void deleteDepartment(Long id);
 }
