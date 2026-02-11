@@ -13,11 +13,11 @@
         <h2 class="text-center mb-3">Admin Signup</h2>
 
         <!-- Error message -->
-        <div th:if="${error}">
-            <p class="text-danger text-center" th:text="${error}"></p>
+        <div th:if="${errorMessage}">
+            <p class="text-danger text-center" th:text="${errorMessage}"></p>
         </div>
 
-        <form th:action="@{/signup}" method="post" autocomplete="off" onsubmit="return validatePassword()">
+        <form th:action="@{/signup}" th:object="${userData}" method="post" autocomplete="off" onsubmit="return validatePassword()">
 
             <!-- Username -->
             <div class="mb-3">
@@ -27,6 +27,8 @@
                        placeholder="Username"
                        autocomplete="off"
                        required>
+                <div th:if="${#fields.hasErrors('username')}"
+                     th:errors="*{username}"></div>
             </div>
 
             <!-- Email -->
@@ -47,6 +49,8 @@
                        name="password"
                        placeholder="Password"
                        required>
+                <div th:if="${#fields.hasErrors('password')}"
+                     th:errors="*{password}"></div>
             </div>
 
             <!-- Confirm Password -->

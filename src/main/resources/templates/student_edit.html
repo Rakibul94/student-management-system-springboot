@@ -26,19 +26,19 @@
                             <input type="hidden" name="_method" value="PUT"/>
                             <div class="mb-3">
                                 <label for="FormControlInput2" class="form-label">Full Name</label>
-                                <input type="text" class="form-control" name="name" id="FormControlInput2" th:value="${student.name}">
+                                <input type="text" class="form-control" name="name" id="FormControlInput2" th:value="${student.name}" required>
                             </div>
                             <div class="mb-3">
                                 <label for="FormControlInput3" class="form-label">Email Address</label>
-                                <input type="text" class="form-control" name="email" id="FormControlInput3" th:value="${student.email}">
+                                <input type="text" class="form-control" name="email" id="FormControlInput3" th:value="${student.email}" required>
                             </div>
                             <div class="mb-3">
                                 <label for="FormControlInput4" class="form-label">CGPA</label>
-                                <input type="number" class="form-control" name="cgpa" id="FormControlInput4" step="0.01" min="0" max="4" required th:value="${student.cgpa}">
+                                <input type="number" class="form-control" name="cgpa" id="FormControlInput4" step="0.01" min="0" max="4" required th:value="${student.cgpa}" required>
                             </div>
                             <div class="mb-3">
                                 <label for="FormControlInput5" class="form-label">Program</label>
-                                <input type="text" class="form-control" name="program" id="FormControlInput5" th:value="${student.program}">
+                                <input type="text" class="form-control" name="program" id="FormControlInput5" th:value="${student.program}" required>
                             </div>
                             <div class="mb-3">
                                 <label class="form-label">Department</label>
@@ -47,7 +47,7 @@
                                     <option th:each="dept : ${departmentList}"
                                             th:value="${dept.id}"
                                             th:text="${dept.name}"
-                                            th:selected="${student.department != null and dept.id == student.department.id}">
+                                            th:selected="${student.departmentId != null and dept.id == student.departmentId}">
                                     </option>
 
                                 </select>

@@ -28,9 +28,7 @@ public class HomeController {
     }
 
 
-
-
-    /*=========HOME========*/
+    //All Student related controller operations
 
     @GetMapping({ "", "/" })
     public String home(Model model) {
@@ -38,7 +36,6 @@ public class HomeController {
     }
 
 
-    /*=========Student========*/
 
 
     @GetMapping({"/students" })
@@ -101,7 +98,7 @@ public class HomeController {
     @PutMapping("/students/{id}")
     public String updateStudent(@ModelAttribute Student student,
                                 @RequestParam("departmentId") Long departmentId,
-                                RedirectAttributes redirectAttributes) {
+                                HttpSession session,RedirectAttributes redirectAttributes) {
 
         Student updatedStudent = studentServiceFacade.updateStudent(student, departmentId);
 
@@ -122,7 +119,7 @@ public class HomeController {
 
 
     @DeleteMapping("/students/{id}/delete")
-    public String deleteStudent(@PathVariable Long id,RedirectAttributes redirectAttributes) {
+    public String deleteStudent(@PathVariable Long id, HttpSession session,RedirectAttributes redirectAttributes) {
         boolean deletedStudent = studentServiceFacade.deleteStudent(id);
         if (deletedStudent) {
 
@@ -136,14 +133,13 @@ public class HomeController {
         return "redirect:/students";
     }
 
-
-
-    /*=========Department========*/
+    //All Department related controller operations
 
 
     @PutMapping("/departments/{id}")
     public String updateDepartment(@ModelAttribute Department department,
                                    @PathVariable Long id,
+                                   HttpSession session,
                                    RedirectAttributes redirectAttributes) {
 
         Department updatedDepartment = departmentServiceFacade.updateDepartment(department,id);
@@ -160,7 +156,7 @@ public class HomeController {
     }
 
     @GetMapping("/departments/{id}/edit")
-    public String showEditDepartmentForm(@PathVariable Long id, Model model
+    public String showEditDepartmentForm(@PathVariable Long id, Model model, HttpSession session
                                          ,RedirectAttributes redirectAttributes) {
 
         Department department = departmentServiceFacade.getDepartmentById(id); // or studentService if kept
@@ -191,8 +187,8 @@ public class HomeController {
     }
 
     @PostMapping("/departments")
-    public String addDepartment(@ModelAttribute Department department
-            ,RedirectAttributes redirectAttributes) {
+    public String addDepartment(@ModelAttribute Department department, HttpSession session
+                                ,RedirectAttributes redirectAttributes) {
         if (department.getName() != null && !department.getName().isBlank()) {
             departmentServiceFacade.findOrCreateByName(department.getName());
 
@@ -208,7 +204,8 @@ public class HomeController {
 
 
     @DeleteMapping("/departments/{id}/delete")
-    public String deleteDepartment(@PathVariable Long id,RedirectAttributes redirectAttributes) {
+    public String deleteDepartment(@PathVariable Long id, HttpSession session
+            ,RedirectAttributes redirectAttributes) {
         boolean deletedDepartment = departmentServiceFacade.deleteDepartment(id);
         if (deletedDepartment) {
 
