@@ -85,7 +85,7 @@ public class AuthController {
     }
 
     @GetMapping("/login")
-    public String loginPage(Model model) {
+    public String loginPage() {
         return "login";
     }
 }
