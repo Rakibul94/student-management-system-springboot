@@ -55,8 +55,10 @@ public class DepartmentServiceFacadeImpl implements DepartmentServiceFacade {
     @Override
     public DepartmentData createDepartment(String name) {
 
-        Department department = new Department();
-        department.setName(name);
+        DepartmentData departmentData = new DepartmentData();
+        departmentData.setName(name);
+
+        Department department = departmentMapper.toEntity(departmentData);
 
         return departmentMapper.toData(departmentService.saveDepartment(department));
     }

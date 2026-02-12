@@ -34,7 +34,6 @@ public class StudentServiceFacadeImpl implements StudentServiceFacade{
         return studentService.getAllStudents()
                 .stream()
                 .map(studentMapper::toData)
-                // This guarantees the result is a mutable ArrayList
                 .collect(Collectors.toCollection(ArrayList::new));
     }
 
@@ -61,12 +60,9 @@ public class StudentServiceFacadeImpl implements StudentServiceFacade{
         Department department =
                 departmentService.getDepartmentById(studentData.getDepartmentId());
 
-        Student student = studentMapper.toEntity(studentData);
-        student.setDepartment(department);
+        Student student = studentMapper.toEntity(studentData,department);
 
-        Student savedStudent = studentService.saveStudent(student);
-
-        return studentMapper.toData(savedStudent);
+        return studentMapper.toData(studentService.saveStudent(student));
     }
 
     @Override
