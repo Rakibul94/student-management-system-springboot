@@ -12,9 +12,9 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity  //This enables Spring Web Security Support
 public class SecurityConfig {
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
 
-        http
+        httpSecurity
                 //Request Authorization
                 .csrf(AbstractHttpConfigurer::disable) //csrf is disabled here
                 .authorizeHttpRequests(auth -> auth
@@ -37,7 +37,7 @@ public class SecurityConfig {
                         .permitAll()
                 );
 
-        return http.build();
+        return httpSecurity.build();
     }
 
 }
