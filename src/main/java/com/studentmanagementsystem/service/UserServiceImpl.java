@@ -30,7 +30,7 @@ public class UserServiceImpl implements UserService{
         User user = new User();
         user.setUsername(userData.getUsername());
         user.setPassword(passwordEncoder.encode(userData.getPassword()));
-        user.setRole("ROLE_ADMIN"); //Admin is only user at the moment for this webpage
+        user.setRole("ROLE_ADMIN"); //Admin is the only user at the moment for this webpage
 
         userRepository.save(user);
     }

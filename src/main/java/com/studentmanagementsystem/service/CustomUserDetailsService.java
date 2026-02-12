@@ -22,7 +22,7 @@ public class CustomUserDetailsService implements UserDetailsService {
             throws UsernameNotFoundException {
 
         if (username == null || username.isBlank()) {
-            throw new UsernameNotFoundException("Username is empty");
+            throw new UsernameNotFoundException("Username cannot be empty");
         }
 
 
