@@ -11,9 +11,8 @@ public interface StudentServiceFacade {
 
     StudentData getStudentById(Long id);
 
-    StudentData createStudent(StudentData data);
-
-    StudentData updateStudent(StudentData data);
+    StudentData createStudent(StudentData studentData);
+    StudentData updateStudent(StudentData studentData);
 
     void deleteStudentById(Long id);
 

@@ -9,7 +9,7 @@ public interface DepartmentServiceFacade {
     List<DepartmentData> getAllDepartments();
     DepartmentData getDepartmentById(Long id);
     DepartmentData createDepartment(String name);
-    DepartmentData updateDepartment(DepartmentData dto);
+    DepartmentData updateDepartment(DepartmentData departmentData);
     void deleteDepartmentById(Long id);
 
 }
