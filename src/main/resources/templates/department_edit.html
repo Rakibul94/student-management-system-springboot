@@ -16,11 +16,15 @@
                         <p class="text-center text-success fs-4">[[${message}]]</p>
                     </th:block>
                     <div class="card-body">
-                       <form th:action="@{/departments/{id}(id=${department.id})}" method="post">
+<!--                       <form th:action="@{/departments/{id}(id=${department.id})}" th:object="${departmentData}" method="post">-->
+                        <form th:action="@{/departments/{id}(id=*{id})}"  th:object="${departmentData}"  method="post">
                            <input type="hidden" name="_method" value="PUT"/>
                             <div class="mb-3">
                                 <label for="departmentName" class="form-label">Department Name</label>
-                                <input type="text" class="form-control" name="name" id="departmentName" th:value="${department.name}" required>
+<!--                                <input type="text" class="form-control" name="name" id="departmentName" th:value="${department.name}">-->
+                                <input type="text" id="departmentName"  class="form-control"  th:field="*{name}" required>
+                                <p th:if="${#fields.hasErrors('name')}"
+                                   th:errors="*{name}"></p>
                             </div>
                             <button type="submit" class="btn btn-primary">Update</button>
                         </form>

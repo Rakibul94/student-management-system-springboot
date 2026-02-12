@@ -54,4 +54,6 @@ public class StudentMapper {
         student.setProgram(studentData.getProgram());
         student.setDepartment(department);
     }
+
+
 }

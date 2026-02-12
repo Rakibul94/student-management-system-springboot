@@ -2,8 +2,10 @@ package com.studentmanagementsystem.controller;
 
 import com.studentmanagementsystem.data.DepartmentData;
 import com.studentmanagementsystem.servicefacade.DepartmentServiceFacade;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -19,26 +21,20 @@ public class DepartmentController {
 
     @PutMapping("/{id}")
     public String updateDepartment(@PathVariable Long id,
-                                   @ModelAttribute("department") DepartmentData departmentData,
+                                   @Valid @ModelAttribute("department") DepartmentData departmentData,
+                                   BindingResult bindingResult,
+                                   Model model,
                                    RedirectAttributes redirectAttributes) {
 
-        if (departmentData == null ||
-                departmentData.getName() == null ||
-                departmentData.getName().isBlank()) {
 
-            redirectAttributes.addFlashAttribute("message", "Department name cannot be empty");
-            return "redirect:/departments/" + id + "/edit";
+        if(bindingResult.hasErrors()){
+            model.addAttribute("departmentList", departmentServiceFacade.getAllDepartments());
+            return "department_edit";
         }
 
-        DepartmentData updatedDepartment = departmentServiceFacade.updateDepartment(departmentData);
 
-        if (updatedDepartment != null) {
-
-            redirectAttributes.addFlashAttribute("message", "Update Successful");
-        } else {
-
-            redirectAttributes.addFlashAttribute("message", "Update Failed");
-        }
+        departmentServiceFacade.updateDepartment(departmentData);
+        redirectAttributes.addFlashAttribute("message", "Update Successful");
 
         return "redirect:/departments";
     }
@@ -48,15 +44,15 @@ public class DepartmentController {
                                          Model model,
                                          RedirectAttributes redirectAttributes) {
 
-        DepartmentData department = departmentServiceFacade.getDepartmentById(id);
+        DepartmentData departmentData = departmentServiceFacade.getDepartmentById(id);
 
-        if (department == null) {
-
+        if (departmentData == null) {
             redirectAttributes.addFlashAttribute("message", "Department not found");
             return "redirect:/departments";
         }
 
-        model.addAttribute("department", department);
+        //model.addAttribute("department", department);
+        model.addAttribute("departmentData", departmentData);
         model.addAttribute("departmentList", departmentServiceFacade.getAllDepartments());
 
         return "department_edit";
@@ -65,6 +61,9 @@ public class DepartmentController {
 
     @GetMapping("/new")
     public String showAddDepartmentForm(Model model) {
+        //This empty object is created for thymeleaf to render the form field to this
+        //object
+        model.addAttribute("departmentData", new DepartmentData());
         model.addAttribute("departmentList", departmentServiceFacade.getAllDepartments());
         return "department_add";
     }
@@ -76,29 +75,22 @@ public class DepartmentController {
     }
 
     @PostMapping
-    public String addDepartment(@ModelAttribute DepartmentData departmentData,
+    public String addDepartment(@Valid @ModelAttribute DepartmentData departmentData,
+                                BindingResult bindingResult,
+                                Model model,
                                 RedirectAttributes redirectAttributes) {
 
-        if (departmentData == null ||
-                departmentData.getName() == null ||
-                departmentData.getName().isBlank()) {
-
-            redirectAttributes.addFlashAttribute("message", "Department name cannot be empty");
-            return "redirect:/departments/new";
+        if(bindingResult.hasErrors()){
+            model.addAttribute("departmentList", departmentServiceFacade.getAllDepartments());
+            return "department_add";
         }
 
-        if (departmentData.getName() != null && !departmentData.getName().isBlank()) {
-            departmentServiceFacade.createDepartment(departmentData.getName());
+        departmentServiceFacade.createDepartment(departmentData.getName());
+        redirectAttributes.addFlashAttribute("message", "Department added successfully");
 
-            redirectAttributes.addFlashAttribute("message", "Department added successfully");
-        } else {
-
-            redirectAttributes.addFlashAttribute("message", "Department name cannot be empty");
-        }
         return "redirect:/departments";
 
     }
-
 
 
     @DeleteMapping("/{id}/delete")
@@ -106,9 +98,9 @@ public class DepartmentController {
                                     RedirectAttributes redirectAttributes) {
 
         try {
-            departmentServiceFacade.deleteDepartment(id);
+            departmentServiceFacade.deleteDepartmentById(id);
             redirectAttributes.addFlashAttribute("message", "Delete Successful");
-        } catch (Exception e) {
+        } catch (RuntimeException e) {
             redirectAttributes.addFlashAttribute("message", "Delete Failed");
         }
 

@@ -21,35 +21,44 @@
                         </th:block>
                     </div>
                     <div class="card-body">
-                        <form th:action="@{/students/{id}(id=${student.id})}" method="post">
-                            <input type="hidden" name="id" th:value="${student.id}">
+                        <form th:action="@{/students/{id}(id=*{id})}" th:object="${studentData}" method="post">
+                            <input type="hidden" name="id" th:value="${studentData.id}">
                             <input type="hidden" name="_method" value="PUT"/>
                             <div class="mb-3">
                                 <label for="FormControlInput2" class="form-label">Full Name</label>
-                                <input type="text" class="form-control" name="name" id="FormControlInput2" th:value="${student.name}" required>
+                                <input type="text" class="form-control" name="name" th:field="*{name}" id="FormControlInput2" th:value="${studentData.name}" required>
+                                <p th:if="${#fields.hasErrors('name')}"
+                                   th:errors="*{name}"></p>
                             </div>
                             <div class="mb-3">
                                 <label for="FormControlInput3" class="form-label">Email Address</label>
-                                <input type="text" class="form-control" name="email" id="FormControlInput3" th:value="${student.email}" required>
+                                <input type="text" class="form-control" name="email" th:field="*{email}" id="FormControlInput3" th:value="${studentData.email}" required>
+                                <p th:if="${#fields.hasErrors('email')}"
+                                   th:errors="*{email}"></p>
                             </div>
                             <div class="mb-3">
                                 <label for="FormControlInput4" class="form-label">CGPA</label>
-                                <input type="number" class="form-control" name="cgpa" id="FormControlInput4" step="0.01" min="0" max="4" required th:value="${student.cgpa}" required>
+                                <input type="number" class="form-control" name="cgpa" th:field="*{cgpa}" id="FormControlInput4" step="0.01" min="0" max="4" th:value="${studentData.cgpa}" required>
+                                <p th:if="${#fields.hasErrors('cgpa')}"
+                                   th:errors="*{cgpa}"></p>
                             </div>
                             <div class="mb-3">
                                 <label for="FormControlInput5" class="form-label">Program</label>
-                                <input type="text" class="form-control" name="program" id="FormControlInput5" th:value="${student.program}" required>
+                                <input type="text" class="form-control" name="program" th:field="*{program}" id="FormControlInput5" th:value="${studentData.program}" required>
+                                <p th:if="${#fields.hasErrors('program')}"
+                                   th:errors="*{program}"></p>
                             </div>
                             <div class="mb-3">
                                 <label class="form-label">Department</label>
-                                <select class="form-select" name="departmentId" required>
-
+                                <select class="form-select" name="departmentId" th:field="*{departmentId}" required>
+                                    <option value="">-- Select Department --</option>
                                     <option th:each="dept : ${departmentList}"
                                             th:value="${dept.id}"
                                             th:text="${dept.name}"
-                                            th:selected="${student.departmentId != null and dept.id == student.departmentId}">
+                                         th:selected="${studentData.departmentId != null and dept.id == studentData.departmentId}">
                                     </option>
-
+                                    <p th:if="${#fields.hasErrors('departmentId')}"
+                                       th:errors="*{departmentId}"></p>
                                 </select>
                             </div>
 

@@ -13,14 +13,16 @@
             <div class="col-md-6 offset-md-3">
                 <div class="card">
                     <div class="card-header text-center fs-4">Add Department</div>
-                    <th:block th:if="${message}">
-                        <p class="text-center text-success fs-4">[[${message}]]</p>
-                    </th:block>
+<!--                    <th:block th:if="${message}">-->
+<!--                        <p class="text-center text-success fs-4">[[${message}]]</p>-->
+<!--                    </th:block>-->
                     <div class="card-body">
-                        <form th:action="@{/departments}" method="post">
+                        <form th:action="@{/departments}" th:object="${departmentData}" method="post">
                             <div class="mb-3">
                                 <label for="departmentName" class="form-label">Department Name</label>
-                                <input type="text" class="form-control" name="name" id="departmentName" required>
+                                <input type="text" class="form-control" name="name" th:field="*{name}" id="departmentName">
+                                <p th:if="${#fields.hasErrors('name')}"
+                                   th:errors="*{name}"></p>
                             </div>
                             <button type="submit" class="btn btn-primary">Add Department</button>
                         </form>

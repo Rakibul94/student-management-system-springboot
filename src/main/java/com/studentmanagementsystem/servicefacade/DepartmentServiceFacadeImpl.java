@@ -8,6 +8,7 @@ import com.studentmanagementsystem.data.DepartmentData;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class DepartmentServiceFacadeImpl implements DepartmentServiceFacade {
@@ -22,27 +23,27 @@ public class DepartmentServiceFacadeImpl implements DepartmentServiceFacade {
     }
 
 
-//    @Override
-//    public List<DepartmentData> getAllDepartments() {
-//        return departmentService.getAllDepartments()
-//                .stream()
-//                .map(departmentMapper::toData)
-//                .toList();
-//    }
+
 
     @Override
     public List<DepartmentData> getAllDepartments() {
-        List<Department> departments = departmentService.getAllDepartments();
-        List<DepartmentData> departmentDataList = new ArrayList<>();
-
-        for (Department department : departments) {
-            departmentDataList.add(departmentMapper.toData(department));
-        }
-
-        return departmentDataList;
+        return departmentService.getAllDepartments()
+                .stream()
+                .map(departmentMapper::toData)
+                .collect(Collectors.toCollection(ArrayList::new));
     }
 
-
+//    @Override
+//    public List<DepartmentData> getAllDepartments() {
+//        List<Department> departments = departmentService.getAllDepartments();
+//        List<DepartmentData> departmentDataList = new ArrayList<>();
+//
+//        for (Department department : departments) {
+//            departmentDataList.add(departmentMapper.toData(department));
+//        }
+//
+//        return departmentDataList;
+//    }
 
 
     @Override
@@ -65,18 +66,14 @@ public class DepartmentServiceFacadeImpl implements DepartmentServiceFacade {
         Department existingDepartment =
                 departmentService.getDepartmentById(departmentData.getId());
 
-
-        existingDepartment.setName(departmentData.getName());
+        departmentMapper.updateEntity(existingDepartment,departmentData);
         return departmentMapper.toData(departmentService.saveDepartment(existingDepartment));
     }
 
     @Override
-    public void deleteDepartment(Long id) {
-        departmentService.deleteDepartment(id);
+    public void deleteDepartmentById(Long id) {
+        departmentService.deleteDepartmentById(id);
     }
-
-
-
 
 
 }

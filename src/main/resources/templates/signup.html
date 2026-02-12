@@ -12,10 +12,16 @@
     <div class="card p-4 shadow" style="width: 380px;">
         <h2 class="text-center mb-3">Admin Signup</h2>
 
+        <th:block th:if="${message}">
+<!--            For using redirect Flash Attribute in AuthController-->
+            <p class="text-centre text-success fs-4">[[${message}]]</p>
+        </th:block>
+
         <!-- Error message -->
-        <div th:if="${errorMessage}">
-            <p class="text-danger text-center" th:text="${errorMessage}"></p>
-        </div>
+<!--        For using bindingResult in AuthController-->
+<!--        <div th:if="${errorMessage}">-->
+<!--            <p class="text-danger text-center" th:text="${errorMessage}"></p>-->
+<!--        </div>-->
 
         <form th:action="@{/signup}" th:object="${userData}" method="post" autocomplete="off" onsubmit="return validatePassword()">
 

@@ -1,10 +1,13 @@
 package com.studentmanagementsystem.controller;
 
+import com.studentmanagementsystem.data.DepartmentData;
 import com.studentmanagementsystem.data.StudentData;
 import com.studentmanagementsystem.servicefacade.DepartmentServiceFacade;
 import com.studentmanagementsystem.servicefacade.StudentServiceFacade;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -32,6 +35,7 @@ public class StudentController {
 
     @GetMapping("/new")
     public String showAddStudentForm(Model model) {
+        model.addAttribute("studentData", new StudentData());
         model.addAttribute("departmentList", departmentServiceFacade.getAllDepartments());
         return "student_add";
     }
@@ -42,15 +46,15 @@ public class StudentController {
                                       Model model,
                                       RedirectAttributes redirectAttributes) {
 
-        StudentData editedStudent = studentServiceFacade.getStudentById(id);
+        StudentData studentData = studentServiceFacade.getStudentById(id);
 
-        if (editedStudent == null) {
+        if (studentData == null) {
 
             redirectAttributes.addFlashAttribute("message", "Student not found");
             return "redirect:/students";
         }
 
-        model.addAttribute("student", editedStudent);
+        model.addAttribute("studentData", studentData);
         model.addAttribute("departmentList", departmentServiceFacade.getAllDepartments());
         return "student_edit";
     }
@@ -58,20 +62,14 @@ public class StudentController {
 
 
     @PostMapping
-    public String addStudent(@ModelAttribute StudentData studentData,
-                             RedirectAttributes redirectAttributes) {
+    public String addStudent( @Valid @ModelAttribute StudentData studentData,
+                              BindingResult bindingResult,
+                              RedirectAttributes redirectAttributes,
+                              Model model) {
 
-        if (studentData == null ||
-                studentData.getName() == null ||
-                studentData.getName().isBlank() ||
-                studentData.getEmail() == null ||
-                studentData.getCgpa()  == null ||
-                studentData.getCgpa() < 0.0 ||
-                studentData.getCgpa() > 4.0 ||
-                studentData.getProgram() == null) {
-
-            redirectAttributes.addFlashAttribute("message", "Invalid Student Input");
-            return "redirect:/students/new";
+        if(bindingResult.hasErrors()){
+            model.addAttribute("studentList", studentServiceFacade.getAllStudents());
+            return "student_add";
         }
 
 
@@ -91,32 +89,18 @@ public class StudentController {
 
     @PutMapping("/{id}")
     public String updateStudent(@PathVariable Long id,
-                                @ModelAttribute("student") StudentData studentData,
+                                @Valid @ModelAttribute("studentData") StudentData studentData,
+                                BindingResult bindingResult,
+                                Model model,
                                 RedirectAttributes redirectAttributes) {
 
-        if (studentData == null ||
-                studentData.getName() == null ||
-                studentData.getName().isBlank() ||
-                studentData.getEmail() == null ||
-                studentData.getCgpa()  == null ||
-                studentData.getCgpa() < 0.0 ||
-                studentData.getCgpa() > 4.0 ||
-                studentData.getProgram() == null) {
-
-            redirectAttributes.addFlashAttribute("message", "Invalid Student Input");
-            return "redirect:/students/" + id + "/edit";
+        if(bindingResult.hasErrors()){
+            model.addAttribute("studentList", studentServiceFacade.getAllStudents());
+            return "student_edit";
         }
 
-
-        StudentData updatedStudent = studentServiceFacade.updateStudent(studentData);
-
-        if (updatedStudent != null) {
-
-            redirectAttributes.addFlashAttribute("message", "Student updated successfully");
-        } else {
-
-            redirectAttributes.addFlashAttribute("message", "Update failed");
-        }
+        studentServiceFacade.updateStudent(studentData);
+        redirectAttributes.addFlashAttribute("message", "Update Successful");
 
         return "redirect:/students";
     }
@@ -129,10 +113,9 @@ public class StudentController {
         try {
             studentServiceFacade.deleteStudentById(id);
             redirectAttributes.addFlashAttribute("message", "Delete Successful");
-        } catch (Exception e) {
+        } catch (RuntimeException e) {
             redirectAttributes.addFlashAttribute("message", "Delete Failed");
         }
-
 
         return "redirect:/students";
     }

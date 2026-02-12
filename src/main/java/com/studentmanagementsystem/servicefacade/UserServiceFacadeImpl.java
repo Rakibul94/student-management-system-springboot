@@ -13,9 +13,9 @@ public class UserServiceFacadeImpl implements UserServiceFacade {
     }
 
     @Override
-    public boolean signup(UserData userData) {
+    public void signup(UserData userData) {
 
-        return userService.signup(userData);
+        userService.signup(userData);
 
     }
 }

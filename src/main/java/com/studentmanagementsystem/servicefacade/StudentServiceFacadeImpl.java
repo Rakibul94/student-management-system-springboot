@@ -11,6 +11,7 @@ import com.studentmanagementsystem.data.StudentData;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class StudentServiceFacadeImpl implements StudentServiceFacade{
@@ -27,25 +28,27 @@ public class StudentServiceFacadeImpl implements StudentServiceFacade{
     }
 
 
-//    @Override
-//    public List<StudentData> getAllStudents() {
-//        return studentService.getAllStudents()
-//                .stream()
-//                .map(studentMapper::toData)
-//                .toList();
-//    }
 
     @Override
     public List<StudentData> getAllStudents() {
-        List<Student> students = studentService.getAllStudents();
-        List<StudentData> studentDataList = new ArrayList<>();
-
-        for (Student student : students) {
-            studentDataList.add(studentMapper.toData(student));
-        }
-
-        return studentDataList;
+        return studentService.getAllStudents()
+                .stream()
+                .map(studentMapper::toData)
+                // This guarantees the result is a mutable ArrayList
+                .collect(Collectors.toCollection(ArrayList::new));
     }
+
+//    @Override
+//    public List<StudentData> getAllStudents() {
+//        List<Student> studentList = studentService.getAllStudents();
+//        List<StudentData> studentDataList = new ArrayList<>();
+//
+//        for (Student student : studentList) {
+//            studentDataList.add(studentMapper.toData(student));
+//        }
+//
+//        return studentDataList;
+//    }
 
     @Override
     public StudentData getStudentById(Long id) {

@@ -10,6 +10,6 @@ public interface DepartmentServiceFacade {
     DepartmentData getDepartmentById(Long id);
     DepartmentData createDepartment(String name);
     DepartmentData updateDepartment(DepartmentData dto);
-    void deleteDepartment(Long id);
+    void deleteDepartmentById(Long id);
 
 }

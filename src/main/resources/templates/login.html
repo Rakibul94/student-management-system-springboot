@@ -9,6 +9,10 @@
 <section class="d-flex justify-content-center align-items-center" style="min-height: 80vh;">
     <div class="card p-4 shadow" style="width: 350px;">
         <h2 class="text-center mb-3">Admin Login</h2>
+        <th:block th:if="${message}">
+<!--            This shows signup successful message-->
+            <p class="text-centre text-success fs-4">[[${message}]]</p>
+        </th:block>
 
         <div th:if="${param.error}">
             <p class="text-danger text-center">Invalid username or password</p>

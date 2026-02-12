@@ -16,7 +16,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @RequestMapping("/")
 public class AuthController {
 
-
     private final UserServiceFacade userServiceFacade;
 
     public AuthController(UserServiceFacade userServiceFacade) {
@@ -28,6 +27,12 @@ public class AuthController {
     @GetMapping
     public String home() {
         return "home";
+    }
+
+
+    @GetMapping("/login")
+    public String loginPage() {
+        return "login";
     }
 
 
@@ -46,7 +51,7 @@ public class AuthController {
                          Model model) {
 
         // Check if validation errors exist
-        //bindingResults ensures that form data to java object binding is successful
+        //bindingResults successfully binds form data to java object
         //If any valid rules are violated then bindingResult already has errors stored
         //and hence error message is shown instead of throwing exception
         if (bindingResult.hasErrors()) {
@@ -55,37 +60,38 @@ public class AuthController {
             return "signup";
         }
 
-        boolean signupSuccess = userServiceFacade.signup(userData);
-
         //Using Redirect attribute
-//        if (!success) {
-//            redirectAttributes.addFlashAttribute(
-//                    "errorMessage",
-//                    "Username already exists"
-//            );
-//            return "redirect:/signup";
-//        }
-
-        //Using Binding Result
-        if (!signupSuccess) {
-            // This adds a **field error** to 'username' in BindingResult
-            bindingResult.rejectValue(
-                    "username",       // field name in UserData
-                    "error.userData", // error code
-                    "Username already exists" // Error message to show
+        try{
+             userServiceFacade.signup(userData);
+         }
+         catch (RuntimeException e) {
+            redirectAttributes.addFlashAttribute(
+                    "message",
+                    "Username already exists"
             );
-
             model.addAttribute("userData", userData);
-            return "signup";
+            return "redirect:/signup";
         }
 
+        //Using Binding Result
+//         try{
+//             userServiceFacade.signup(userData);
+//         }
+//         catch (RuntimeException e){
+//            // This adds a **field error** to 'username' in BindingResult
+//            bindingResult.rejectValue(
+//                    "username",       // field name in UserData
+//                    "error.userData", // error code
+//                    "Username already exists" // Error message to show
+//            );
+//
+//            model.addAttribute("userData", userData);
+//            return "signup";
+//        }
 
+        redirectAttributes.addFlashAttribute("message", "Signup successful!");
         return "redirect:/login";
 
     }
 
-    @GetMapping("/login")
-    public String loginPage() {
-        return "login";
-    }
 }

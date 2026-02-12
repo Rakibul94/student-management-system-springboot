@@ -32,6 +32,7 @@ public class CustomUserDetailsService implements UserDetailsService {
                         new UsernameNotFoundException("Invalid username or password"));
 
         //Converting User Entity to Spring Security UserDetails
+        //Spring Security uses this to compare login data
         return org.springframework.security.core.userdetails.User.builder()
                 .username(user.getUsername())
                 .password(user.getPassword())

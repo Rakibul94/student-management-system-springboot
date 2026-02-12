@@ -19,11 +19,12 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public boolean signup(UserData userData) {
+    public void signup(UserData userData) {
 
         //Check for username already exists
         if (userRepository.findByUsername(userData.getUsername()).isPresent()) {
-            return false;
+           throw new RuntimeException("Username already exists"); //It is handled by
+            //AuthController
         }
 
         User user = new User();
@@ -32,6 +33,5 @@ public class UserServiceImpl implements UserService{
         user.setRole("ROLE_ADMIN"); //Admin is only user at the moment for this webpage
 
         userRepository.save(user);
-        return true;
     }
 }

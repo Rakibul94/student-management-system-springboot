@@ -20,34 +20,43 @@
                         </th:block>
                     </div>
                     <div class="card-body">
-                            <form th:action="@{/students}" method="post">
+                            <form th:action="@{/students}" th:object="${studentData}" method="post">
                         
                             <div class="mb-3">
                                 <label for="FormControlInput2" class="form-label">Full Name</label>
-                                <input type="text" class="form-control" name="name" id="FormControlInput2" required>
+                                <input type="text" class="form-control" th:field="*{name}" name="name" id="FormControlInput2" required>
+                                <p th:if="${#fields.hasErrors('name')}"
+                                   th:errors="*{name}"></p>
                             </div>
                             <div class="mb-3">
                                 <label for="FormControlInput3" class="form-label">Email Address</label>
-                                <input type="text" class="form-control" name="email" id="FormControlInput3" required>
+                                <input type="text" class="form-control" th:field="*{email}" name="email" id="FormControlInput3" required>
+                                <p th:if="${#fields.hasErrors('email')}"
+                                   th:errors="*{email}"></p>
                             </div>
                             <div class="mb-3">
                                 <label for="FormControlInput4" class="form-label">CGPA</label>
-                                <input type="number" class="form-control" name="cgpa" id="FormControlInput4"  step="0.01" min="0" max="4" required>
+                                <input type="number" class="form-control" name="cgpa" th:field="*{cgpa}" id="FormControlInput4" step="0.01" min="0" max="4" required>
+                                <p th:if="${#fields.hasErrors('cgpa')}"
+                                   th:errors="*{cgpa}"></p>
                             </div>
                             <div class="mb-3">
                                 <label for="FormControlInput5" class="form-label">Program</label>
-                                <input type="text" class="form-control" name="program" id="FormControlInput5" required>
+                                <input type="text" class="form-control" name="program" th:field="*{program}" id="FormControlInput5" required>
+                                <p th:if="${#fields.hasErrors('program')}"
+                                   th:errors="*{program}"></p>
                             </div>
                                 <div class="mb-3">
                                     <label class="form-label">Department</label>
-                                    <select class="form-select" name="departmentId" required>
+                                    <select class="form-select" name="departmentId" th:field="*{departmentId}" required>
                                         <option value="">-- Select Department --</option>
-
                                         <option th:each="dept : ${departmentList}"
                                                 th:value="${dept.id}"
                                                 th:text="${dept.name}">
                                         </option>
                                     </select>
+                                    <p th:if="${#fields.hasErrors('departmentId')}"
+                                       th:errors="*{departmentId}"></p>
                                 </div>
 
 
