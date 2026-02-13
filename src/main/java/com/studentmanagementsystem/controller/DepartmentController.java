@@ -1,7 +1,6 @@
 package com.studentmanagementsystem.controller;
 
 import com.studentmanagementsystem.data.DepartmentData;
-import com.studentmanagementsystem.data.StudentData;
 import com.studentmanagementsystem.servicefacade.DepartmentServiceFacade;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
@@ -33,12 +32,12 @@ public class DepartmentController {
             return "department_edit";
         }
 
-        DepartmentData updatedDepartment = departmentServiceFacade.updateDepartment(departmentData);
 
-        if(updatedDepartment != null){
+        try{
+            departmentServiceFacade.updateDepartment(departmentData);
             redirectAttributes.addFlashAttribute("message", "Update Successful");
         }
-        else{
+        catch(RuntimeException e){
             redirectAttributes.addFlashAttribute("message", "Update Failed");
         }
         return "redirect:/departments";
@@ -49,14 +48,18 @@ public class DepartmentController {
                                          Model model,
                                          RedirectAttributes redirectAttributes) {
 
-        DepartmentData departmentData = departmentServiceFacade.getDepartmentById(id);
 
-        if (departmentData == null) {
+        try{
+            departmentServiceFacade.getDepartmentById(id);
+        }
+        catch(RuntimeException e){
             redirectAttributes.addFlashAttribute("message", "Department not found");
             return "redirect:/departments";
         }
 
-        model.addAttribute("departmentData", departmentData);
+
+
+        model.addAttribute("departmentData", departmentServiceFacade.getDepartmentById(id));
         model.addAttribute("departmentList", departmentServiceFacade.getAllDepartments());
 
         return "department_edit";
@@ -89,17 +92,16 @@ public class DepartmentController {
             return "department_add";
         }
 
-        DepartmentData savedDepartment = departmentServiceFacade.createDepartment(departmentData);
-
-        if (savedDepartment != null) {
+        try{
+            departmentServiceFacade.createDepartment(departmentData);
             redirectAttributes.addFlashAttribute("message", "Department added successfully");
-        } else {
+        }catch(RuntimeException e){
             redirectAttributes.addFlashAttribute("message", "Department add failed");
         }
+
         return "redirect:/departments";
 
     }
-
 
     @DeleteMapping("/{id}/delete")
     public String deleteDepartment(@PathVariable Long id,
@@ -113,7 +115,6 @@ public class DepartmentController {
         }
 
         return "redirect:/departments";
-
 
     }
 }

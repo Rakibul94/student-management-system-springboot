@@ -1,6 +1,5 @@
 package com.studentmanagementsystem.controller;
 
-import com.studentmanagementsystem.data.DepartmentData;
 import com.studentmanagementsystem.data.StudentData;
 import com.studentmanagementsystem.servicefacade.DepartmentServiceFacade;
 import com.studentmanagementsystem.servicefacade.StudentServiceFacade;
@@ -46,14 +45,16 @@ public class StudentController {
                                       Model model,
                                       RedirectAttributes redirectAttributes) {
 
-        StudentData studentData = studentServiceFacade.getStudentById(id);
-
-        if (studentData == null) {
+        try{
+            studentServiceFacade.getStudentById(id);
+        }
+        catch(RuntimeException e) {
             redirectAttributes.addFlashAttribute("message", "Student not found");
             return "redirect:/students";
         }
 
-        model.addAttribute("studentData", studentData);
+
+        model.addAttribute("studentData", studentServiceFacade.getStudentById(id));
         model.addAttribute("departmentList", departmentServiceFacade.getAllDepartments());
         return "student_edit";
     }
@@ -71,17 +72,12 @@ public class StudentController {
             return "student_add";
         }
 
-
-        StudentData savedStudent = studentServiceFacade.createStudent(studentData);
-
-        if (savedStudent != null) {
-
-            redirectAttributes.addFlashAttribute("message", "Student added successfully");
-        }else {
-
+        try {
+           studentServiceFacade.createStudent(studentData);
+           redirectAttributes.addFlashAttribute("message", "Student added successfully");
+        }catch(RuntimeException e) {
             redirectAttributes.addFlashAttribute("message", "Student add failed");
         }
-
         return "redirect:/students";
     }
 
@@ -98,13 +94,11 @@ public class StudentController {
             return "student_edit";
         }
 
-        StudentData updatedStudent = studentServiceFacade.updateStudent(studentData);
-
-        if(updatedStudent != null){
+        try{
+            studentServiceFacade.updateStudent(studentData);
             redirectAttributes.addFlashAttribute("message", "Update Successful");
-        }
-        else{
-            redirectAttributes.addFlashAttribute("message", "Update Failed");
+        }catch(RuntimeException e){
+            redirectAttributes.addFlashAttribute("message", "Update Successful");
         }
         return "redirect:/students";
     }

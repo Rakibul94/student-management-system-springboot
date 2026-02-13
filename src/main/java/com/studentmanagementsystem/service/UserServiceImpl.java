@@ -26,7 +26,7 @@ public class UserServiceImpl implements UserService{
            throw new RuntimeException("Username already exists"); //It is handled by
             //AuthController
         }
-
+        //This username is stored in DB
         User user = new User();
         user.setUsername(userData.getUsername());
         user.setPassword(passwordEncoder.encode(userData.getPassword()));

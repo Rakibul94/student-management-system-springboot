@@ -67,8 +67,7 @@ public class AuthController {
          catch (RuntimeException e) {
             redirectAttributes.addFlashAttribute(
                     "message",
-                    "Username already exists"
-            );
+                    "Username already exists");
             model.addAttribute("userData", userData);
             return "redirect:/signup";
         }

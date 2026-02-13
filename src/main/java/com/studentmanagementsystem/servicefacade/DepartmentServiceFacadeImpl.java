@@ -23,8 +23,6 @@ public class DepartmentServiceFacadeImpl implements DepartmentServiceFacade {
     }
 
 
-
-
     @Override
     public List<DepartmentData> getAllDepartments() {
         return departmentService.getAllDepartments()
@@ -54,9 +52,6 @@ public class DepartmentServiceFacadeImpl implements DepartmentServiceFacade {
 
     @Override
     public DepartmentData createDepartment(DepartmentData departmentData) {
-
-//        DepartmentData departmentData = new DepartmentData();
-//        departmentData.setName(name);
 
         Department department = departmentMapper.toEntity(departmentData);
 
