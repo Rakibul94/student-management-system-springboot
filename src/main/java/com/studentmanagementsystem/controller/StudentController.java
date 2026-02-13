@@ -49,7 +49,6 @@ public class StudentController {
         StudentData studentData = studentServiceFacade.getStudentById(id);
 
         if (studentData == null) {
-
             redirectAttributes.addFlashAttribute("message", "Student not found");
             return "redirect:/students";
         }
@@ -78,7 +77,7 @@ public class StudentController {
         if (savedStudent != null) {
 
             redirectAttributes.addFlashAttribute("message", "Student added successfully");
-        } else {
+        }else {
 
             redirectAttributes.addFlashAttribute("message", "Student add failed");
         }
@@ -99,9 +98,14 @@ public class StudentController {
             return "student_edit";
         }
 
-        studentServiceFacade.updateStudent(studentData);
-        redirectAttributes.addFlashAttribute("message", "Update Successful");
+        StudentData updatedStudent = studentServiceFacade.updateStudent(studentData);
 
+        if(updatedStudent != null){
+            redirectAttributes.addFlashAttribute("message", "Update Successful");
+        }
+        else{
+            redirectAttributes.addFlashAttribute("message", "Update Failed");
+        }
         return "redirect:/students";
     }
 

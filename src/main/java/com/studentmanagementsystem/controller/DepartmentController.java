@@ -1,6 +1,7 @@
 package com.studentmanagementsystem.controller;
 
 import com.studentmanagementsystem.data.DepartmentData;
+import com.studentmanagementsystem.data.StudentData;
 import com.studentmanagementsystem.servicefacade.DepartmentServiceFacade;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
@@ -32,10 +33,14 @@ public class DepartmentController {
             return "department_edit";
         }
 
+        DepartmentData updatedDepartment = departmentServiceFacade.updateDepartment(departmentData);
 
-        departmentServiceFacade.updateDepartment(departmentData);
-        redirectAttributes.addFlashAttribute("message", "Update Successful");
-
+        if(updatedDepartment != null){
+            redirectAttributes.addFlashAttribute("message", "Update Successful");
+        }
+        else{
+            redirectAttributes.addFlashAttribute("message", "Update Failed");
+        }
         return "redirect:/departments";
     }
 
@@ -51,7 +56,6 @@ public class DepartmentController {
             return "redirect:/departments";
         }
 
-        //model.addAttribute("department", department);
         model.addAttribute("departmentData", departmentData);
         model.addAttribute("departmentList", departmentServiceFacade.getAllDepartments());
 
@@ -85,9 +89,13 @@ public class DepartmentController {
             return "department_add";
         }
 
-        departmentServiceFacade.createDepartment(departmentData.getName());
-        redirectAttributes.addFlashAttribute("message", "Department added successfully");
+        DepartmentData savedDepartment = departmentServiceFacade.createDepartment(departmentData);
 
+        if (savedDepartment != null) {
+            redirectAttributes.addFlashAttribute("message", "Department added successfully");
+        } else {
+            redirectAttributes.addFlashAttribute("message", "Department add failed");
+        }
         return "redirect:/departments";
 
     }

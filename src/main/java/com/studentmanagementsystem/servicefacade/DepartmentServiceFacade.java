@@ -8,7 +8,7 @@ public interface DepartmentServiceFacade {
 
     List<DepartmentData> getAllDepartments();
     DepartmentData getDepartmentById(Long id);
-    DepartmentData createDepartment(String name);
+    DepartmentData createDepartment(DepartmentData departmentData);
     DepartmentData updateDepartment(DepartmentData departmentData);
     void deleteDepartmentById(Long id);
 
