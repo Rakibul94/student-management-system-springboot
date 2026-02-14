@@ -26,10 +26,9 @@ public class StudentData {
     @NotBlank(message = "Program cannot be empty")
     private String program;
 
-    //We want only want the required attributes of DepartmentData
-    //not expose the entire department entity for leakage
     @NotNull(message = "Department cannot be empty")
     private Long departmentId;
-
     private String departmentName;
+
+
 }

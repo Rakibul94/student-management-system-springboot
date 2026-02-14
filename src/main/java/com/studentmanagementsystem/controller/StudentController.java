@@ -10,7 +10,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.List;
 
 @Controller
 @RequestMapping("/students")
@@ -26,8 +25,7 @@ public class StudentController {
 
     @GetMapping
     public String studentList(Model model) {
-        List<StudentData> list = studentServiceFacade.getAllStudents();
-        model.addAttribute("studentList", list);
+        model.addAttribute("studentList", studentServiceFacade.getAllStudents());
         return "student_list";
     }
 
@@ -68,7 +66,6 @@ public class StudentController {
                               Model model) {
 
         if(bindingResult.hasErrors()){
-            model.addAttribute("studentList", studentServiceFacade.getAllStudents());
             return "student_add";
         }
 
@@ -90,7 +87,6 @@ public class StudentController {
                                 RedirectAttributes redirectAttributes) {
 
         if(bindingResult.hasErrors()){
-            model.addAttribute("studentList", studentServiceFacade.getAllStudents());
             return "student_edit";
         }
 
@@ -98,7 +94,7 @@ public class StudentController {
             studentServiceFacade.updateStudent(studentData);
             redirectAttributes.addFlashAttribute("message", "Update Successful");
         }catch(RuntimeException e){
-            redirectAttributes.addFlashAttribute("message", "Update Successful");
+            redirectAttributes.addFlashAttribute("message", "Update Failed");
         }
         return "redirect:/students";
     }

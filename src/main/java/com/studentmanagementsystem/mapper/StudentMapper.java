@@ -1,5 +1,6 @@
 package com.studentmanagementsystem.mapper;
 
+import com.studentmanagementsystem.data.DepartmentData;
 import com.studentmanagementsystem.data.StudentData;
 import com.studentmanagementsystem.model.Department;
 import com.studentmanagementsystem.model.Student;
@@ -13,24 +14,22 @@ public class StudentMapper {
     public StudentData toData(Student student) {
         if (student == null) return null;
 
+
         StudentData studentData = new StudentData();
         studentData.setId(student.getId());
         studentData.setName(student.getName());
         studentData.setEmail(student.getEmail());
         studentData.setCgpa(student.getCgpa());
         studentData.setProgram(student.getProgram());
-
-        if (student.getDepartment() != null) {
-            studentData.setDepartmentId(student.getDepartment().getId());
-            studentData.setDepartmentName(student.getDepartment().getName());
-        }
+        studentData.setDepartmentId(student.getDepartment().getId());
+        studentData.setDepartmentName(student.getDepartment().getName());
 
         return studentData;
     }
 
     /* ---------- DTO → Entity ---------- */
 
-    public Student toEntity(StudentData studentData, Department department) {
+    public Student toEntity(StudentData studentData) {
         if (studentData == null) return null;
         //No id is set as JPA generates id
         Student student = new Student();
@@ -38,7 +37,11 @@ public class StudentMapper {
         student.setEmail(studentData.getEmail());
         student.setCgpa(studentData.getCgpa());
         student.setProgram(studentData.getProgram());
+
+        Department department = new Department();
+        department.setId(studentData.getDepartmentId());
         student.setDepartment(department);
+
 
         return student;
     }
@@ -46,13 +49,15 @@ public class StudentMapper {
     /* ---------- Update existing entity ---------- */
 
     public void updateEntity(Student student,
-                             StudentData studentData,
-                             Department department) {
+                             StudentData studentData) {
 
         student.setName(studentData.getName());
         student.setEmail(studentData.getEmail());
         student.setCgpa(studentData.getCgpa());
         student.setProgram(studentData.getProgram());
+
+        Department department = new Department();
+        department.setId(studentData.getDepartmentId());
         student.setDepartment(department);
     }
 

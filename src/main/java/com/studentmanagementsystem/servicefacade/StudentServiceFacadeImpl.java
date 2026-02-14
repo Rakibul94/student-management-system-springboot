@@ -28,7 +28,6 @@ public class StudentServiceFacadeImpl implements StudentServiceFacade{
     }
 
 
-
     @Override
     public List<StudentData> getAllStudents() {
         return studentService.getAllStudents()
@@ -57,10 +56,8 @@ public class StudentServiceFacadeImpl implements StudentServiceFacade{
 
     @Override
     public StudentData createStudent(StudentData studentData) {
-        Department department =
-                departmentService.getDepartmentById(studentData.getDepartmentId());
 
-        Student student = studentMapper.toEntity(studentData,department);
+        Student student = studentMapper.toEntity(studentData);
 
         return studentMapper.toData(studentService.saveStudent(student));
     }
@@ -69,10 +66,7 @@ public class StudentServiceFacadeImpl implements StudentServiceFacade{
     public StudentData updateStudent(StudentData studentData) {
         Student existingStudent = studentService.getStudentById(studentData.getId());
 
-        Department department =
-                departmentService.getDepartmentById(studentData.getDepartmentId());
-
-        studentMapper.updateEntity(existingStudent, studentData, department);
+        studentMapper.updateEntity(existingStudent, studentData);
 
         return studentMapper.toData(studentService.saveStudent(existingStudent));
     }

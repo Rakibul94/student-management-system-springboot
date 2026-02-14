@@ -48,7 +48,7 @@
                             </div>
                                 <div class="mb-3">
                                     <label class="form-label">Department</label>
-                                    <select class="form-select" name="departmentId" th:field="*{departmentId}" required>
+                                    <select class="form-select" name="department" th:field="*{departmentId}" required>
                                         <option value="">-- Select Department --</option>
                                         <option th:each="dept : ${departmentList}"
                                                 th:value="${dept.id}"
@@ -58,8 +58,6 @@
                                     <p th:if="${#fields.hasErrors('departmentId')}"
                                        th:errors="*{departmentId}"></p>
                                 </div>
-
-
                             <button type="submit" class="btn btn-primary">Add Student</button>
                         </form>
                     </div>

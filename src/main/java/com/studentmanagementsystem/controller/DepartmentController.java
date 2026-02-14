@@ -28,7 +28,6 @@ public class DepartmentController {
 
 
         if(bindingResult.hasErrors()){
-            model.addAttribute("departmentList", departmentServiceFacade.getAllDepartments());
             return "department_edit";
         }
 
@@ -57,11 +56,7 @@ public class DepartmentController {
             return "redirect:/departments";
         }
 
-
-
         model.addAttribute("departmentData", departmentServiceFacade.getDepartmentById(id));
-        model.addAttribute("departmentList", departmentServiceFacade.getAllDepartments());
-
         return "department_edit";
     }
 
@@ -71,7 +66,6 @@ public class DepartmentController {
         //This empty object is created for thymeleaf to render the form field to this
         //object
         model.addAttribute("departmentData", new DepartmentData());
-        model.addAttribute("departmentList", departmentServiceFacade.getAllDepartments());
         return "department_add";
     }
 
@@ -88,7 +82,6 @@ public class DepartmentController {
                                 RedirectAttributes redirectAttributes) {
 
         if(bindingResult.hasErrors()){
-            model.addAttribute("departmentList", departmentServiceFacade.getAllDepartments());
             return "department_add";
         }
 
