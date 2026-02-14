@@ -1,7 +1,7 @@
 package com.studentmanagementsystem.controller;
 
-
 import com.studentmanagementsystem.data.UserData;
+import com.studentmanagementsystem.exceptions.ApplicationExceptions;
 import com.studentmanagementsystem.servicefacade.UserServiceFacade;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
@@ -23,12 +23,10 @@ public class AuthController {
         this.userServiceFacade = userServiceFacade;
     }
 
-
     @GetMapping
     public String home() {
         return "home";
     }
-
 
     @GetMapping("/login")
     public String loginPage() {
@@ -63,13 +61,12 @@ public class AuthController {
         try{
              userServiceFacade.signup(userData);
          }
-         catch (RuntimeException e) {
+         catch (ApplicationExceptions.UserAlreadyExistsException e) {
             redirectAttributes.addFlashAttribute(
                     "message",
                     "Username already exists");
             return "redirect:/signup";
         }
-
         //Using Binding Result
 //         try{
 //             userServiceFacade.signup(userData);
@@ -82,10 +79,9 @@ public class AuthController {
 //                    "Username already exists" // Error message to show
 //            );
 //
-//            model.addAttribute("userData", userData);
+//
 //            return "signup";
 //        }
-
         redirectAttributes.addFlashAttribute("message", "Signup successful!");
         return "redirect:/login";
 

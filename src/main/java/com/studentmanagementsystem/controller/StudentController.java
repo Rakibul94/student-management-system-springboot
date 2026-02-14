@@ -1,6 +1,7 @@
 package com.studentmanagementsystem.controller;
 
 import com.studentmanagementsystem.data.StudentData;
+import com.studentmanagementsystem.exceptions.ApplicationExceptions;
 import com.studentmanagementsystem.servicefacade.DepartmentServiceFacade;
 import com.studentmanagementsystem.servicefacade.StudentServiceFacade;
 import jakarta.validation.Valid;
@@ -44,10 +45,13 @@ public class StudentController {
                                       RedirectAttributes redirectAttributes) {
 
         try{
-            studentServiceFacade.getStudentById(id);
+            StudentData studentData = studentServiceFacade.getStudentById(id);
+            if (studentData == null) {
+                throw new ApplicationExceptions.NotFoundException("Student not found");
+            }
         }
-        catch(RuntimeException e) {
-            redirectAttributes.addFlashAttribute("message", "Student not found");
+        catch(ApplicationExceptions.NotFoundException e) {
+            redirectAttributes.addFlashAttribute("message", e.getMessage());
             return "redirect:/students";
         }
 
@@ -105,12 +109,14 @@ public class StudentController {
     public String deleteStudent(@PathVariable Long id,
                                 RedirectAttributes redirectAttributes) {
         try {
+            if(id == null){
+                throw new ApplicationExceptions.NotFoundException("Student not found");
+            }
             studentServiceFacade.deleteStudentById(id);
             redirectAttributes.addFlashAttribute("message", "Delete Successful");
-        } catch (RuntimeException e) {
-            redirectAttributes.addFlashAttribute("message", "Delete Failed");
+        } catch (ApplicationExceptions.NotFoundException e) {
+            redirectAttributes.addFlashAttribute("message", e.getMessage());
         }
-
         return "redirect:/students";
     }
 }

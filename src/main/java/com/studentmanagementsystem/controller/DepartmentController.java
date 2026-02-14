@@ -1,6 +1,7 @@
 package com.studentmanagementsystem.controller;
 
 import com.studentmanagementsystem.data.DepartmentData;
+import com.studentmanagementsystem.exceptions.ApplicationExceptions;
 import com.studentmanagementsystem.servicefacade.DepartmentServiceFacade;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
@@ -21,7 +22,7 @@ public class DepartmentController {
 
     @PutMapping("/{id}")
     public String updateDepartment(@PathVariable Long id,
-                                   @Valid @ModelAttribute("department") DepartmentData departmentData,
+                                   @Valid @ModelAttribute("departmentData") DepartmentData departmentData,
                                    BindingResult bindingResult,
                                    Model model,
                                    RedirectAttributes redirectAttributes) {
@@ -45,17 +46,19 @@ public class DepartmentController {
                                          Model model,
                                          RedirectAttributes redirectAttributes) {
 
+        try {
+            DepartmentData departmentData = departmentServiceFacade.getDepartmentById(id);
+            if (departmentData == null) {
+                throw new ApplicationExceptions.NotFoundException("Department not found");
+            }
 
-        try{
-            departmentServiceFacade.getDepartmentById(id);
-        }
-        catch(RuntimeException e){
-            redirectAttributes.addFlashAttribute("message", "Department not found");
+            model.addAttribute("departmentData", departmentData);
+            return "department_edit";
+
+        } catch (ApplicationExceptions.NotFoundException e) {
+            redirectAttributes.addFlashAttribute("message", e.getMessage());
             return "redirect:/departments";
         }
-
-        model.addAttribute("departmentData", departmentServiceFacade.getDepartmentById(id));
-        return "department_edit";
     }
 
 
@@ -79,6 +82,7 @@ public class DepartmentController {
                                 Model model,
                                 RedirectAttributes redirectAttributes) {
 
+        //If Input validity is violated bindingResult shows error
         if(bindingResult.hasErrors()){
             return "department_add";
         }
@@ -99,10 +103,13 @@ public class DepartmentController {
                                     RedirectAttributes redirectAttributes) {
 
         try {
+            if(id == null){
+                throw new ApplicationExceptions.NotFoundException("Department not found");
+            }
             departmentServiceFacade.deleteDepartmentById(id);
             redirectAttributes.addFlashAttribute("message", "Delete Successful");
-        } catch (RuntimeException e) {
-            redirectAttributes.addFlashAttribute("message", "Delete Failed");
+        } catch (ApplicationExceptions.NotFoundException e) {
+            redirectAttributes.addFlashAttribute("message", e.getMessage());
         }
 
         return "redirect:/departments";
