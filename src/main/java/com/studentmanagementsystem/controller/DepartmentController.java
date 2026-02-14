@@ -26,11 +26,9 @@ public class DepartmentController {
                                    Model model,
                                    RedirectAttributes redirectAttributes) {
 
-
         if(bindingResult.hasErrors()){
             return "department_edit";
         }
-
 
         try{
             departmentServiceFacade.updateDepartment(departmentData);

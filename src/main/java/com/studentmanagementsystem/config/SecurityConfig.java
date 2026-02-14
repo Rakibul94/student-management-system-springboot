@@ -22,8 +22,6 @@ public class SecurityConfig {
                         .requestMatchers("/login", "/signup", "/css/**").permitAll()
                         //Only the ones that has ADMIN role can get access
                         .requestMatchers("/**").hasRole("ADMIN")
-                        //All requests processing must be from logged-in users
-                        .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
                         .loginPage("/login")

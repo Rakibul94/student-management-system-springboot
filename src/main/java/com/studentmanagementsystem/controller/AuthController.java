@@ -56,7 +56,6 @@ public class AuthController {
         //and hence error message is shown instead of throwing exception
         if (bindingResult.hasErrors()) {
             // Return the signup page and show errors
-            model.addAttribute("userData", userData);
             return "signup";
         }
 
@@ -68,7 +67,6 @@ public class AuthController {
             redirectAttributes.addFlashAttribute(
                     "message",
                     "Username already exists");
-            model.addAttribute("userData", userData);
             return "redirect:/signup";
         }
 
